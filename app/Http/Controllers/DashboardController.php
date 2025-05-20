@@ -14,7 +14,7 @@ class DashboardController extends Controller {
     public function index(){
         $title = "Dashboard Demo One";
         $description = "Some description for the page";
-        return view('pages.dashboard.demo_one',compact('title','description'));
+        return view('pages.local.home',compact('title','description'));
     }
 
     /**

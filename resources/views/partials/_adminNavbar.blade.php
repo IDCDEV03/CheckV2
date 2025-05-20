@@ -2,38 +2,53 @@
     <div class="navbar-left">
         <div class="logo-area">
             <a class="navbar-brand" href="#">
-                <img class="dark" src="{{ asset('assets/img/logo-dark.svg') }}" alt="svg">
-                <img class="light" src="{{ asset('assets/img/logo-white.svg') }}" alt="img">
+                <img class="dark" src="{{ asset('assets/img/logo-1.png') }}" alt="svg">
+                <img class="light" src="{{ asset('assets/img/logo-1.png') }}" alt="img">
             </a>
             <a href="#" class="sidebar-toggle">
                 <img class="svg" src="{{ asset('assets/img/svg/align-center-alt.svg') }}" alt="img"></a>
         </div>
-
+        
         <div class="top-menu">
             <div class="hexadash-top-menu position-relative">
                 <ul>
-                    <<<<<<< HEAD <li>
-                        <a href="#">
+
+                      <li>
+                        <a href="#" class="#">
                             <span class="nav-icon uil uil-circle"></span>
-                            <span class="menu-text">0000</span>
+                            <span class="menu-text">#</span>
                         </a>
-                        </li>
-                        =======
-                        <li class="has-subMenu">
-                            <a href="#">Dashboard</a>
-                            <ul class="subMenu">
-                                <li><a href="#">11</a></li>
+                    </li> 
 
-                            </ul>
-                        </li>
-
-
-                        >>>>>>> tf
+                    <li class="has-subMenu">
+                        <a href="#" class="">Dashboard</a>
+                        <ul class="subMenu">
+                            <li><a class="">000</a></li>
+                            
+                        </ul>
+                    </li>
+                    <li class="has-subMenu">
+                        <a href="#" class="">222</a>
+                        <ul class="subMenu">
+                            <li class="l_sidebar">
+                            <a href="#" data-layout="light">**</a>
+                            </li>
+                            <li class="l_sidebar">
+                            <a href="#" data-layout="dark">11</a>
+                            </li>
+                            <li class="l_navbar">
+                            <a href="#" data-layout="top">22</a>
+                            </li>
+                            
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="navbar-right">
+
+====
+  <div class="navbar-right">
         <ul class="navbar-right__menu">
             <li class="nav-search">
                 <a href="#" class="search-toggle">
@@ -428,4 +443,5 @@
                 <img src="{{ asset('assets/img/svg/more-vertical.svg') }}" alt="more-vertical" class="svg"></a>
         </div>
     </div>
+
 </nav>

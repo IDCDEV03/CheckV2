@@ -8,10 +8,19 @@
                 <span class="toggle-icon"></span>
             </a>
             <ul>
-                <li class="{{ Request::is(app()->getLocale().'/dashboard') ? 'active':'' }}"><a href="#">#</a></li>
+                <li class="{{ Request::is(app()->getLocale().'/dashboard') ? 'active':'' }}"><a href="{{ route('admin.dashboard',app()->getLocale()) }}">#</a></li>
                
             </ul>
         </li>
+
+          <li>
+                     <a href="{{route('admin.announce')}}" class="">
+                        <span class="nav-icon uil uil-megaphone"></span>
+                        <span class="menu-text">ประกาศ</span>
+                        <span class="badge badge-success menuItem rounded-circle">3</span>
+                     </a>
+                  </li>
+
 
     </ul>
 </div>

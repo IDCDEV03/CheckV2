@@ -11,13 +11,13 @@
             <h4>Layout Type</h4>
             <ul class="customizer-list d-flex layout">
                 <li class="customizer-list__item">
-                    <a href="#">
+                    <a href="#" class="active">
                         <img src="{{ asset('assets/img/ltr.png') }}" alt="">
                         <i class="fa fa-check-circle"></i>
                     </a>
                 </li>
                 <li class="customizer-list__item">
-                    <a href="#" >
+                    <a href="#" class="">
                         <img src="{{ asset('assets/img/rtl.png') }}" alt="">
                         <i class="fa fa-check-circle"></i>
                     </a>
