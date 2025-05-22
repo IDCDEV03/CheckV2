@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\User\AgencyMainController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +17,9 @@ use App\Http\Controllers\PageController;
 |
 */
 
+
+Route::get('/', [LoginController::class, 'showLoginForm'])->name('home');
+
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
@@ -23,15 +27,26 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/announcement', [AdminDashboardController::class, 'AnnouncementPage'])->name('admin.announce');
     Route::get('/create_post', [AdminDashboardController::class, 'create_announce'])->name('admin.create_post');
     Route::post('/insert_post', [AdminDashboardController::class, 'insert_post'])->name('admin.insert_post');
-    //edit_post
+    //edit-update-delete_post
     Route::get('/announce/{id}/edit', [AdminDashboardController::class, 'edit_post'])->name('admin.edit_post');
     Route::post('/announce-update/{id}', [AdminDashboardController::class, 'update_post'])->name('admin.update_post');
+    Route::get('/announce-delete/{id}/file', [AdminDashboardController::class, 'delete_file'])->name('admin.delete_file');
+     Route::get('/announce-delete/{id}/post', [AdminDashboardController::class, 'delete_post'])->name('admin.delete_post');
 });
 
 Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
     Route::get('/home', [PageController::class, 'home'])->name('local.home');
 });
 
+Route::prefix('agency')->middleware(['auth', 'role:agency'])->group(function () {
+    Route::get('/dashboard', [PageController::class, 'home'])->name('agency.index');
+    Route::get('/main', [AgencyMainController::class, 'main_page'])->name('agency.main');
+
+    //ฟอร์ม
+    Route::get('/form', [AgencyMainController::class, 'form_list'])->name('agency.form_list');
+    Route::get('/create-form', [AgencyMainController::class, 'form_create'])->name('agency.create_form');
+     Route::post('/insert_form', [AgencyMainController::class, 'form_insert'])->name('agency.insert_form');
+});
 
 Route::middleware('guest')->group(function () {
     Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');

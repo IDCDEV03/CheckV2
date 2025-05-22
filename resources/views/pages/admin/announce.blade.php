@@ -57,7 +57,8 @@
                                         <h6 class="mb-0 flex-1 text-dark">
                                             <i class="las la-star"></i> {{ $item->name }}
                                             <small class="m-0 d-block">
-                                                โพสเมื่อ {{ Carbon\Carbon::parse($item->updated_at)->format('d/m/Y H:i') }}
+                                                สร้างโพส {{ Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i') }}
+                                                แก้ไขล่าสุด  {{ Carbon\Carbon::parse($item->updated_at)->format('d/m/Y H:i') }}
                                             </small>
                                         </h6>
 
@@ -71,7 +72,7 @@
                                                     แก้ไข
                                                 </a>
 
-                                                <a href="#" class="btn btn-outline-danger btn-xs">
+                                                <a href="{{route('admin.delete_post',['id'=>$item->post_id])}}" class="btn btn-outline-danger btn-xs" onclick="return confirm('ต้องการลบใช่หรือไม่ หากลบแล้วไม่สามารถกู้คืนได้อีก?');">
                                                     <i class="las la-trash-alt"></i> ลบ
                                                 </a>
 
@@ -94,7 +95,7 @@
                                                 <i class="las la-paperclip"></i>
                                                 <a href="{{ asset('../upload/' . $item->file_upload) }}" target="_blank"
                                                     class="fs-14">
-                                                    ดาวน์โหลดเอกสาร (PDF) <i class="fas fa-file-pdf me-1"></i>
+                                                    ดาวน์โหลดเอกสาร <i class="far fa-file-pdf me-1"></i>
                                                 </a>
                                             </div>
                                         @elseif($isDoc)
@@ -102,7 +103,7 @@
                                                 <i class="las la-paperclip"></i>
                                                 <a href="{{ asset('../upload/' . $item->file_upload) }}" target="_blank"
                                                     class="fs-14">
-                                                    ดาวน์โหลดเอกสาร (Word) <i class="fas fa-file-word me-1"></i>
+                                                    ดาวน์โหลดเอกสาร <i class="far fa-file-word"></i>
                                                 </a>
                                             </div>
                                         @endif

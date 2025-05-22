@@ -16,26 +16,26 @@ class PageController extends Controller
     public function home()
     {
         $user = Auth::user();
-         $role = $user->role;
+        $role = $user->role;
      
          $layout = match ($role) {
             Role::Admin => 'layout.LayoutAdmin',
             Role::Manager => 'layout.manager',
-            Role::Agency => 'layout.agency',
+            Role::Agency => 'layout.app',
             Role::User => 'layout.app',
         };
 
          $title = match ($role) {
             Role::Admin => 'ผู้ดูแลระบบ',
             Role::Manager => 'แดชบอร์ดผู้จัดการ',
-            Role::Agency => 'แดชบอร์ดหน่วยงาน',
+            Role::Agency => 'หน้าหลักหน่วยงาน',
             Role::User => 'แดชบอร์ดผู้ใช้งานทั่วไป',
         };
 
          $description = match ($role) {
             Role::Admin => 'ผู้ดูแลระบบ',
             Role::Manager => 'แดชบอร์ดผู้จัดการ',
-            Role::Agency => 'แดชบอร์ดหน่วยงาน',
+            Role::Agency => 'สำหรับหน่วยงาน',
             Role::User => 'แดชบอร์ดผู้ใช้งานทั่วไป',
         };
 

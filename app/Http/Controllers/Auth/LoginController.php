@@ -34,7 +34,7 @@ class LoginController extends Controller
             return match ($user->role) {
                 Role::Admin => redirect()->route('admin.dashboard'),
                 Role::Manager => redirect()->route('manager.dashboard'),
-                Role::Agency => redirect()->route('agency.dashboard'),
+                Role::Agency => redirect()->route('agency.index'),
                 Role::User => redirect()->route('local.home'),
                 default => redirect('/home'),
             };
