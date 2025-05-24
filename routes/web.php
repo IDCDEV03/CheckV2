@@ -46,6 +46,12 @@ Route::prefix('agency')->middleware(['auth', 'role:agency'])->group(function () 
     Route::get('/form', [AgencyMainController::class, 'form_list'])->name('agency.form_list');
     Route::get('/create-form', [AgencyMainController::class, 'form_create'])->name('agency.create_form');
     Route::post('/insert_form', [AgencyMainController::class, 'form_insert'])->name('agency.insert_form');
+
+    //หมวดหมู่
+    Route::get('/chk-categories/{form_id}', [AgencyMainController::class, 'cates_list'])->name('agency.cates_list');
+    Route::get('/chk-cates-create/{id}', [AgencyMainController::class, 'create_cates'])->name('agency.create_cates');
+    Route::post('/insert_cates/{id}', [AgencyMainController::class, 'insert_cates'])->name('agency.insert_cates');
+
 });
 
 Route::middleware('guest')->group(function () {
