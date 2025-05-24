@@ -31,8 +31,15 @@ class AgencyMainController extends Controller
 
     public function form_list()
     {
-        return view('pages.agency.FormList');
+
+        $data = DB::table('forms')
+        ->orderBy('forms.id','ASC')
+        ->get();
+
+        return view('pages.agency.FormList',compact('data'));
     }
+
+    
 
     public function form_create()
     {
@@ -59,10 +66,8 @@ class AgencyMainController extends Controller
                     'updated_at'    =>  Carbon::now()
                 ]);
 
-           return redirect()->route('agency.form_list')->with('success', 'บันทึกข้อมูลสำเร็จ');
-            }
-        else
-        {
+            return redirect()->route('agency.form_list')->with('success', 'บันทึกข้อมูลสำเร็จ');
+        } else {
             return redirect()->back()->with('error', 'กรุณาเลือกประเภทฟอร์ม');
         }
     }

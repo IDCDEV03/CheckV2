@@ -45,7 +45,7 @@ Route::prefix('agency')->middleware(['auth', 'role:agency'])->group(function () 
     //ฟอร์ม
     Route::get('/form', [AgencyMainController::class, 'form_list'])->name('agency.form_list');
     Route::get('/create-form', [AgencyMainController::class, 'form_create'])->name('agency.create_form');
-     Route::post('/insert_form', [AgencyMainController::class, 'form_insert'])->name('agency.insert_form');
+    Route::post('/insert_form', [AgencyMainController::class, 'form_insert'])->name('agency.insert_form');
 });
 
 Route::middleware('guest')->group(function () {
