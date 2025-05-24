@@ -14,7 +14,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                     <div class=" alert alert-info " role="alert">
+                    <div class=" alert alert-info " role="alert">
                         <div class="alert-content">
                             <span class="fs-20 fw-bold">ชื่อฟอร์ม : {{ $form_name->form_name }} </span>
                         </div>
@@ -27,7 +27,6 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>รหัสหมวดหมู่</th>
                                         <th>ชื่อหมวดหมู่</th>
                                         <th></th>
                                     </tr>
@@ -36,10 +35,18 @@
                                     @foreach ($data as $item)
                                         <tr>
                                             <td>{{ $item->cates_no }}</td>
-                                            <td>{{ $item->category_id }}</td>
-                                            <td>{{ $item->chk_cats_name }}</td>
                                             <td>
-                                             เพิ่มข้อตรวจ
+                                                <a href="{{route('agency.cates_detail',['cates_id'=>$item->category_id])}}">
+                                                {{ $item->chk_cats_name }}
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group dm-button-group btn-group-normal my-2" role="group">
+                                                   
+                                                    <a href="#" class="btn btn-primary btn-sm btn-squared btn-transparent-primary ">แก้ไขชื่อหมวดหมู่</a>
+                                                     <a href="#" class="btn btn-info btn-sm btn-squared btn-transparent-info ">เพิ่มข้อตรวจ
+                                                    </a>
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach

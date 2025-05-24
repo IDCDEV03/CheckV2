@@ -51,6 +51,7 @@ Route::prefix('agency')->middleware(['auth', 'role:agency'])->group(function () 
     Route::get('/chk-categories/{form_id}', [AgencyMainController::class, 'cates_list'])->name('agency.cates_list');
     Route::get('/chk-cates-create/{id}', [AgencyMainController::class, 'create_cates'])->name('agency.create_cates');
     Route::post('/insert_cates/{id}', [AgencyMainController::class, 'insert_cates'])->name('agency.insert_cates');
+    Route::get('/categories/{cates_id}', [AgencyMainController::class, 'cates_detail'])->name('agency.cates_detail');
 
 });
 

@@ -82,6 +82,14 @@ class AgencyMainController extends Controller
         return view('pages.agency.CatesList', ['form_id' => $form_id], compact('data','form_name'));
     }
 
+    public function cates_detail($cates_id){
+        $cates_data = DB::table('check_categories')
+        ->where('category_id', '=', $cates_id)
+        ->first();
+  
+         return view('pages.agency.CatesDetail', ['cates_id' => $cates_id], compact('cates_data'));
+    }
+
     public function create_cates($id)
     {
         $chk_cates = DB::table('forms')
