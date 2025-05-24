@@ -53,6 +53,10 @@ Route::prefix('agency')->middleware(['auth', 'role:agency'])->group(function () 
     Route::post('/insert_cates/{id}', [AgencyMainController::class, 'insert_cates'])->name('agency.insert_cates');
     Route::get('/categories/{cates_id}', [AgencyMainController::class, 'cates_detail'])->name('agency.cates_detail');
 
+    //ข้อตรวจ
+      Route::get('/item-new/{id}', [AgencyMainController::class, 'item_create'])->name('agency.item_create');
+      Route::post('/insert-item', [AgencyMainController::class, 'item_insert'])->name('agency.item_insert');
+
 });
 
 Route::middleware('guest')->group(function () {
