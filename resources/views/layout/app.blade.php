@@ -51,5 +51,17 @@
     <script src="{{ asset('assets/js/plugins.min.js') }}"></script>
     <script src="{{ asset('assets/js/script.min.js') }}"></script>
     <script src="{{ asset('js/app.min.js') }}"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: '{{ session('success') }}',
+                confirmButtonText: 'ตกลง',
+                showConfirmButton: true
+            });
+        </script>
+    @endif
 </body>
 </html>
