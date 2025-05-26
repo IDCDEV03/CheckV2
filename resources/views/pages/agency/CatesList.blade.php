@@ -7,13 +7,19 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb-main">
-                        <h4 class="text-capitalize breadcrumb-title">รายการฟอร์ม</h4>
+                        <h4 class="text-capitalize breadcrumb-title">รายการหมวดหมู่</h4>
 
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
+                    <div class=" alert alert-info " role="alert">
+                        <div class="alert-content">
+                            <span class="fs-20 fw-bold">ชื่อฟอร์ม : {{ $form_name->form_name }} </span>
+                        </div>
+                    </div>
+
                     <div class="card">
                         <div class="card-body">
 
@@ -21,21 +27,26 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>รหัสฟอร์ม</th>
-                                        <th>ชื่อฟอร์ม</th>
-                                        <th>สถานะ</th>
+                                        <th>ชื่อหมวดหมู่</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($data as $item)
                                         <tr>
-                                            <td>{{ $item->id }}</td>
-                                            <td>{{ $item->form_code }}</td>
-                                            <td><a href="{{route('agency.cates_list',['form_id'=>$item->form_id])}}">{{ $item->form_name }}</a></td>
+                                            <td>{{ $item->cates_no }}</td>
                                             <td>
-                                                <span class="badge badge-{{ $item->form_status == 1 ? 'success' : 'danger' }} badge-round badge-lg">
-                                                    {{ $item->form_status == 1 ? 'เปิดใช้งาน' : 'ปิดใช้งาน' }}
-                                                </span>
+                                                <a href="{{route('agency.cates_detail',['cates_id'=>$item->category_id])}}">
+                                                {{ $item->chk_cats_name }}
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group dm-button-group btn-group-normal my-2" role="group">
+                                                   
+                                                    <a href="#" class="btn btn-primary btn-sm btn-squared btn-transparent-primary ">แก้ไขชื่อหมวดหมู่</a>
+                                                     <a href="#" class="btn btn-info btn-sm btn-squared btn-transparent-info ">เพิ่มข้อตรวจ
+                                                    </a>
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -63,7 +74,7 @@
         $(document).ready(function() {
             $('#forms-table').DataTable({
                 responsive: true,
-                pageLength: 25,
+                pageLength: 10,
                 language: {
                     search: "ค้นหา:",
                     lengthMenu: "แสดง _MENU_ รายการ",

@@ -17,4 +17,5 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/img/favicon.png') }}">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.0/css/line.css">
     @vite(['resources/css/app.scss', 'resources/js/app.js'])
+    
 </head>
