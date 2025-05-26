@@ -9,7 +9,7 @@
              @if ($role === Role::Agency)
                  <span>สำหรับหน่วยงาน</span>
              @elseif ($role === Role::User)
-                 <span>เมนูผู้ใช้ทั่วไป</span>
+                 <span>เมนูผู้ใช้</span>
              @endif
          </li>
 
@@ -52,6 +52,14 @@
              </ul>
          </li>
          @elseif ($role === Role::User)
+             <li>
+                 <a href="#" class="">
+                     <span class="nav-icon uil uil-megaphone"></span>
+                     <span class="menu-text">ประกาศ</span>
+                     <span class="badge badge-info menuItem rounded-circle">8</span>
+                 </a>
+             </li>
+        @elseif ($role === Role::Manager)
              <li>
                  <a href="#" class="">
                      <span class="nav-icon uil uil-megaphone"></span>

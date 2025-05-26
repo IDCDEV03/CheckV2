@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Enums\Role;
+use Illuminate\Support\Facades\File;
 
 class AgencyMainController extends Controller
 {
@@ -90,7 +91,11 @@ class AgencyMainController extends Controller
             ->where('check_categories.category_id', '=', $cates_id)
             ->first();
 
-        return view('pages.agency.CatesDetail', ['cates_id' => $cates_id], compact('cates_data'));
+        $item_data = DB::table('check_items')
+        ->where('category_id','=',$cates_id)
+        ->get();
+
+       return view('pages.agency.CatesDetail', ['cates_id' => $cates_id], compact('cates_data','item_data'));
     }
 
     public function create_cates($id)
@@ -105,11 +110,13 @@ class AgencyMainController extends Controller
     public function insert_cates(Request $request, $id)
     {
         foreach ($request->chk_cats_name as $index => $name) {
+            $cats_id = Str::upper(Str::random(8));
+            $list = $index + 1;
             DB::table('check_categories')->insert([
                 'user_id' => Auth::id(),
                 'form_id' => $id,
                 'cates_no' => $request->order_no[$index] ?? ($index + 1),
-                'category_id' => 'CAT-' . Carbon::now()->format('YmdHi') . '-' . $index + 1,
+                'category_id' => 'CAT-'.$list.'-'.$cats_id,
                 'chk_cats_name' => $name,
                 'chk_detail' => $request->chk_detail[$index] ?? null,
                 'created_at' => Carbon::now(),
@@ -144,9 +151,9 @@ class AgencyMainController extends Controller
             $imagePath = 'upload/';
             $file = $request->file('item_image.' . $index);             
             $extension = $file->getClientOriginalExtension();
-            $newName = 'item_' . $item_id . '_' . $list . '.' . $extension;
+            $newName = 'item_' . $item_id . '_' . '.' . $extension;
             $file->move($imagePath, $newName);
-            $fileName = "public/".$imagePath.$newName;
+            $fileName = $imagePath.$newName;
             }
          
 
@@ -165,4 +172,72 @@ class AgencyMainController extends Controller
         }
         return redirect()->route('agency.cates_detail', ['cates_id' => $request->cate_id])->with('success', 'บันทึกข้อตรวจเรียบร้อยแล้ว');
     }
+
+    public function item_edit($id){
+
+        $item_data = DB::table('check_items')
+        ->join('check_categories','check_items.category_id','=','check_categories.category_id')
+        ->select('check_categories.chk_cats_name','check_items.item_no','check_items.item_name','item_description','check_items.item_type','check_items.item_image')
+        ->where('check_items.item_id','=',$id)
+        ->first();
+
+        return view('pages.agency.ItemEdit',compact('item_data'));
+    }
+
+    public function item_delete_image($id){
+        $post = DB::table('check_items')->where('item_id', $id)->first();
+        if (!$post || !$post->item_image) {
+            return redirect()->back();
+        }
+        $file = public_path('upload/' . $post->item_image);
+
+        if (File::exists($file)) {
+            File::delete($file);
+        }
+
+        DB::table('check_items')->where('item_id', $id)->update(['item_image' => null]);
+
+        return redirect()->back()->with('success', 'ลบไฟล์เรียบร้อยแล้ว');
+    }
+
+    public function item_update(Request $request)
+    {
+
+    $id=$request->item_id;
+   
+    $item = DB::table('check_items')->where('item_id', $id)->first();
+    if (!$item) {
+        return redirect()->back()->with('error', 'ไม่พบข้อมูลข้อตรวจ');
+    }
+
+    $imagePath = $item->item_image;
+    $item_random_id = Str::upper(Str::random(8));
+    $fileName = null;
+
+    if ($request->hasFile('item_image')) {     
+        
+         if (File::exists($imagePath)) {
+            File::delete($imagePath);
+        }
+        $imagePath_1 = 'upload/';        
+        $file = $request->file('item_image');
+        
+        $extension = $file->getClientOriginalExtension();
+        $newName = 'item_' . $item->item_no.'_'.$item_random_id. '.' . $extension;
+        $file->move($imagePath_1, $newName);
+        $fileName = $imagePath_1.$newName;
+    }
+
+    DB::table('check_items')->where('item_id', $id)->update([
+        'item_name' => $request->item_name,
+        'item_description' => $request->item_description,
+        'item_type' => $request->item_type,
+        'item_image' => $fileName ?? null,
+        'updated_at' => Carbon::now(),
+    ]);
+
+    return redirect()->route('agency.cates_detail', ['cates_id'=>$item->category_id])->with('success', 'อัปเดตข้อมูลสำเร็จ');
+    }
+
+   
 }

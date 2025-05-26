@@ -39,6 +39,17 @@ class PageController extends Controller
             Role::User => 'แดชบอร์ดผู้ใช้งานทั่วไป',
         };
 
+        if(Role::User)
+        {
+            $forms = DB::table('forms')
+            ->where('form_status','=','1')
+            ->get();
+
+        return view('pages.local.home', compact('forms','layout','title','description'));
+        }
+       else
+       {
         return view('pages.local.home', compact('layout','title','description'));
+       }
     }
 }

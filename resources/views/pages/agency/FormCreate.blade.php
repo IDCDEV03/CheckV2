@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="form-group row mb-25">
                                     <div class="col-sm-3 d-flex aling-items-center">
-                                        <label class=" col-form-label color-dark align-center">ชื่อฟอร์ม<span
+                                        <label class="col-form-label color-dark align-center">ชื่อฟอร์ม<span
                                                 class="text-danger">*</span></label>
                                     </div>
                                     <div class="col-sm-9">
@@ -47,7 +47,7 @@
                                 <div class="form-group row mb-25">
                                     <div class="col-sm-3 d-flex aling-items-center">
                                         <label class="col-form-label  color-dark align-center">ประเภทฟอร์ม<span
-                                                class="text-danger">*</span></label>
+                                        class="text-danger">*</span></label>
                                     </div>
                                     <div class="col-sm-9">
                                         <select name="form_category" class="form-control ih-medium ip-gray radius-xs">

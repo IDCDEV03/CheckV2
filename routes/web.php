@@ -5,7 +5,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\User\AgencyMainController;
-
+use App\Http\Controllers\User\UserMainController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,6 +36,8 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
 
 Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
     Route::get('/home', [PageController::class, 'home'])->name('local.home');
+
+    Route::get('/check/start/{id}', [UserMainController::class, 'start_check'])->name('user.chk_start');
 });
 
 Route::prefix('agency')->middleware(['auth', 'role:agency'])->group(function () {
@@ -54,8 +56,11 @@ Route::prefix('agency')->middleware(['auth', 'role:agency'])->group(function () 
     Route::get('/categories/{cates_id}', [AgencyMainController::class, 'cates_detail'])->name('agency.cates_detail');
 
     //ข้อตรวจ
-      Route::get('/item-new/{id}', [AgencyMainController::class, 'item_create'])->name('agency.item_create');
-      Route::post('/insert-item', [AgencyMainController::class, 'item_insert'])->name('agency.item_insert');
+    Route::get('/item-new/{id}', [AgencyMainController::class, 'item_create'])->name('agency.item_create');
+    Route::post('/insert-item', [AgencyMainController::class, 'item_insert'])->name('agency.item_insert');
+    Route::get('/item-edit/{id}', [AgencyMainController::class, 'item_edit'])->name('agency.item_edit');
+    Route::post('/item-update', [AgencyMainController::class, 'item_update'])->name('agency.item_update');
+    Route::get('/item-delete/{id}/image', [AgencyMainController::class, 'item_delete_image'])->name('agency.item_delete_image');
 
 });
 
