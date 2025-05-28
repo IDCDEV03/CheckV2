@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\User\AgencyMainController;
 use App\Http\Controllers\User\UserMainController;
+use App\Http\Controllers\User\RepairController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,6 +39,15 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
     Route::get('/home', [PageController::class, 'home'])->name('local.home');
 
     Route::get('/check/start/{id}', [UserMainController::class, 'start_check'])->name('user.chk_start');
+    Route::POST('/check-store/step1', [UserMainController::class, 'chk_insert_step1'])->name('user.chk_insert_step1');
+
+    Route::get('/check/step2/{rec}/{cats}', [UserMainController::class, 'chk_step2'])->name('user.chk_step2');
+    Route::POST('/check-store/step2/{record_id}/{category_id}', [UserMainController::class, 'chk_insert_step2'])->name('user.chk_insert_step2');
+
+    Route::get('/check/result/{record_id}', [UserMainController::class, 'chk_result'])->name('user.chk_result');
+
+    //แจ้งซ่อม
+ Route::get('/create-repair/{record_id}', [RepairController::class, 'create_repair'])->name('user.create_repair');
 });
 
 Route::prefix('agency')->middleware(['auth', 'role:agency'])->group(function () {

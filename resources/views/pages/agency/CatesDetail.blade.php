@@ -79,7 +79,7 @@
                                                     <td>
                                                         @if (empty($data->item_image))
                                                             <img src="{{ asset('upload/No_Image.jpg') }}"
-                                                                class="img-thumbnail" alt="">
+                                                                class="img-thumbnail" width="100px" alt="">
                                                         @else
                                                             <img src="{{ asset($data->item_image) }}" class="img-thumbnail"
                                                                 alt="">
