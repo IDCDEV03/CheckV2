@@ -14,7 +14,7 @@ if (!function_exists('thai_date')) {
         $buddhistYear = $carbon->year + 543;
 
         return $carbon->format('d') . ' ' .
-               $carbon->translatedFormat('F') . ' ' .
+               $carbon->translatedFormat('M') . ' ' .
                $buddhistYear . ' เวลา ' .
                $carbon->format('H:i') . ' น.';
     }

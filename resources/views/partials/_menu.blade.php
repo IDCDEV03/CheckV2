@@ -13,7 +13,9 @@
              @endif
          </li>
 
-         <li class="has-child {{ Request::is(app()->getLocale() . '/dashboards/*') ? 'open' : '' }}">
+   
+         @if ($role === Role::Agency)
+               <li class="has-child {{ Request::is(app()->getLocale() . '/dashboards/*') ? 'open' : '' }}">
              <a href="#" class="{{ Request::is(app()->getLocale() . '/dashboards/*') ? 'active' : '' }}">
                  <span class="nav-icon uil uil-create-dashboard"></span>
                  <span class="menu-text">หน้าหลัก</span>
@@ -26,7 +28,6 @@
              </ul>
          </li>
 
-         @if ($role === Role::Agency)
              <li>
                  <a href="{{ route('agency.main') }}" class="">
                      <span class="nav-icon uil uil-megaphone"></span>
@@ -52,11 +53,37 @@
              </ul>
          </li>
          @elseif ($role === Role::User)
+               <li class="has-child">
+             <a href="#" class="">
+                 <span class="nav-icon uil uil-create-dashboard"></span>
+                 <span class="menu-text">หน้าหลัก</span>
+                 <span class="toggle-icon"></span>
+             </a>
+             <ul>
+                 <li class="">
+                    <a href="{{route('local.home')}}">Main</a>
+                 </li>
+
+             </ul>
+         </li>
+
              <li>
                  <a href="#" class="">
                      <span class="nav-icon uil uil-megaphone"></span>
                      <span class="menu-text">ประกาศ</span>
                      <span class="badge badge-info menuItem rounded-circle">8</span>
+                 </a>
+             </li>
+               <li>
+                 <a href="{{route('user.chk_list')}}" class="">
+                     <span class="nav-icon uil uil-document-layout-left"></span>
+                     <span class="menu-text">รายการตรวจรถ</span>                   
+                 </a>
+             </li>
+                <li>
+                 <a href="{{route('user.profile')}}" class="">
+                     <span class="nav-icon uil uil-user"></span>
+                     <span class="menu-text">บัญชีผู้ใช้</span>                   
                  </a>
              </li>
         @elseif ($role === Role::Manager)

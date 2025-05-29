@@ -19,6 +19,25 @@ class UserMainController extends Controller
         $this->middleware(['auth', 'role:user']);
     }
 
+    public function profile()
+    {
+        $user = Auth::user();
+        return view('pages.user.UserProfile',compact('user'));
+    }
+
+    public function chk_list()
+    {
+        $user_id = Auth::user()->id;
+        $record = DB::table('check_records')
+            ->join('vehicle_types', 'check_records.vehicle_type', '=', 'vehicle_types.id')
+            ->select('check_records.plate', 'check_records.province', 'check_records.created_at', 'vehicle_types.vehicle_type', 'check_records.record_id')
+            ->where('check_records.user_id', '=', $user_id)
+            ->orderBy('check_records.created_at', 'DESC')
+            ->get();
+
+        return view('pages.user.ChkList', compact('record'));
+    }
+
     public function start_check($id)
     {
         $forms = DB::table('forms')
@@ -60,22 +79,27 @@ class UserMainController extends Controller
             ]
         );
 
+        $rawInput = $request->input('plate');
+        $cleanPlate = str_replace(' ', '', $rawInput); //ตัดช่องว่างออก
+
         // upload image
         $upload_location = 'upload/';
         $file = $request->file('vehicle_image');
         $extension = $file->getClientOriginalExtension();
-        $newName = $request->plate . '_' . Carbon::now()->format('Ymd_His') . '.' . $extension;
+        $newName = $cleanPlate . '_' . Carbon::now()->format('Ymd_His') . '.' . $extension;
         $file->move($upload_location, $newName);
         $fileName = $upload_location . $newName;
 
 
         $record_id = 'REC-' . Str::upper(Str::random(8));
 
+
+
         DB::table('check_records')->insert([
             'user_id' => Auth::id(),
             'form_id' => $request->form_id,
             'record_id' => $record_id,
-            'plate' => $request->plate,
+            'plate' => $cleanPlate,
             'province' => $request->province,
             'vehicle_type' => $request->vehicle_type,
             'tax_exp' => $request->tax_exp,
@@ -151,22 +175,22 @@ class UserMainController extends Controller
         if ($next) {
             return redirect()->route('user.chk_step2', ['rec' => $record_id, 'cats' => $next->category_id]);
         }
-         return redirect()->route('user.chk_result', ['record_id' => $record_id])->with('success', 'บันทึกสำเร็จ');
+        return redirect()->route('user.chk_result', ['record_id' => $record_id])->with('success', 'บันทึกสำเร็จ');
     }
 
     public function chk_result($record_id)
     {
-         $record = DB::table('check_records')->where('record_id', $record_id)->first();
+        $record = DB::table('check_records')->where('record_id', $record_id)->first();
 
-         $forms = DB::table('forms')
+        $forms = DB::table('forms')
             ->select('forms.form_name')
             ->where('form_id', '=', $record->form_id)
             ->first();
 
         $categories = DB::table('check_categories')
-        ->where('form_id', $record->form_id)
-        ->orderBy('cates_no')
-        ->get();
+            ->where('form_id', $record->form_id)
+            ->orderBy('cates_no')
+            ->get();
 
         $results = DB::table('check_records_result')
             ->join('check_items', 'check_records_result.item_id', '=', 'check_items.id')
@@ -175,6 +199,11 @@ class UserMainController extends Controller
             ->get()
             ->groupBy('category_id');
 
-        return view('pages.user.ChkResult', compact('record', 'results','forms','categories'));
+        $images = DB::table('check_result_images')
+            ->where('record_id', $record_id)
+            ->get()
+            ->groupBy('item_id');
+
+        return view('pages.user.ChkResult', compact('record', 'results', 'forms', 'categories','images'));
     }
 }
