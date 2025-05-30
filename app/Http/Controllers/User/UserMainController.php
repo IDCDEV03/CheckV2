@@ -25,6 +25,11 @@ class UserMainController extends Controller
         return view('pages.user.UserProfile',compact('user'));
     }
 
+    public function veh_regis()
+    {
+        return view('pages.user.VehiclesRegister');
+    }
+
     public function chk_list()
     {
         $user_id = Auth::user()->id;

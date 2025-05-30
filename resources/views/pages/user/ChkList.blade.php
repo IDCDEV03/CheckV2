@@ -1,4 +1,4 @@
-@section('title', 'ระบบ E-Checker')
+@section('title', 'ระบบปฏิบัติการพนักงานขับรถราชการ')
 @section('description', 'ID Drives')
 @extends('layout.app')
 @section('content')
@@ -14,9 +14,23 @@
                 </div>
             </div>
 
+               <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-4">
+                        <div class="card-body"> 
+                            <a href="#" class="btn btn-outline-secondary">ลงทะเบียนรถ</a>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+
+            
+
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card mb-25">
+                    <div class="card mb-4">
                         <div class="card-body"> 
                              <table class="table table-bordered" id="forms-table">
                                 <thead>

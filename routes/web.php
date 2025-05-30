@@ -38,7 +38,9 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
 Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
     Route::get('/home', [PageController::class, 'home'])->name('local.home');
     Route::get('/check/all', [UserMainController::class, 'chk_list'])->name('user.chk_list');
-     Route::get('/profile', [UserMainController::class, 'profile'])->name('user.profile');
+    Route::get('/profile', [UserMainController::class, 'profile'])->name('user.profile');
+
+    Route::get('/veh-regis', [UserMainController::class, 'veh_regis'])->name('user.veh_regis');
 
     Route::get('/check/start/{id}', [UserMainController::class, 'start_check'])->name('user.chk_start');
     Route::POST('/check-store/step1', [UserMainController::class, 'chk_insert_step1'])->name('user.chk_insert_step1');
