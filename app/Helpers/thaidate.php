@@ -25,6 +25,6 @@ if (!function_exists('thai_date')) {
         $carbon->locale('th');
         $buddhistYear = $carbon->year + 543;
 
-        return $carbon->format('d') . ' ' . $carbon->translatedFormat('F') . ' ' . $buddhistYear;
+        return $carbon->format('d') . ' ' . $carbon->translatedFormat('M') . ' ' . $buddhistYear;
     }
 }

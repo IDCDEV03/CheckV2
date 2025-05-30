@@ -7,9 +7,11 @@
 
          <li class="menu-title mt-30">
              @if ($role === Role::Agency)
-                 <span>สำหรับหน่วยงาน</span>
+                 <span>ระบบปฏิบัติการพนักงานขับรถราชการ</span>
+                   <span>เมนูสำหรับหน่วยงาน</span>
              @elseif ($role === Role::User)
-                 <span>เมนูผู้ใช้</span>
+                 <span>ระบบปฏิบัติการพนักงานขับรถราชการ</span>
+                 <span>เมนูสำหรับผู้ใช้งาน</span>
              @endif
          </li>
 

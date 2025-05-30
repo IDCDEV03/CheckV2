@@ -7,6 +7,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\User\AgencyMainController;
 use App\Http\Controllers\User\UserMainController;
 use App\Http\Controllers\User\RepairController;
+use App\Http\Controllers\User\VehiclesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,13 +36,20 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
      Route::get('/announce-delete/{id}/post', [AdminDashboardController::class, 'delete_post'])->name('admin.delete_post');
 });
 
+Route::prefix('vehicles')->middleware(['auth', 'role:user,manager,admin,agency'])->group(function () {
+Route::get('/page/{id}', [VehiclesController::class, 'veh_detail'])->name('veh.detail');
+});
+
 Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
     Route::get('/home', [PageController::class, 'home'])->name('local.home');
     Route::get('/check/all', [UserMainController::class, 'chk_list'])->name('user.chk_list');
     Route::get('/profile', [UserMainController::class, 'profile'])->name('user.profile');
 
+    //ลงทะเบียนรถ
     Route::get('/veh-regis', [UserMainController::class, 'veh_regis'])->name('user.veh_regis');
+    Route::POST('/veh-create', [UserMainController::class, 'veh_insert'])->name('user.veh_create');
 
+    //เริ่มตรวจ
     Route::get('/check/start/{id}', [UserMainController::class, 'start_check'])->name('user.chk_start');
     Route::POST('/check-store/step1', [UserMainController::class, 'chk_insert_step1'])->name('user.chk_insert_step1');
 

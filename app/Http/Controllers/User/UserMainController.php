@@ -18,7 +18,7 @@ class UserMainController extends Controller
     {
         $this->middleware(['auth', 'role:user']);
     }
-
+  
     public function profile()
     {
         $user = Auth::user();
@@ -27,7 +27,48 @@ class UserMainController extends Controller
 
     public function veh_regis()
     {
-        return view('pages.user.VehiclesRegister');
+
+        $car_type = DB::table('vehicle_types')
+            ->select('id', 'vehicle_type')
+            ->orderBy('id', 'ASC')
+            ->get();
+
+        $province = DB::table('provinces')
+            ->select('id', 'name_th')
+            ->orderBy('name_th', 'ASC')
+            ->get();
+
+        return view('pages.user.VehiclesRegister',compact('car_type', 'province'));
+    }
+
+    public function veh_insert(Request $request)
+    {
+        $veh_id = 'VEH-' . Str::upper(Str::random(9));
+
+        $rawInput = $request->input('plate');
+        $cleanPlate = str_replace(' ', '', $rawInput); //ตัดช่องว่างออก
+
+        // upload image
+        $upload_location = 'upload/';
+        $file = $request->file('vehicle_image');
+        $extension = $file->getClientOriginalExtension();
+        $newName = $cleanPlate . '_' . Carbon::now()->format('Ymd_His') . '.' . $extension;
+        $file->move($upload_location, $newName);
+        $fileName = $upload_location . $newName;
+
+          DB::table('vehicles')->insert([
+            'veh_id' => $veh_id,
+            'plate' => $cleanPlate,
+            'province' => $request->province,
+            'user_id' => Auth::id(),
+            'veh_status' => '1',
+            'veh_type' => $request->vehicle_type,
+            'veh_image' => $fileName,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+         return redirect()->route('local.home')->with('success', 'บันทึกสำเร็จ');
     }
 
     public function chk_list()

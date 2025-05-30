@@ -41,11 +41,13 @@ class PageController extends Controller
 
         if(Role::User)
         {
-            $forms = DB::table('forms')
-            ->where('form_status','=','1')
+            $vehicles = DB::table('vehicles')
+            ->join('vehicle_types','vehicles.veh_type','=','vehicle_types.id')
+            ->select('vehicles.*', 'vehicle_types.vehicle_type as veh_type_name')
+            ->where('vehicles.user_id','=',Auth::id())
             ->get();
 
-        return view('pages.local.home', compact('forms','layout','title','description'));
+        return view('pages.user.MainPage',compact('vehicles'));
         }
        else
        {
