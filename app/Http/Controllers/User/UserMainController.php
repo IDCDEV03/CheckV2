@@ -88,7 +88,7 @@ class UserMainController extends Controller
     {
         $forms = DB::table('forms')
             ->where('form_id', '=', $id)
-            ->first();
+            ->get();
 
         $car_type = DB::table('vehicle_types')
             ->select('id', 'vehicle_type')

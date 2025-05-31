@@ -22,5 +22,15 @@
                   </li>
 
 
+                  <li>
+                     <a href="{{route('admin.agency_list')}}" class="">
+                        <span class="nav-icon uil uil-suitcase-alt"></span>
+                        <span class="menu-text">หน่วยงาน</span>
+                       
+                     </a>
+                  </li>
+
+
+
     </ul>
 </div>

@@ -8,6 +8,7 @@ use App\Http\Controllers\User\AgencyMainController;
 use App\Http\Controllers\User\UserMainController;
 use App\Http\Controllers\User\RepairController;
 use App\Http\Controllers\User\VehiclesController;
+use App\Http\Controllers\Admin\ManageUserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,6 +25,14 @@ Route::get('/', [LoginController::class, 'showLoginForm'])->name('home');
 
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+
+    //สร้างหน่วยงาน
+     Route::get('/agencies/create', [ManageUserController::class, 'createAgency'])->name('admin.agency.create');
+     Route::post('agencies/insert', [ManageUserController::class, 'insert_agency'])->name('admin.agency.insert');
+
+     Route::get('/agency',[ManageUserController::class,'Agency_list'])->name('admin.agency_list');
+
+
 
     //module
     Route::get('/announcement', [AdminDashboardController::class, 'AnnouncementPage'])->name('admin.announce');
