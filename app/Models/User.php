@@ -24,16 +24,8 @@ class User extends Authenticatable
         'password',
         'role',
     ];
+  
 
-    public function agency()
-    {
-        return $this->belongsTo(User::class, 'agency_id');
-    }
-
-    public function subordinates()
-    {
-        return $this->hasMany(User::class, 'agency_id');
-    }
     /**
      * The attributes that should be hidden for serialization.
      *
