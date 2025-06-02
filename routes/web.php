@@ -8,6 +8,7 @@ use App\Http\Controllers\User\AgencyMainController;
 use App\Http\Controllers\User\UserMainController;
 use App\Http\Controllers\User\RepairController;
 use App\Http\Controllers\User\VehiclesController;
+use App\Http\Controllers\Admin\ManageUserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,7 +26,25 @@ Route::get('/', [LoginController::class, 'showLoginForm'])->name('home');
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
-    //module
+    // CRUD หน่วยงาน
+    Route::get('/agencies/create', [ManageUserController::class, 'createAgency'])->name('admin.agency.create');
+    Route::post('agencies/insert', [ManageUserController::class, 'insert_agency'])->name('admin.agency.insert');
+    Route::get('/agency',[ManageUserController::class,'Agency_list'])->name('admin.agency_list');
+
+    Route::get('/agencies/{id}/edit', [ManageUserController::class, 'EditAgency'])->name('admin.agency.edit');
+    Route::put('/agencies/{id}', [ManageUserController::class, 'UpdateAgency'])->name('admin.agency.update');
+    Route::GET('/agencies/{id}', [ManageUserController::class, 'DestroyAgency'])->name('admin.agency.destroy');
+    Route::get('/show-agencies/{id}', [ManageUserController::class, 'AgencyDetail'])->name('admin.agency.show');
+
+    //CRUD User-Manager
+    Route::get('/members/create/{role}/{id}', [ManageUserController::class, 'createMember'])->name('admin.member.create');
+    Route::post('/members/insert', [ManageUserController::class, 'insertMember'])->name('admin.member.insert');
+    Route::get('/members/{id}/edit', [ManageUserController::class, 'editMember'])->name('admin.member.edit');
+    Route::put('/members/{id}', [ManageUserController::class, 'updateMember'])->name('admin.member.update');
+    Route::delete('/members/{id}', [ManageUserController::class, 'destroyMember'])->name('admin.member.destroy');
+
+
+    //module ประกาศ
     Route::get('/announcement', [AdminDashboardController::class, 'AnnouncementPage'])->name('admin.announce');
     Route::get('/create_post', [AdminDashboardController::class, 'create_announce'])->name('admin.create_post');
     Route::post('/insert_post', [AdminDashboardController::class, 'insert_post'])->name('admin.insert_post');

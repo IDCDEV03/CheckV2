@@ -346,27 +346,7 @@
                                     alt="" class="rounded-circle"></a>
                         @break
                     @endswitch
-                    @if (isset($find_customer))
-                        @foreach ($find_customer as $customer)
-                            <div class="dropdown-wrapper dropdown-wrapper--small">
-                                <a href="{{ route(Route::currentRouteName(), ['en', $customer->id]) }}"><img
-                                        src="{{ asset('assets/img/eng.png') }}" alt=""> English</a>
-                                <a href="{{ route(Route::currentRouteName(), ['ar', $customer->id]) }}"><img
-                                        src="{{ asset('assets/img/iraq.png') }}" alt=""> Arabic</a>
-                                <a href="{{ route(Route::currentRouteName(), ['gr', $customer->id]) }}"><img
-                                        src="{{ asset('assets/img/ger.png') }}" alt=""> German</a>
-                            </div>
-                        @endforeach
-                    @else
-                        <div class="dropdown-wrapper dropdown-wrapper--small">
-                            <a href="{{ route(Route::currentRouteName(), 'en') }}"><img
-                                    src="{{ asset('assets/img/eng.png') }}" alt=""> English</a>
-                            <a href="{{ route(Route::currentRouteName(), 'ar') }}"><img
-                                    src="{{ asset('assets/img/iraq.png') }}" alt=""> Arabic</a>
-                            <a href="{{ route(Route::currentRouteName(), 'gr') }}"><img
-                                    src="{{ asset('assets/img/ger.png') }}" alt=""> German</a>
-                        </div>
-                    @endif
+                
                 </div>
             </li>
             <li class="nav-author">
