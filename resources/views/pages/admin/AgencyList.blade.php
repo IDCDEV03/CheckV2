@@ -29,14 +29,14 @@
                         <th>Email</th>
                         <th>Logo</th>
                         <th>วันที่สร้าง</th>
-                        <th></th>
+                        <th>จัดการ</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($agencies as $index => $agency)
                         <tr>
                             <td>{{ $index + 1 }}</td>
-                            <td>{{ $agency->name }}</td>
+                            <td><a href="{{route('admin.agency.show',$agency->id)}}"> {{ $agency->name }}</a></td>
                             <td>{{ $agency->email }}</td>
                             <td>
                                 @if($agency->logo_agency)
@@ -48,7 +48,20 @@
                             </td>
                             <td>{{ thai_date($agency->created_at) }}</td>
                             <td>
-                                แก้ไข
+                                <div class="btn-group btn-group-xs" role="group">
+                  
+                    <a href="{{route('admin.agency.edit',$agency->id)}}" class="btn btn-warning btn-default btn-squared btn-shadow-warning btn-xs" title="แก้ไข">
+                        <i class="fas fa-edit"></i> แก้ไข
+                    </a>
+                
+
+                     <a href="{{route('admin.agency.destroy',$agency->id)}}" class="btn btn-danger btn-default btn-squared btn-shadow-danger btn-xs" onclick="return confirm('ต้องการลบใช่หรือไม่ หากลบแล้วไม่สามารถกู้คืนได้อีก?');">
+                                                    <i class="las la-trash-alt"></i> ลบ
+                                                </a>
+
+                     
+                
+                </div>
                             </td>
                         </tr>
                     @endforeach
