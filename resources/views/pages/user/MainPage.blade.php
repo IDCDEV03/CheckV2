@@ -16,7 +16,7 @@
                                     style=" border-color: #a071ff;background-color: #f8f4ff;">
                                     <div class="card-body">
                                         <div class="mb-3">
-                                            <i class="fas fa-car-side fa-3x text-info"></i>
+                                           <img src="{{asset('bus.png')}}" alt="" width="120px">
                                         </div>
                                         <span class="fs-24 fw-bold text-dark mb-1">ลงทะเบียนรถ</span>
                                         <p class="fs-20 text-muted mt-1">คลิกเพื่อกรอกข้อมูลทะเบียนรถ</p>

@@ -1,6 +1,7 @@
  @php
      use App\Enums\Role;
      $role = Auth::user()->role;
+     
  @endphp
  <div class="sidebar__menu-group">
      <ul class="sidebar_nav">
@@ -10,8 +11,16 @@
                  <span>ระบบปฏิบัติการพนักงานขับรถราชการ</span>
                    <span>เมนูสำหรับหน่วยงาน</span>
              @elseif ($role === Role::User)
+             @php               
+                $agent_id = Auth::user()->agency_id;
+                $agent = DB::table('users')
+                ->select('name')
+                ->where('id','=',$agent_id)
+                ->first();             
+             @endphp
                  <span>ระบบปฏิบัติการพนักงานขับรถราชการ</span>
-                 <span>เมนูสำหรับผู้ใช้งาน</span>
+                 <span><i class="far fa-building"></i> {{$agent->name}} </span>
+                 <span><i class="fas fa-bars"></i> เมนูสำหรับผู้ใช้งาน</span>
              @endif
          </li>
 

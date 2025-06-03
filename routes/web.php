@@ -70,9 +70,10 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
 
     //เริ่มตรวจ
     Route::get('/check/start/{id}', [UserMainController::class, 'start_check'])->name('user.chk_start');
-    Route::POST('/check-store/step1', [UserMainController::class, 'chk_insert_step1'])->name('user.chk_insert_step1');
 
-    Route::get('/check/step2/{rec}/{cats}', [UserMainController::class, 'chk_step2'])->name('user.chk_step2');
+ Route::POST('/chk/insert/step1/{id}', [UserMainController::class, 'insert_step1'])->name('user.insert1');
+
+     Route::get('/check/step2/{rec}/{cats}', [UserMainController::class, 'chk_step2'])->name('user.chk_step2');
     Route::POST('/check-store/step2/{record_id}/{category_id}', [UserMainController::class, 'chk_insert_step2'])->name('user.chk_insert_step2');
 
     Route::get('/check/result/{record_id}', [UserMainController::class, 'chk_result'])->name('user.chk_result');

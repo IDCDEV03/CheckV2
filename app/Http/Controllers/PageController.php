@@ -45,6 +45,7 @@ class PageController extends Controller
             ->join('vehicle_types','vehicles.veh_type','=','vehicle_types.id')
             ->select('vehicles.*', 'vehicle_types.vehicle_type as veh_type_name')
             ->where('vehicles.user_id','=',Auth::id())
+            ->orderBy('vehicles.updated_at','DESC')
             ->get();
 
         return view('pages.user.MainPage',compact('vehicles'));

@@ -23,8 +23,11 @@ class RepairController extends Controller
             abort(403);
         }
 
-        $record = DB::table('check_records')
-            ->where('record_id', '=', $record_id)
+        $record = DB::table('chk_records')
+         ->join('vehicles','chk_records.veh_id','=','vehicles.veh_id')
+        ->join('vehicle_types','vehicles.veh_type','=','vehicle_types.id')
+        ->select('vehicles.*', 'vehicle_types.vehicle_type as veh_type_name','chk_records.created_at as date_check','chk_records.form_id','chk_records.record_id','chk_records.user_id as chk_user','chk_records.agency_id as chk_agent')
+            ->where('chk_records.record_id', '=', $record_id)
             ->first();
 
         $problem_items = DB::table('check_records_result')

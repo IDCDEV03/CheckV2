@@ -15,13 +15,12 @@
 
                     <div class="card mb-25">
                         <div class="card-body">
-
-                            @include('partials._steps', ['currentStep' => 2])
+                          
 
                             @if (session('error'))
                                 <div class="alert alert-danger">{{ session('error') }}</div>
                             @endif
-                            <p class="fs-20">หมวดหมู่ที่ {{ $category->cates_no }} : {{ $category->chk_cats_name }}</p>
+                            <p class="fs-20 fw-bold">หมวดหมู่ที่ {{ $category->cates_no }} : {{ $category->chk_cats_name }}</p>
           <form method="POST" action="{{ route('user.chk_insert_step2', [$record->record_id, $category->category_id]) }}" enctype="multipart/form-data">
         @csrf
 
@@ -56,7 +55,7 @@
 
                                 <div class="border-top my-3"></div>
 
-                                <button type="submit" class="btn btn-block btn-success">บันทึกและไปต่อ <i
+                                <button type="submit" class="btn btn-block btn-success fs-18">บันทึกและไปต่อ <i
                                         class="fas fa-arrow-right"></i></button>
                             </form>
 

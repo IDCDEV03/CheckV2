@@ -9,64 +9,60 @@
                 <div class="col-md-12">
                     <div class=" alert alert-primary " role="alert">
                         <div class="alert-content">
-                            <span class="fs-20 fw-bold"> {{ $forms->form_name }} </span>
+                            <span class="fs-20 fw-bold">เลือกแบบฟอร์ม</span>
                         </div>
                     </div>
 
                     <div class="card mb-25">
-                        <div class="card-body">                         
+                        <div class="card-header d-flex justify-content-end align-items-center">
 
-                            @include('partials._steps', ['currentStep' => 1])
+                            <small class="text-muted" id="live-clock">
+
+                        </div>
+                        <div class="card-body">
 
                             @if (session('error'))
-                                <div class="alert alert-danger">{{ session('error') }}</div>
+                                <div class="alert alert-danger fs-20 fw-bold">{{ session('error') }}</div>
                             @endif
-                            
-                            <form action="{{route('user.chk_insert_step1')}}" method="POST" enctype="multipart/form-data">
+
+                            <form action="{{ route('user.insert1',request()->id) }}" method="POST">
                                 @csrf
 
-                                <input type="hidden" name="form_id" value="{{request()->id}}">
-
-                                <div class="mb-3">
-                                    <label>ทะเบียนรถ <span class="text-danger">*</span></label>
-                                    <input type="text" name="plate" class="form-control" maxlength="10" required>
+                                <div class="form-group row">
+                                    <div class="col-sm-2 d-flex aling-items-center">
+                                        <label for="inputName"
+                                            class="col-form-label color-dark fs-18 fw-bold align-center">ทะเบียนรถ</label>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control radius-xs b-light fs-20"
+                                            value="{{ $veh_detail->plate }} {{ $veh_detail->province }}" readonly>
+                                    </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label>จังหวัดทะเบียนรถ <span class="text-danger">*</span></label>
-                                    <select name="province" id="select-alerts2" class="form-control ">
-                                        <option value="0">--กรุณาเลือกจังหวัด--</option>
-                                        @foreach ($province as $item)
-                                            <option value="{{$item->name_th}}">{{$item->name_th}}</option>
-                                        @endforeach                                     
-                                    </select>
+                                <div class="form-group row">
+                                    <div class="col-sm-2 d-flex aling-items-center">
+                                        <label for="inputName"
+                                            class="col-form-label color-dark fs-18 fw-bold align-center">เลือกแบบฟอร์ม<span class="text-danger">*</span></label>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <select name="form_id" id="select-alerts2" class="form-control " required>
+                                            <option value="0" selected disabled>-- กรุณาเลือก --</option>
+                                            @foreach ($forms as $form)
+                                                <option value="{{ $form->form_id }}" class="fs-18">{{ $form->form_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label>ประเภทรถ <span class="text-danger">*</span></label>
-                                    <select class="form-control px-15" name="vehicle_type" id="vehicle_type" required>
-                                        <option value="0" selected disabled>--เลือกประเภทรถ--</option>
-                                        @foreach ($car_type as $data)
-                                            <option value="{{ $data->id }}">{{ $data->vehicle_type }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
 
-                                <div class="mb-3">
-                                    <label>วันหมดอายุภาษี <span class="text-danger">*</span></label>
-                                    <input type="date" name="tax_exp" class="form-control" required>
-                                </div>
 
-                                <div class="mb-3">
-                                    <label>ภาพถ่ายรถ <span class="text-danger">*</span></label>
-                                    <input type="file" name="vehicle_image" class="form-control" accept="image/*"
-                                        required>
-                                </div>
+
 
                                 <div class="border-top my-3"></div>
 
-                                <button type="submit" class="btn btn-block btn-secondary">เริ่มการตรวจ <i
-                                        class="fas fa-arrow-right"></i></button>
+                                <button type="submit" class="btn btn-secondary fs-20">เริ่มการตรวจ &nbsp;<i
+                                        class="fas fa-arrow-right"></i> </button>
                             </form>
 
                         </div>
@@ -76,3 +72,26 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        function updateClock() {
+            const now = new Date();
+
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = now.getFullYear() + 543;
+
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+
+            const fullDateTime = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+
+            document.getElementById('live-clock').textContent = fullDateTime;
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+@endpush

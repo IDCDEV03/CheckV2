@@ -64,7 +64,7 @@
                     </table>
                      <div class="border-top my-3"></div>
 
-                                <a href="#" class="btn btn-block btn-primary">เริ่มการตรวจรถ <i
+                                <a href="{{route('user.chk_start',$vehicle->veh_id)}}" class="btn btn-block btn-primary">เริ่มการตรวจรถ <i
                                         class="fas fa-arrow-right"></i></a>
                 </div>
 
