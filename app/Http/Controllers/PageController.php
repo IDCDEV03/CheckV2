@@ -55,4 +55,8 @@ class PageController extends Controller
         return view('pages.local.home', compact('layout','title','description'));
        }
     }
+    public function coming_soon()
+    {
+        return view('pages.local.ComingSoon');
+    }
 }

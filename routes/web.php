@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\ManageUserController;
 
 
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('home');
+Route::get('/comingsoon', [PageController::class, 'coming_soon'])->name('coming_soon');
 
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
@@ -57,6 +58,8 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
 
 Route::prefix('vehicles')->middleware(['auth', 'role:user,manager,admin,agency'])->group(function () {
 Route::get('/page/{id}', [VehiclesController::class, 'veh_detail'])->name('veh.detail');
+Route::get('/result/{rec}', [VehiclesController::class, 'Report_Result'])->name('veh.result');
+
 });
 
 Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {

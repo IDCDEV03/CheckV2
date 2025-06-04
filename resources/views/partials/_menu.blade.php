@@ -85,11 +85,33 @@
                      <span class="badge badge-info menuItem rounded-circle">8</span>
                  </a>
              </li>
-               <li>
-                 <a href="{{route('user.chk_list')}}" class="">
-                     <span class="nav-icon uil uil-document-layout-left"></span>
-                     <span class="menu-text">รายการตรวจรถ</span>                   
+                <li class="has-child">
+                 <a href="#" class="">
+                     <span class="nav-icon uil uil-file-copy-alt"></span>
+                     <span class="menu-text">รายงานบันทึก</span> 
+                      <span class="toggle-icon"></span>                  
                  </a>
+                  <ul>
+                 <li class="">
+                    <a href="{{route('user.chk_list')}}">รายการตรวจรถ</a>
+                 </li>
+           
+             </ul>
+
+               <li>
+                 <a href="{{route('coming_soon')}}" class="">
+                     <span class="nav-icon uil-file-edit-alt"></span>
+                     <span class="menu-text">ประวัติแจ้งซ่อม</span>
+                 </a>
+             </li>
+
+               <li>
+                 <a href="{{route('coming_soon')}}" class="">
+                     <span class="nav-icon uil uil-file-plus-alt"></span>
+                     <span class="menu-text">ประวัตการขอเบิก</span>
+                 </a>
+             </li>
+
              </li>
                 <li>
                  <a href="{{route('user.profile')}}" class="">

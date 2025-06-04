@@ -78,11 +78,20 @@ class UserMainController extends Controller
     public function chk_list()
     {
         $user_id = Auth::user()->id;
-        $record = DB::table('check_records')
-            ->join('vehicle_types', 'check_records.vehicle_type', '=', 'vehicle_types.id')
-            ->select('check_records.plate', 'check_records.province', 'check_records.created_at', 'vehicle_types.vehicle_type', 'check_records.record_id')
-            ->where('check_records.user_id', '=', $user_id)
-            ->orderBy('check_records.created_at', 'DESC')
+        $record = DB::table('chk_records')
+            ->join('vehicles', 'chk_records.veh_id', '=', 'vehicles.veh_id')
+            ->join('vehicle_types', 'vehicles.veh_type', '=', 'vehicle_types.id')
+            ->select(
+                'vehicles.*',
+                'vehicle_types.vehicle_type as veh_type_name',
+                'chk_records.created_at as date_check',
+                'chk_records.form_id',
+                'chk_records.record_id',
+                'chk_records.user_id as chk_user',
+                'chk_records.agency_id as chk_agent'
+            )
+            ->where('chk_records.user_id', '=', $user_id)
+            ->orderBy('chk_records.created_at', 'DESC')
             ->get();
 
         return view('pages.user.ChkList', compact('record'));
@@ -92,7 +101,7 @@ class UserMainController extends Controller
     {
         $forms = DB::table('forms')
             ->where('form_status', '=', '1')
-            ->orderBy('form_name','ASC')
+            ->orderBy('form_name', 'ASC')
             ->get();
 
         $veh_detail = DB::table('vehicles')
@@ -102,25 +111,25 @@ class UserMainController extends Controller
 
         return view('pages.user.ChkStart', compact('forms', 'veh_detail'));
     }
-  
 
-    public function insert_step1(Request $request,$id)
+
+    public function insert_step1(Request $request, $id)
     {
 
-         $agent = DB::table('users')->where('id', Auth::id())->first();
+        $agent = DB::table('users')->where('id', Auth::id())->first();
 
         if (empty($request->form_id)) {
             return redirect()->back()->with('error', 'กรุณาเลือกฟอร์มที่ต้องการใช้');
         }
 
-         $record_id = 'REC-' . Str::upper(Str::random(10));
+        $record_id = 'REC-' . Str::upper(Str::random(10));
 
 
         DB::table('chk_records')->insert([
             'user_id' => Auth::id(),
             'veh_id' => $id,
-            'record_id' => $record_id,   
-            'form_id' => $request->form_id,            
+            'record_id' => $record_id,
+            'form_id' => $request->form_id,
             'agency_id' => $agent->agency_id,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
@@ -132,7 +141,6 @@ class UserMainController extends Controller
             ->first();
 
         return redirect()->route('user.chk_step2', ['rec' => $record_id, 'cats' => $firstCategory->category_id]);
-
     }
 
     public function chk_step2($rec, $cats)
@@ -200,14 +208,14 @@ class UserMainController extends Controller
     public function chk_result($record_id)
     {
         $record = DB::table('chk_records')
-        ->join('vehicles','chk_records.veh_id','=','vehicles.veh_id')
-        ->join('vehicle_types','vehicles.veh_type','=','vehicle_types.id')
-        ->select('vehicles.*', 'vehicle_types.vehicle_type as veh_type_name','chk_records.created_at as date_check','chk_records.form_id','chk_records.record_id','chk_records.user_id as chk_user','chk_records.agency_id as chk_agent')
-        ->where('chk_records.record_id', $record_id)->first();
+            ->join('vehicles', 'chk_records.veh_id', '=', 'vehicles.veh_id')
+            ->join('vehicle_types', 'vehicles.veh_type', '=', 'vehicle_types.id')
+            ->select('vehicles.*', 'vehicle_types.vehicle_type as veh_type_name', 'chk_records.created_at as date_check', 'chk_records.form_id', 'chk_records.record_id', 'chk_records.user_id as chk_user', 'chk_records.agency_id as chk_agent')
+            ->where('chk_records.record_id', $record_id)->first();
 
         $agent_name = DB::table('users')
-        ->where('id',$record->chk_agent)
-        ->first();
+            ->where('id', $record->chk_agent)
+            ->first();
 
         $forms = DB::table('forms')
             ->select('forms.form_name')
@@ -231,6 +239,6 @@ class UserMainController extends Controller
             ->get()
             ->groupBy('item_id');
 
-        return view('pages.user.ChkResult', compact('agent_name','record', 'results', 'forms', 'categories', 'images'));
+        return view('pages.user.ChkResult', compact('agent_name', 'record', 'results', 'forms', 'categories', 'images'));
     }
 }

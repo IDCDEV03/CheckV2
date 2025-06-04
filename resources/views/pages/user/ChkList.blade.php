@@ -14,17 +14,7 @@
                 </div>
             </div>
 
-               <div class="row">
-                <div class="col-md-12">
-                    <div class="card mb-4">
-                        <div class="card-body"> 
-                            <a href="#" class="btn btn-outline-secondary">ลงทะเบียนรถ</a>
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-
+              
 
             
 
@@ -39,7 +29,7 @@
                                         <th>ตรวจเมื่อ</th>
                                         <th>ทะเบียนรถ</th>
                                         <th>ประเภทรถ</th>
-                                        
+                                        <th>จัดการ</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -47,10 +37,10 @@
                                  
                                   <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ thai_datetime($data->created_at) }}</td>
+                                    <td>{{ thai_datetime($data->date_check) }}</td>
                                     <td><a href="{{route('user.chk_result',[$data->record_id])}}">{{$data->plate}} {{$data->province}}</a></td>
-                                    <td> {{$data->vehicle_type}} </td>
-                                  
+                                    <td> {{$data->veh_type_name}} </td>
+                                  <td><a href="#" class="btn btn-xs btn-secondary btn-shadow-secondary">แจ้งซ่อม</a></td>
                                   </tr>
                                      @endforeach
                                 </tbody>
