@@ -40,7 +40,7 @@
                                     <td>{{ thai_datetime($data->date_check) }}</td>
                                     <td><a href="{{route('user.chk_result',[$data->record_id])}}">{{$data->plate}} {{$data->province}}</a></td>
                                     <td> {{$data->veh_type_name}} </td>
-                                  <td><a href="#" class="btn btn-xs btn-secondary btn-shadow-secondary">แจ้งซ่อม</a></td>
+                                  <td><a href="{{ route('user.create_repair', ['record_id' => $data->record_id]) }}" class="btn btn-xs btn-secondary btn-shadow-secondary">บันทึกแจ้งข้อบกพร่อง</a></td>
                                   </tr>
                                      @endforeach
                                 </tbody>

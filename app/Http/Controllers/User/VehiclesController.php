@@ -93,4 +93,8 @@ class VehiclesController extends Controller
 
     return view('pages.local.ReportResult', compact('agent_name', 'record', 'results', 'forms', 'categories', 'images'));
   }
+
+  public function repair_notice(){
+    return view('pages.local.RepairNoice');
+  }
 }

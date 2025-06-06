@@ -59,7 +59,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
 Route::prefix('vehicles')->middleware(['auth', 'role:user,manager,admin,agency'])->group(function () {
 Route::get('/page/{id}', [VehiclesController::class, 'veh_detail'])->name('veh.detail');
 Route::get('/result/{rec}', [VehiclesController::class, 'Report_Result'])->name('veh.result');
-
+Route::get('/repair-notice', [VehiclesController::class, 'repair_notice'])->name('veh.notice');
 });
 
 Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {

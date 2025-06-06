@@ -23,6 +23,8 @@ class RepairController extends Controller
             abort(403);
         }
 
+       
+
         $record = DB::table('chk_records')
          ->join('vehicles','chk_records.veh_id','=','vehicles.veh_id')
         ->join('vehicle_types','vehicles.veh_type','=','vehicle_types.id')

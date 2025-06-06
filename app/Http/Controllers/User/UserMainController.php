@@ -38,13 +38,26 @@ class UserMainController extends Controller
             ->orderBy('name_th', 'ASC')
             ->get();
 
-        return view('pages.user.VehiclesRegister', compact('car_type', 'province'));
+            $car_brand = DB::table('car_brands')
+            ->orderBy('brand_name','ASC')
+            ->get();
+
+        return view('pages.user.VehiclesRegister', compact('car_type', 'province','car_brand'));
     }
 
     public function veh_insert(Request $request)
     {
 
         $agent = DB::table('users')->where('id', Auth::id())->first();
+
+        if (empty($request->province)) {
+            return redirect()->back()->with('error', 'กรุณาเลือกทะเบียนจังหวัด');
+        }
+
+        if (empty($request->veh_brand)) {
+            return redirect()->back()->with('error', 'กรุณาเลือกยี่ห้อรถ');
+        }
+
 
         $veh_id = 'VEH-' . Str::upper(Str::random(9));
 
@@ -61,6 +74,7 @@ class UserMainController extends Controller
 
         DB::table('vehicles')->insert([
             'veh_id' => $veh_id,
+            'veh_brand' => $request->veh_brand,
             'plate' => $cleanPlate,
             'province' => $request->province,
             'user_id' => Auth::id(),

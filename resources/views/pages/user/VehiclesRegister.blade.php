@@ -3,7 +3,7 @@
 @extends('layout.app')
 @section('content')
     <div class="container-fluid">
-        <div class="social-dash-wrap">
+   
 
             <div class="row">
                 <div class="col-lg-12">
@@ -32,9 +32,19 @@
                                 <div class="mb-3">
                                     <label>จังหวัดทะเบียนรถ <span class="text-danger">*</span></label>
                                     <select name="province" id="select-alerts2" class="form-control ">
-                                        <option value="0">--กรุณาเลือกจังหวัด--</option>
+                                        <option value="0" selected disabled>--กรุณาเลือกจังหวัด--</option>
                                         @foreach ($province as $item)
                                             <option value="{{ $item->name_th }}">{{ $item->name_th }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                  <div class="mb-3">
+                                    <label>ยี่ห้อรถ <span class="text-danger">*</span></label>
+                                  <select name="veh_brand" id="select-option2" class="form-control ">
+                                        <option value="0" selected disabled>--กรุณาเลือกยี่ห้อรถ--</option>
+                                        @foreach ($car_brand as $brand)
+                                            <option value="{{ $brand->brand_name }}">{{ $brand->brand_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -58,7 +68,7 @@
 
                                 <div class="border-top my-3"></div>
 
-                                <button type="submit" class="btn btn-block btn-success">บันทึกข้อมูล</button>
+                                <button type="submit" class="fs-18 btn btn-block btn-success">บันทึกข้อมูล</button>
                             </form>
 
 
@@ -66,7 +76,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+       
     </div>
 @endsection
 @push('scripts')

@@ -1,4 +1,4 @@
-@section('title', 'ระบบ E-Checker')
+@section('title', 'ระบบปฏิบัติการพนักงานขับรถราชการ')
 @section('description', 'ID Drives')
 @extends('layout.app')
 @section('content')
@@ -10,16 +10,15 @@
                 <div class="col-md-12">
                     <div class=" alert alert-primary " role="alert">
                         <div class="alert-content">
-                            <span class="fs-20 fw-bold"> สร้างบันทึกแจ้งซ่อมยานพาหนะ </span>
+                            <span class="fs-20 fw-bold"> บันทึกแจ้งข้อบกพร่องของยานพาหนะ ทะเบียนรถ : {{ $record->plate }} {{ $record->province }}</span>
                         </div>
                     </div>
-
-
 
                     <div class="card mb-25">
                         <div class="card-body">
 
-                            <label class="mb-4 fs-24">เลขทะเบียน : {{ $record->plate }} {{ $record->province }} </label>
+
+                            <p class="fs-18 fw-bold">เลือกรายการที่ต้องการแจ้ง</p>
 
                             <form action="#" method="POST">
                                 @csrf
@@ -37,13 +36,18 @@
                                         @foreach ($problem_items as $item)
                                             <tr>
                                                 <td>
-                                                    <input type="checkbox" name="repair_items[]"
-                                                        value="{{ $item->item_id }}">
+                                                    <div class="checkbox-theme-default custom-checkbox ">
+                                                        <input class="checkbox" type="checkbox"
+                                                            id="check-un{{ $item->item_id }}" name="repair_items[]"
+                                                            value="{{ $item->item_id }}">
+                                                        <label for="check-un{{ $item->item_id }}">
+                                                        </label>
+                                                    </div>
                                                 </td>
                                                 <td>{{ $item->item_name }}</td>
                                                 <td>
                                                     @if ($item->result_value == 0)
-                                                       ไม่สามารถใช้งานได้
+                                                        ไม่สามารถใช้งานได้
                                                     @elseif ($item->result_value == 2)
                                                         ไม่ปกติ แต่สามารถใช้งานได้
                                                     @endif
@@ -54,11 +58,32 @@
                                     </tbody>
                                 </table>
 
-                                <div class="mb-3">
-                                    <label for="title" class="form-label fw-bold">หัวข้อแจ้งซ่อม <span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" name="title" id="title" class="form-control" required>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="title" class="form-label fw-bold">เลขทะเบียน </label>
+                                            <input type="text" name="plate" id="plate"
+                                                value="{{ $record->plate }} {{ $record->province }}" class="form-control"
+                                                readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="car_brand" class="form-label fw-bold">ยี่ห้อรถ </label>
+                                            <input type="text" name="car_brand" id="car_brand" class="form-control" value="{{ $record->veh_brand }}" readonly>
+                                        </div>
+                                    </div>
+
+                                      <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="car_brand" class="form-label fw-bold">เลขไมล์ </label>
+                                            <input type="text" name="car_mile" id="car_mile" class="form-control" >
+                                        </div>
+                                    </div>
                                 </div>
+
+
 
 
 

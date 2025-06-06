@@ -4,15 +4,12 @@
 @section('content')
 
     <div class="container-fluid">
-        <div class="social-dash-wrap">
-
-
             <div class="row justify-content-center">
                 <div class="col-md-6 mb-4">
                     <div class="mt-25 card card-default card-md shadow-sm text-center">
                         <div class="card-body">
 
-                            <a href="#" class="btn btn-outline-secondary btn-sm">
+                            <a href="{{route('local.home')}}" class="btn btn-outline-secondary btn-sm">
                                 <i class="fas fa-arrow-left"></i> กลับไปหน้ารายการ
                             </a>
 
@@ -152,10 +149,6 @@
                 </div>
             </div>
 
-
-
-
-        </div>
     </div>
 @endsection
 @push('scripts')
