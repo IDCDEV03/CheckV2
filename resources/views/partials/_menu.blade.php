@@ -74,10 +74,10 @@
         
 
              <li>
-                 <a href="#" class="">
+                 <a href="{{route('user.announce')}}" class="">
                      <span class="nav-icon uil uil-megaphone"></span>
                      <span class="menu-text">ประกาศ</span>
-                     <span class="badge badge-info menuItem rounded-circle">8</span>
+                  
                  </a>
              </li>
                 <li class="has-child">

@@ -25,6 +25,18 @@ class UserMainController extends Controller
         return view('pages.user.UserProfile', compact('user'));
     }
 
+       public function announce()
+    {
+        $list_post = DB::table('announcements')
+            ->join('users', 'announcements.user_id', '=', 'users.id')
+            ->select('users.name', 'users.role', 'users.id', 'announcements.id as post_id', 'announcements.title', 'announcements.description', 'announcements.file_upload', 'announcements.updated_at', 'announcements.created_at')
+            ->orderBy('announcements.updated_at', 'DESC')
+            ->get();
+
+        return view('pages.local.announce', compact('list_post'));
+    }
+
+
     public function veh_regis()
     {
 

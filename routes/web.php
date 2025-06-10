@@ -65,6 +65,7 @@ Route::get('/repair-notice', [VehiclesController::class, 'repair_notice'])->name
 
 Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
     Route::get('/home', [PageController::class, 'home'])->name('local.home');
+    Route::get('/announce', [UserMainController::class, 'announce'])->name('user.announce');
     Route::get('/check/all', [UserMainController::class, 'chk_list'])->name('user.chk_list');
     Route::get('/profile', [UserMainController::class, 'profile'])->name('user.profile');
 
