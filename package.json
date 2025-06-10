@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "set \"VITE_CJS_TRACE=true\" && vite build"
   },
   "devDependencies": {
     "axios": "^0.25",
