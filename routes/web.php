@@ -9,6 +9,7 @@ use App\Http\Controllers\User\UserMainController;
 use App\Http\Controllers\User\RepairController;
 use App\Http\Controllers\User\VehiclesController;
 use App\Http\Controllers\Admin\ManageUserController;
+use App\Http\Controllers\DocumentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -83,6 +84,9 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
 
     //แจ้งซ่อม
  Route::get('/create-repair/{record_id}', [RepairController::class, 'create_repair'])->name('user.create_repair');
+
+ //บันทึกข้อความ
+ Route::get('/veh-doc', [DocumentController::class, 'doc_list'])->name('user.doc_list');
 });
 
 Route::prefix('agency')->middleware(['auth', 'role:agency'])->group(function () {
@@ -113,6 +117,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login'])->name('login.attempt');
     Route::get('/register', [LoginController::class, 'showregisterForm'])->name('register');
+    Route::post('/register', [LoginController::class, 'register_store'])->name('register.store');
 });
 
 

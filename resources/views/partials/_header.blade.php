@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang=""{{ str_replace('_', '-', app()->getLocale()) }}"
+<html lang="th"
     dir="{{ Session::get('layout') == 'rtl' ? 'rtl' : 'ltr' }}">
 
 <head>

@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Enums\Role;
+use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class LoginController extends Controller
 {
@@ -14,9 +17,38 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-       public function showRegisterForm()
+    public function showRegisterForm()
     {
-        return view('auth.register');
+        $agencies = DB::table('users')
+            ->where('role', 'agency')
+            ->orderBy('name', 'ASC')
+            ->get();
+        return view('auth.register', compact('agencies'));
+    }
+
+    public function register_store(Request $request)
+    {
+        if (empty($request->prefix)) {
+            return redirect()->back()->with('error', 'กรุณาเลือกคำนำหน้า');
+        }
+
+        if (empty($request->agency_id)) {
+            return redirect()->back()->with('error', 'กรุณาเลือกหน่วยงาน');
+        }
+
+        DB::table('users')->insert([
+            'prefix' => $request->prefix,
+            'name' => $request->first_name,
+            'lastname' => $request->lastname,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'user',
+            'agency_id' => $request->agency_id,
+             'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        return redirect('/')->with('success', 'สมัครสมาชิกเรียบร้อยแล้ว');
     }
 
     public function login(Request $request)
@@ -51,6 +83,9 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/')->withHeaders([
+            'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
+            'Pragma' => 'no-cache',
+        ]);
     }
 }

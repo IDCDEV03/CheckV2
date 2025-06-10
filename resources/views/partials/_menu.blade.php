@@ -64,19 +64,14 @@
              </ul>
          </li>
          @elseif ($role === Role::User)
-               <li class="has-child">
-             <a href="#" class="">
+               <li>
+             <a href="{{route('local.home')}}" class="">
                  <span class="nav-icon uil uil-create-dashboard"></span>
                  <span class="menu-text">หน้าหลัก</span>
-                 <span class="toggle-icon"></span>
+               
              </a>
-             <ul>
-                 <li class="">
-                    <a href="{{route('local.home')}}">Main</a>
-                 </li>
-
-             </ul>
-         </li>
+               </li>
+        
 
              <li>
                  <a href="#" class="">
@@ -108,9 +103,17 @@
                <li>
                  <a href="{{route('coming_soon')}}" class="">
                      <span class="nav-icon uil uil-file-plus-alt"></span>
-                     <span class="menu-text">ประวัตการขอเบิก</span>
+                     <span class="menu-text">ประวัติการขอเบิก</span>
                  </a>
              </li>
+
+                 <li>
+                 <a href="{{route('user.doc_list')}}" class="">
+                     <span class="nav-icon uil-file-edit-alt"></span>
+                     <span class="menu-text">บันทึกข้อความ</span>
+                 </a>
+             </li>
+
 
              </li>
                 <li>
