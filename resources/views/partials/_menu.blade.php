@@ -1,19 +1,32 @@
  @php
      use App\Enums\Role;
      $role = Auth::user()->role;
+     
  @endphp
  <div class="sidebar__menu-group">
      <ul class="sidebar_nav">
 
          <li class="menu-title mt-30">
              @if ($role === Role::Agency)
-                 <span>สำหรับหน่วยงาน</span>
+                 <span>ระบบปฏิบัติการพนักงานขับรถราชการ</span>
+                   <span>เมนูสำหรับหน่วยงาน</span>
              @elseif ($role === Role::User)
-                 <span>เมนูผู้ใช้ทั่วไป</span>
+             @php               
+                $agent_id = Auth::user()->agency_id;
+                $agent = DB::table('users')
+                ->select('name')
+                ->where('id','=',$agent_id)
+                ->first();             
+             @endphp
+                 <span>ระบบปฏิบัติการพนักงานขับรถราชการ</span>
+                 <span><i class="far fa-building"></i> {{$agent->name}} </span>
+                 <span><i class="fas fa-bars"></i> เมนูสำหรับผู้ใช้งาน</span>
              @endif
          </li>
 
-         <li class="has-child {{ Request::is(app()->getLocale() . '/dashboards/*') ? 'open' : '' }}">
+   
+         @if ($role === Role::Agency)
+               <li class="has-child {{ Request::is(app()->getLocale() . '/dashboards/*') ? 'open' : '' }}">
              <a href="#" class="{{ Request::is(app()->getLocale() . '/dashboards/*') ? 'active' : '' }}">
                  <span class="nav-icon uil uil-create-dashboard"></span>
                  <span class="menu-text">หน้าหลัก</span>
@@ -26,7 +39,6 @@
              </ul>
          </li>
 
-         @if ($role === Role::Agency)
              <li>
                  <a href="{{ route('agency.main') }}" class="">
                      <span class="nav-icon uil uil-megaphone"></span>
@@ -52,6 +64,62 @@
              </ul>
          </li>
          @elseif ($role === Role::User)
+               <li class="has-child">
+             <a href="#" class="">
+                 <span class="nav-icon uil uil-create-dashboard"></span>
+                 <span class="menu-text">หน้าหลัก</span>
+                 <span class="toggle-icon"></span>
+             </a>
+             <ul>
+                 <li class="">
+                    <a href="{{route('local.home')}}">Main</a>
+                 </li>
+
+             </ul>
+         </li>
+
+             <li>
+                 <a href="#" class="">
+                     <span class="nav-icon uil uil-megaphone"></span>
+                     <span class="menu-text">ประกาศ</span>
+                     <span class="badge badge-info menuItem rounded-circle">8</span>
+                 </a>
+             </li>
+                <li class="has-child">
+                 <a href="#" class="">
+                     <span class="nav-icon uil uil-file-copy-alt"></span>
+                     <span class="menu-text">รายงานบันทึก</span> 
+                      <span class="toggle-icon"></span>                  
+                 </a>
+                  <ul>
+                 <li class="">
+                    <a href="{{route('user.chk_list')}}">รายการตรวจรถ</a>
+                 </li>
+           
+             </ul>
+
+               <li>
+                 <a href="{{route('coming_soon')}}" class="">
+                     <span class="nav-icon uil-file-edit-alt"></span>
+                     <span class="menu-text">ประวัติแจ้งซ่อม</span>
+                 </a>
+             </li>
+
+               <li>
+                 <a href="{{route('coming_soon')}}" class="">
+                     <span class="nav-icon uil uil-file-plus-alt"></span>
+                     <span class="menu-text">ประวัตการขอเบิก</span>
+                 </a>
+             </li>
+
+             </li>
+                <li>
+                 <a href="{{route('user.profile')}}" class="">
+                     <span class="nav-icon uil uil-user"></span>
+                     <span class="menu-text">บัญชีผู้ใช้</span>                   
+                 </a>
+             </li>
+        @elseif ($role === Role::Manager)
              <li>
                  <a href="#" class="">
                      <span class="nav-icon uil uil-megaphone"></span>

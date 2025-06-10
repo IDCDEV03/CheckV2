@@ -39,6 +39,24 @@ class PageController extends Controller
             Role::User => 'แดชบอร์ดผู้ใช้งานทั่วไป',
         };
 
+        if(Role::User)
+        {
+            $vehicles = DB::table('vehicles')
+            ->join('vehicle_types','vehicles.veh_type','=','vehicle_types.id')
+            ->select('vehicles.*', 'vehicle_types.vehicle_type as veh_type_name')
+            ->where('vehicles.user_id','=',Auth::id())
+            ->orderBy('vehicles.updated_at','DESC')
+            ->get();
+
+        return view('pages.user.MainPage',compact('vehicles'));
+        }
+       else
+       {
         return view('pages.local.home', compact('layout','title','description'));
+       }
+    }
+    public function coming_soon()
+    {
+        return view('pages.local.ComingSoon');
     }
 }

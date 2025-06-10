@@ -1,10 +1,16 @@
+ @php
+     use App\Enums\Role;
+     $role = Auth::user()->role;
+ @endphp
 <nav class="navbar navbar-light">
     <div class="navbar-left">
         <div class="logo-area">
+            
             <a class="navbar-brand" href="#">
                   <img class="dark" src="{{ asset('assets/img/logo-1.png') }}" alt="img">
                 <img class="light" src="{{ asset('assets/img/logo-1.png') }}" alt="img">
             </a>
+
             <a href="#" class="sidebar-toggle">
                 <img class="svg" src="{{ asset('assets/img/svg/align-center-alt.svg') }}" alt="img"></a>
         </div>
@@ -12,13 +18,13 @@
         <div class="top-menu">
             <div class="hexadash-top-menu position-relative">
                 <ul>
-                    <<<<<<< HEAD <li>
+                   <li>
                         <a href="#">
                             <span class="nav-icon uil uil-circle"></span>
                             <span class="menu-text">0000</span>
                         </a>
                         </li>
-                        =======
+                       
                         <li class="has-subMenu">
                             <a href="#">Dashboard</a>
                             <ul class="subMenu">
@@ -28,7 +34,7 @@
                         </li>
 
 
-                        >>>>>>> tf
+                        
                 </ul>
             </div>
         </div>
@@ -41,7 +47,7 @@
                     <a href="javascript:;" class="nav-item-toggle"><img
                             src="{{ asset('assets/img/author-nav.jpg') }}" alt="" class="rounded-circle">
                         @if (Auth::check())
-                            <span class="nav-item__title">{{ Auth::user()->name }}<i
+                            <span class="nav-item__title">{{ Auth::user()->name }} {{ Auth::user()->lastname }}<i
                                     class="las la-angle-down nav-item__arrow"></i></span>
                         @endif
                     </a>
@@ -53,7 +59,7 @@
                             </div>
                             <div>
                                 @if (Auth::check())
-                                    <h6 class="text-capitalize">{{ Auth::user()->name }}</h6>
+                                    <h6 class="text-capitalize">{{ Auth::user()->name }} {{ Auth::user()->lastname }}</h6>
                                 @endif
                                 <span>UI Designer</span>
                             </div>
