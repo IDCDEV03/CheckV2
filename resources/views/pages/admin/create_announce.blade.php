@@ -71,8 +71,7 @@
     </div>
 
 
-    <script src="https://cdn.tiny.cloud/1/dwhh7ntpqcizas3qtuxlr6djbra54faczek8pufkr4g9sjp4/tinymce/7/tinymce.min.js"
-        referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/6u39l558bp1t9nbc9okqrmousz84myu8x6s5djuaxhi69i04/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({
             selector: '#editor',
