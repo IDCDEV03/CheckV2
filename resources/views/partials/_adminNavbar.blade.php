@@ -2,8 +2,8 @@
     <div class="navbar-left">
         <div class="logo-area">
             <a class="navbar-brand" href="#">
-                <img class="dark" src="{{ asset('assets/img/logo-1.png') }}" alt="svg">
-                <img class="light" src="{{ asset('assets/img/logo-1.png') }}" alt="img">
+                <img class="dark" src="{{ asset('assets/img/logo-1.png') }}" alt="svg" style="height: 40px; object-fit: contain;">
+                <img class="light" src="{{ asset('assets/img/logo-1.png') }}" alt="img" style="height: 40px; object-fit: contain;">
             </a>
             <a href="#" class="sidebar-toggle">
                 <img class="svg" src="{{ asset('assets/img/svg/align-center-alt.svg') }}" alt="img"></a>
