@@ -20,6 +20,7 @@
              @endphp
                  <span>ระบบปฏิบัติการพนักงานขับรถราชการ</span>
                  <span><i class="far fa-building"></i> {{$agent->name}} </span>
+                 <div class="border-top my-3"></div>
                  <span><i class="fas fa-bars"></i> เมนูสำหรับผู้ใช้งาน</span>
              @endif
          </li>

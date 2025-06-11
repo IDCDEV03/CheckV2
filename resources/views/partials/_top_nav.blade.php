@@ -1,16 +1,36 @@
  @php
-     use App\Enums\Role;
-     $role = Auth::user()->role;
+    use App\Enums\Role;
+    use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\DB;
+
+    $role = Auth::user()->role;
+    $agencyLogo = null;
+
+    $user = Auth::user();
+
+   if ($user->role === Role::Agency->value) {
+        $agencyLogo = $user->logo_agency;
+    }
+    elseif ($user->agency_id) {
+        $agency = DB::table('users')->where('id', $user->agency_id)->first();
+        $agencyLogo = $agency?->logo_agency;
+    }
  @endphp
 <nav class="navbar navbar-light">
     <div class="navbar-left">
         <div class="logo-area">
             
-            <a class="navbar-brand" href="#">
-                  <img class="dark" src="{{ asset('assets/img/logo-1.png') }}" alt="img">
-                <img class="light" src="{{ asset('assets/img/logo-1.png') }}" alt="img">
-            </a>
-
+         @if ($agencyLogo)
+                <a class="navbar-brand" href="#">
+                    <img class="dark" src="{{ asset($agencyLogo) }}" alt="logo" style="height: 40px; object-fit: contain;">
+                    <img class="light" src="{{ asset($agencyLogo) }}" alt="logo" style="height: 40px; object-fit: contain;">
+                </a>
+            @else
+                <a class="navbar-brand" href="#">
+                    <img class="dark" src="{{ asset('assets/img/logo-1.png') }}" alt="img">
+                    <img class="light" src="{{ asset('assets/img/logo-1.png') }}" alt="img">
+                </a>
+            @endif
             <a href="#" class="sidebar-toggle">
                 <img class="svg" src="{{ asset('assets/img/svg/align-center-alt.svg') }}" alt="img"></a>
         </div>
@@ -44,8 +64,9 @@
            
              <li class="nav-author">
                 <div class="dropdown-custom">
-                    <a href="javascript:;" class="nav-item-toggle"><img
-                            src="{{ asset('assets/img/author-nav.jpg') }}" alt="" class="rounded-circle">
+                    <a href="javascript:;" class="nav-item-toggle">
+                        <img
+                            src="{{ asset('user.png') }}" alt="" class="rounded-circle">
                         @if (Auth::check())
                             <span class="nav-item__title">{{ Auth::user()->name }} {{ Auth::user()->lastname }}<i
                                     class="las la-angle-down nav-item__arrow"></i></span>
@@ -53,19 +74,39 @@
                     </a>
                     <div class="dropdown-wrapper">
                         <div class="nav-author__info">
-                            <div class="author-img">
-                                <img src="{{ asset('assets/img/author-nav.jpg') }}" alt=""
-                                    class="rounded-circle">
-                            </div>
+                          
                             <div>
                                 @if (Auth::check())
-                                    <h6 class="text-capitalize">{{ Auth::user()->name }} {{ Auth::user()->lastname }}</h6>
+                                    <span class="fs-14 fw-bold text-capitalize">{{ Auth::user()->name }} {{ Auth::user()->lastname }}</span>
                                 @endif
-                                <span>UI Designer</span>
+
+                                @if ($role === Role::User)
+                                   <br> <span>เจ้าหน้าที่</span>
+                                @elseif($role === Role::Agency)
+                                   <br> <span>หน่วยงาน</span>
+                                @endif
+                                
                             </div>
                         </div>
                         <div class="nav-author__options">
-                            <ul>
+
+                            @if ($role === Role::User)
+                                <ul>
+                                <li>
+                                    <a href="{{route('user.profile')}}">
+                                        <img src="{{ asset('assets/img/svg/user.svg') }}" alt="user"
+                                            class="svg"> บัญชีผู้ใช้</a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img src="{{ asset('assets/img/svg/settings.svg') }}" alt="settings"
+                                            class="svg"> ตั้งค่า</a>
+                                </li>
+                               
+                                
+                            </ul>
+                            @elseif ($role === Role::Agency)
+                                <ul>
                                 <li>
                                     <a href="">
                                         <img src="{{ asset('assets/img/svg/user.svg') }}" alt="user"
@@ -76,26 +117,12 @@
                                         <img src="{{ asset('assets/img/svg/settings.svg') }}" alt="settings"
                                             class="svg"> Settings</a>
                                 </li>
-                                <li>
-                                    <a href="">
-                                        <img src="{{ asset('assets/img/svg/key.svg') }}" alt="key"
-                                            class="svg"> Billing</a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <img src="{{ asset('assets/img/svg/users.svg') }}" alt="users"
-                                            class="svg"> Activity</a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <img src="{{ asset('assets/img/svg/bell.svg') }}" alt="bell"
-                                            class="svg"> Help</a>
-                                </li>
-                            </ul>
+                                </ul>
+                            @endif
+                            
                             <a href="#" class="nav-author__signout"
                                 onclick="event.preventDefault(); document.getElementById('logout').submit();">
-                                <img src="{{ asset('assets/img/svg/log-out.svg') }}" alt="log-out" class="svg">
-                                Sign Out
+                               <img src="{{ asset('assets/img/svg/log-out.svg') }}" alt="log-out" class="svg"> ออกจากระบบ 
                             </a>
 
                             <form id="logout" action="{{ route('logout') }}" method="POST"

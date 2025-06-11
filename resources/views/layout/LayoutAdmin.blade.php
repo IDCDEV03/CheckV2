@@ -1,12 +1,7 @@
 @include('partials._adminHeader')
 
 <body class="layout-light side-menu">
-    <div class="mobile-search">
-        <form action="/" class="search-form">
-            <img src="{{ asset('assets/img/svg/search.svg') }}" alt="search" class="svg">
-            <input class="form-control me-sm-2 box-shadow-none" type="search" placeholder="Search..." aria-label="Search">
-        </form>
-    </div>
+   
     <div class="mobile-author-actions"></div>
     <header class="header-top">
         @include('partials._adminNavbar')
@@ -64,7 +59,7 @@
             });
         </script>
     @endif
-
+  @stack('scripts')
 </body>
 
 </html>

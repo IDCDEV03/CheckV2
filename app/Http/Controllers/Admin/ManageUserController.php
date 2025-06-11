@@ -40,7 +40,6 @@ class ManageUserController extends Controller
         if ($request->hasFile('logo')) {
 
             $file = $request->file('logo');
-
             $extension = $file->getClientOriginalExtension();
             $newName = Carbon::now()->format('Ymd_His') . '_' . auth()->id() . '.' . $extension;
             $file->move($upload_location, $newName);
@@ -123,7 +122,7 @@ class ManageUserController extends Controller
 
             $file_new->move($upload_location, $newName);
 
-            $data['logo_agency'] = $newName;
+            $data['logo_agency'] = 'logo/'.$newName;
         }
 
         DB::table('users')->where('id', $id)->update($data);

@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb-main">
-                    <h4 class="text-capitalize breadcrumb-title">ประกาศ</h4>
+                    <span class="fs-24 fw-bold breadcrumb-title">ประกาศ</span>
                     
                 </div>
             </div>

@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/plugin.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/variables.css') }}">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.0/css/line.css">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/img/favicon.png') }}">
+    @vite(['resources/css/app.scss', 'resources/js/app.js'])
 </head>
 <body>
     <main class="main-content">
@@ -26,7 +27,7 @@
                             <div class="card border-0">
                                 <div class="card-header">
                                     <div class="edit-profile__title">
-                                        <h6>เข้าสู่ระบบ Check Vehicles</h6>
+                                        <span class="fs-20 fw-bold">เข้าสู่ระบบ Check Vehicles</span>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -37,14 +38,14 @@
                                         @csrf
                                         <div class="edit-profile__body">
                                             <div class="form-group mb-20">
-                                                <label for="email">Username Or Email Address</label>
-                                                <input type="text" class="form-control" id="email" name="email" value="admin@gmail.com" placeholder="Email address">
+                                                <label for="email">Email</label>
+                                                <input type="text" class="form-control" id="email" name="email" placeholder="Email address">
                                                 @error('email') <div class="text-danger">{{ $message }}</div> @enderror
                                             </div>
                                             <div class="form-group mb-15">
-                                                <label for="password-field">password</label>
+                                                <label for="password-field">Password</label>
                                                 <div class="position-relative">
-                                                    <input id="password-field" type="password" class="form-control" name="password" placeholder="Password" value="admin@gmail.com">
+                                                    <input id="password-field" type="password" class="form-control" name="password" placeholder="Password" >
                                                     <span toggle="#password-field" class="uil uil-eye-slash text-lighten fs-15 field-icon toggle-password2"></span>
                                                 </div>
                                                 @error('password') <div class="text-danger">{{ $message }}</div> @enderror
@@ -59,7 +60,7 @@
                                                 <a href="#">forget password?</a>
                                             </div>
                                             <div class="admin__button-group button-group d-flex pt-1 justify-content-md-start justify-content-center">
-                                                <button class="btn btn-primary btn-default w-100 btn-squared text-capitalize lh-normal px-50 signIn-createBtn ">
+                                                <button class="btn btn-primary btn-default w-100 btn-squared text-capitalize lh-normal px-50 signIn-createBtn fs-18">
                                                     เข้าสู่ระบบ
                                                 </button>
                                             </div>
