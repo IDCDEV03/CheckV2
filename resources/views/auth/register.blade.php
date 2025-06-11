@@ -23,8 +23,8 @@
                     <div class="col-xxl-3 col-xl-4 col-md-6 col-sm-8">
                         <div class="edit-profile">
                             <div class="edit-profile__logos">
-                                <img class="dark" src="{{ asset('assets/img/logo-1.png') }}" alt="">
-                                <img class="light" src="{{ asset('assets/img/logo-1.png') }}" alt="">
+                                <img class="dark" src="{{ asset('assets/img/logo-1.png') }}" height="100%" alt="">
+                                <img class="light" src="{{ asset('assets/img/logo-1.png') }}" height="100%" alt="">
                             </div>
                             <div class="card border-0">
                                 <div class="card-header">
@@ -62,11 +62,11 @@
                     <label for="last_name" class="form-label">นามสกุล</label>
                     <input type="text" name="lastname" id="lastname" class="form-control" required>
                 </div>
-
+<div class="border-top my-3"></div>
                 <!-- อีเมล -->
                 <div class="mb-3">
-                    <label for="email" class="form-label">อีเมลสำหรับใช้เข้าสู่ระบบ</label>
-                    <input type="email" name="email" id="email" class="form-control" required>
+                    <label for="email" class="form-label">Username</label>
+                    <input type="text" name="username" id="username" class="form-control" required>
                 </div>
 
                 <div class="mb-3">
@@ -76,8 +76,8 @@
 
                 <div class="mb-3">
                     <label for="agency_id" class="form-label">สังกัดหน่วยงาน</label>
-                    <select name="agency_id" id="agency_id" class="form-select" required>
-                        <option selected disabled>-- เลือกหน่วยงาน --</option>
+                  <select id="agency_id" name="agency_id" placeholder="พิมพ์ชื่อหน่วยงาน.." autocomplete="off">
+                        <option value="">-- เลือกหน่วยงาน --</option>
                         @foreach ($agencies as $agency)
                             <option value="{{ $agency->id }}">{{ $agency->name }}</option>
                         @endforeach
@@ -106,6 +106,18 @@
 
     <script src="{{ asset('assets/js/plugins.min.js') }}"></script>
     <script src="{{ asset('assets/js/script.min.js') }}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+
+<script>
+  new TomSelect('#agency_id', {
+    create: false,
+    sortField: {
+      field: 'text',
+      direction: 'asc'
+    }
+  });
+</script>
 
 </body>
 

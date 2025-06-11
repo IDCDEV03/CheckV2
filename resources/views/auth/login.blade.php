@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en" dir="ltr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +14,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/img/favicon.png') }}">
     @vite(['resources/css/app.scss', 'resources/js/app.js'])
 </head>
+
 <body>
     <main class="main-content">
         <div class="admin" style="background-image:url({{ asset('assets/img/admin-bg-light.png') }});">
@@ -31,24 +33,32 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                       @if (session('success'))
-                                <div class="alert alert-success">สมัครสมาชิกเรียบร้อยแล้ว</div>
-                            @endif
+                                    @if (session('success'))
+                                        <div class="alert alert-success">สมัครสมาชิกเรียบร้อยแล้ว</div>
+                                    @elseif(session('error'))
+                                        <div class="alert alert-danger"> {{ session('error') }} </div>
+                                    @endif
                                     <form action="{{ route('login.attempt') }}" method="POST">
                                         @csrf
                                         <div class="edit-profile__body">
                                             <div class="form-group mb-20">
-                                                <label for="email">Email</label>
-                                                <input type="text" class="form-control" id="email" name="email" placeholder="Email address">
-                                                @error('email') <div class="text-danger">{{ $message }}</div> @enderror
+                                                <label for="username">ชื่อผู้ใช้</label>
+                                              <input type="text" name="username" id="username" class="form-control" placeholder="Username" required>
+                                                @error('username')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                             <div class="form-group mb-15">
-                                                <label for="password-field">Password</label>
+                                                <label for="password-field">รหัสผ่าน</label>
                                                 <div class="position-relative">
-                                                    <input id="password-field" type="password" class="form-control" name="password" placeholder="Password" >
-                                                    <span toggle="#password-field" class="uil uil-eye-slash text-lighten fs-15 field-icon toggle-password2"></span>
+                                                    <input id="password-field" type="password" class="form-control"
+                                                        name="password" placeholder="Password">
+                                                    <span toggle="#password-field"
+                                                        class="uil uil-eye-slash text-lighten fs-15 field-icon toggle-password2"></span>
                                                 </div>
-                                                @error('password') <div class="text-danger">{{ $message }}</div> @enderror
+                                                @error('password')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                             <div class="admin-condition">
                                                 <div class="checkbox-theme-default custom-checkbox ">
@@ -59,15 +69,17 @@
                                                 </div>
                                                 <a href="#">forget password?</a>
                                             </div>
-                                            <div class="admin__button-group button-group d-flex pt-1 justify-content-md-start justify-content-center">
-                                                <button class="btn btn-primary btn-default w-100 btn-squared text-capitalize lh-normal px-50 signIn-createBtn fs-18">
+                                            <div
+                                                class="admin__button-group button-group d-flex pt-1 justify-content-md-start justify-content-center">
+                                                <button
+                                                    class="btn btn-primary btn-default w-100 btn-squared text-capitalize lh-normal px-50 signIn-createBtn fs-18">
                                                     เข้าสู่ระบบ
                                                 </button>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
-                              
+
                                 <div class="admin-topbar">
                                     <p class="mb-0">
                                         ยังไม่มี Account?
@@ -105,4 +117,5 @@
     <script src="{{ asset('assets/js/plugins.min.js') }}"></script>
     <script src="{{ asset('assets/js/script.min.js') }}"></script>
 </body>
+
 </html>

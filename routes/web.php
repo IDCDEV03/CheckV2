@@ -91,7 +91,7 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
 });
 
 Route::prefix('agency')->middleware(['auth', 'role:agency'])->group(function () {
-    Route::get('/dashboard', [PageController::class, 'home'])->name('agency.index');
+    Route::get('/index', [PageController::class, 'home'])->name('agency.index');
     Route::get('/main', [AgencyMainController::class, 'main_page'])->name('agency.main');
 
     //ฟอร์ม

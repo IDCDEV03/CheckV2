@@ -9,6 +9,7 @@
          <li class="menu-title mt-30">
              @if ($role === Role::Agency)
                  <span>ระบบปฏิบัติการพนักงานขับรถราชการ</span>
+                 <div class="border-top my-3"></div>
                    <span>เมนูสำหรับหน่วยงาน</span>
              @elseif ($role === Role::User)
              @php               
@@ -27,17 +28,13 @@
 
    
          @if ($role === Role::Agency)
-               <li class="has-child {{ Request::is(app()->getLocale() . '/dashboards/*') ? 'open' : '' }}">
-             <a href="#" class="{{ Request::is(app()->getLocale() . '/dashboards/*') ? 'active' : '' }}">
+            <li>
+             <a href="{{route('agency.index')}}" class="">
                  <span class="nav-icon uil uil-create-dashboard"></span>
                  <span class="menu-text">หน้าหลัก</span>
-                 <span class="toggle-icon"></span>
+                
              </a>
-             <ul>
-                 <li class="{{ Request::is(app()->getLocale() . '/dashboard') ? 'active' : '' }}"><a href="#">#</a>
-                 </li>
-
-             </ul>
+           
          </li>
 
              <li>

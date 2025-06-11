@@ -27,8 +27,8 @@
                 </a>
             @else
                 <a class="navbar-brand" href="#">
-                    <img class="dark" src="{{ asset('assets/img/logo-1.png') }}" alt="img">
-                    <img class="light" src="{{ asset('assets/img/logo-1.png') }}" alt="img">
+                    <img class="dark" src="{{ asset('assets/img/logo-1.png') }}" style="height: 40px; object-fit: contain;" alt="img">
+                    <img class="light" src="{{ asset('assets/img/logo-1.png') }}" style="height: 40px; object-fit: contain;" alt="img">
                 </a>
             @endif
             <a href="#" class="sidebar-toggle">
@@ -51,10 +51,7 @@
                                 <li><a href="#">11</a></li>
 
                             </ul>
-                        </li>
-
-
-                        
+                        </li>                        
                 </ul>
             </div>
         </div>
@@ -73,8 +70,7 @@
                         @endif
                     </a>
                     <div class="dropdown-wrapper">
-                        <div class="nav-author__info">
-                          
+                        <div class="nav-author__info">                          
                             <div>
                                 @if (Auth::check())
                                     <span class="fs-14 fw-bold text-capitalize">{{ Auth::user()->name }} {{ Auth::user()->lastname }}</span>

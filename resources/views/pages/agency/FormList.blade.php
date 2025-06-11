@@ -1,4 +1,4 @@
-@section('title', 'ระบบ E-Checker')
+@section('title', 'ระบบปฏิบัติการพนักงานขับรถราชการ')
 @section('description', 'ID Drives')
 @extends('layout.app')
 @section('content')
@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb-main">
-                        <h4 class="text-capitalize breadcrumb-title">รายการฟอร์ม</h4>
+                        <span class="fs-20 fw-bold breadcrumb-title">รายการฟอร์ม</span>
 
                     </div>
                 </div>

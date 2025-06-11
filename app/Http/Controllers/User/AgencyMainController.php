@@ -33,8 +33,17 @@ class AgencyMainController extends Controller
     public function form_list()
     {
 
+        $user = Auth::user();
+
         $data = DB::table('forms')
-            ->orderBy('forms.id', 'ASC')
+            ->where(function ($query) use ($user) {
+                $query->where('form_open', 'public')
+                    ->orWhere(function ($q) use ($user) {
+                        $q->where('form_open', 'private')
+                            ->where('user_id', $user->agency_id);
+                    });
+            })
+            ->orderBy('form_name', 'ASC')
             ->get();
 
         return view('pages.agency.FormList', compact('data'));
@@ -87,15 +96,15 @@ class AgencyMainController extends Controller
     {
         $cates_data = DB::table('check_categories')
             ->join('forms', 'check_categories.form_id', '=', 'forms.form_id')
-            ->select('forms.form_name','forms.form_id', 'check_categories.category_id', 'check_categories.chk_cats_name')
+            ->select('forms.form_name', 'forms.form_id', 'check_categories.category_id', 'check_categories.chk_cats_name')
             ->where('check_categories.category_id', '=', $cates_id)
             ->first();
 
         $item_data = DB::table('check_items')
-        ->where('category_id','=',$cates_id)
-        ->get();
+            ->where('category_id', '=', $cates_id)
+            ->get();
 
-       return view('pages.agency.CatesDetail', ['cates_id' => $cates_id], compact('cates_data','item_data'));
+        return view('pages.agency.CatesDetail', ['cates_id' => $cates_id], compact('cates_data', 'item_data'));
     }
 
     public function create_cates($id)
@@ -116,7 +125,7 @@ class AgencyMainController extends Controller
                 'user_id' => Auth::id(),
                 'form_id' => $id,
                 'cates_no' => $request->order_no[$index] ?? ($index + 1),
-                'category_id' => 'CAT-'.$list.'-'.$cats_id,
+                'category_id' => 'CAT-' . $list . '-' . $cats_id,
                 'chk_cats_name' => $name,
                 'chk_detail' => $request->chk_detail[$index] ?? null,
                 'created_at' => Carbon::now(),
@@ -140,32 +149,32 @@ class AgencyMainController extends Controller
 
     public function item_insert(Request $request)
     {
-       
+
         foreach ($request->item_name as $index => $name) {
-             $fileName = null;
+            $fileName = null;
 
             $list = $index + 1;
-            $item_id = 'CH_'.$list.'_'.Str::upper(Str::random(8));
+            $item_id = 'CH_' . $list . '_' . Str::upper(Str::random(8));
 
             if ($request->hasFile('item_image.' . $index)) {
-            $imagePath = 'upload/';
-            $file = $request->file('item_image.' . $index);             
-            $extension = $file->getClientOriginalExtension();
-            $newName = 'item_' . $item_id . '_' . '.' . $extension;
-            $file->move($imagePath, $newName);
-            $fileName = $imagePath.$newName;
+                $imagePath = 'upload/';
+                $file = $request->file('item_image.' . $index);
+                $extension = $file->getClientOriginalExtension();
+                $newName = 'item_' . $item_id . '_' . '.' . $extension;
+                $file->move($imagePath, $newName);
+                $fileName = $imagePath . $newName;
             }
-         
+
 
             DB::table('check_items')->insert([
                 'user_id' => Auth::id(),
                 'category_id' => $request->cate_id,
-                'item_id' => $item_id, 
+                'item_id' => $item_id,
                 'item_no' => $index + 1,
                 'item_name' => $name,
                 'item_description' => $request->item_description[$index] ?? null,
                 'item_type' => $request->item_type[$index],
-                'item_image' => $fileName, 
+                'item_image' => $fileName,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
@@ -173,18 +182,20 @@ class AgencyMainController extends Controller
         return redirect()->route('agency.cates_detail', ['cates_id' => $request->cate_id])->with('success', 'บันทึกข้อตรวจเรียบร้อยแล้ว');
     }
 
-    public function item_edit($id){
+    public function item_edit($id)
+    {
 
         $item_data = DB::table('check_items')
-        ->join('check_categories','check_items.category_id','=','check_categories.category_id')
-        ->select('check_categories.chk_cats_name','check_items.item_no','check_items.item_name','item_description','check_items.item_type','check_items.item_image')
-        ->where('check_items.item_id','=',$id)
-        ->first();
+            ->join('check_categories', 'check_items.category_id', '=', 'check_categories.category_id')
+            ->select('check_categories.chk_cats_name', 'check_items.item_no', 'check_items.item_name', 'item_description', 'check_items.item_type', 'check_items.item_image')
+            ->where('check_items.item_id', '=', $id)
+            ->first();
 
-        return view('pages.agency.ItemEdit',compact('item_data'));
+        return view('pages.agency.ItemEdit', compact('item_data'));
     }
 
-    public function item_delete_image($id){
+    public function item_delete_image($id)
+    {
         $post = DB::table('check_items')->where('item_id', $id)->first();
         if (!$post || !$post->item_image) {
             return redirect()->back();
@@ -203,41 +214,39 @@ class AgencyMainController extends Controller
     public function item_update(Request $request)
     {
 
-    $id=$request->item_id;
-   
-    $item = DB::table('check_items')->where('item_id', $id)->first();
-    if (!$item) {
-        return redirect()->back()->with('error', 'ไม่พบข้อมูลข้อตรวจ');
-    }
+        $id = $request->item_id;
 
-    $imagePath = $item->item_image;
-    $item_random_id = Str::upper(Str::random(8));
-    $fileName = null;
-
-    if ($request->hasFile('item_image')) {     
-        
-         if (File::exists($imagePath)) {
-            File::delete($imagePath);
+        $item = DB::table('check_items')->where('item_id', $id)->first();
+        if (!$item) {
+            return redirect()->back()->with('error', 'ไม่พบข้อมูลข้อตรวจ');
         }
-        $imagePath_1 = 'upload/';        
-        $file = $request->file('item_image');
-        
-        $extension = $file->getClientOriginalExtension();
-        $newName = 'item_' . $item->item_no.'_'.$item_random_id. '.' . $extension;
-        $file->move($imagePath_1, $newName);
-        $fileName = $imagePath_1.$newName;
+
+        $imagePath = $item->item_image;
+        $item_random_id = Str::upper(Str::random(8));
+        $fileName = null;
+
+        if ($request->hasFile('item_image')) {
+
+            if (File::exists($imagePath)) {
+                File::delete($imagePath);
+            }
+            $imagePath_1 = 'upload/';
+            $file = $request->file('item_image');
+
+            $extension = $file->getClientOriginalExtension();
+            $newName = 'item_' . $item->item_no . '_' . $item_random_id . '.' . $extension;
+            $file->move($imagePath_1, $newName);
+            $fileName = $imagePath_1 . $newName;
+        }
+
+        DB::table('check_items')->where('item_id', $id)->update([
+            'item_name' => $request->item_name,
+            'item_description' => $request->item_description,
+            'item_type' => $request->item_type,
+            'item_image' => $fileName ?? null,
+            'updated_at' => Carbon::now(),
+        ]);
+
+        return redirect()->route('agency.cates_detail', ['cates_id' => $item->category_id])->with('success', 'อัปเดตข้อมูลสำเร็จ');
     }
-
-    DB::table('check_items')->where('item_id', $id)->update([
-        'item_name' => $request->item_name,
-        'item_description' => $request->item_description,
-        'item_type' => $request->item_type,
-        'item_image' => $fileName ?? null,
-        'updated_at' => Carbon::now(),
-    ]);
-
-    return redirect()->route('agency.cates_detail', ['cates_id'=>$item->category_id])->with('success', 'อัปเดตข้อมูลสำเร็จ');
-    }
-
-   
 }

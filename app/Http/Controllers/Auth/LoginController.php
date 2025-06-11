@@ -44,7 +44,7 @@ class LoginController extends Controller
             'password' => Hash::make($request->password),
             'role' => 'user',
             'agency_id' => $request->agency_id,
-             'created_at' => Carbon::now(),
+            'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
 
@@ -53,10 +53,10 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+       $credentials = $request->validate([
+        'username' => ['required', 'string'],
+        'password' => ['required'],
+    ]);
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
@@ -73,10 +73,10 @@ class LoginController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Email หรือรหัสผ่านไม่ถูกต้อง',
-        ])->onlyInput('email');
+            'username' => 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง',
+        ])->onlyInput('username');
     }
-
+    
     public function logout(Request $request)
     {
         Auth::logout();
