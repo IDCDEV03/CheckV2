@@ -78,18 +78,12 @@
                   
                  </a>
              </li>
-                <li class="has-child">
-                 <a href="#" class="">
+                <li>
+                 <a href="{{route('user.chk_list')}}" class="">
                      <span class="nav-icon uil uil-file-copy-alt"></span>
-                     <span class="menu-text">รายงานบันทึก</span> 
+                     <span class="menu-text">รายการตรวจรถ</span> 
                       <span class="toggle-icon"></span>                  
-                 </a>
-                  <ul>
-                 <li class="">
-                    <a href="{{route('user.chk_list')}}">รายการตรวจรถ</a>
-                 </li>
-           
-             </ul>
+                 </a>                 
 
                <li>
                  <a href="{{route('coming_soon')}}" class="">
