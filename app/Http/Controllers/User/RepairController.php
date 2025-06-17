@@ -23,12 +23,18 @@ class RepairController extends Controller
             abort(403);
         }
 
-       
-
         $record = DB::table('chk_records')
-         ->join('vehicles','chk_records.veh_id','=','vehicles.veh_id')
-        ->join('vehicle_types','vehicles.veh_type','=','vehicle_types.id')
-        ->select('vehicles.*', 'vehicle_types.vehicle_type as veh_type_name','chk_records.created_at as date_check','chk_records.form_id','chk_records.record_id','chk_records.user_id as chk_user','chk_records.agency_id as chk_agent')
+            ->join('vehicles', 'chk_records.veh_id', '=', 'vehicles.veh_id')
+            ->join('vehicle_types', 'vehicles.veh_type', '=', 'vehicle_types.id')
+            ->select(
+                'vehicles.*',
+                'vehicle_types.vehicle_type as veh_type_name',
+                'chk_records.created_at as date_check',
+                'chk_records.form_id',
+                'chk_records.record_id',
+                'chk_records.user_id as chk_user',
+                'chk_records.agency_id as chk_agent'
+            )
             ->where('chk_records.record_id', '=', $record_id)
             ->first();
 
@@ -36,10 +42,21 @@ class RepairController extends Controller
             ->join('check_items', 'check_records_result.item_id', '=', 'check_items.id')
             ->where('check_records_result.record_id', $record_id)
             ->whereIn('check_records_result.result_value', [0, 2])
-            ->select('check_items.id as item_id', 'check_items.item_name', 'check_records_result.result_value', 'check_records_result.user_comment')
+            ->select(
+                'check_items.id as item_id',
+                'check_items.item_name',
+                'check_records_result.result_value',
+                'check_records_result.user_comment'
+            )
+            ->get();
+
+        $manager_list = DB::table('users')
+            ->where('role', 'manager')
+            ->where('agency_id', Auth::user()->agency_id)
+            ->orderBy('name','asc')
             ->get();
 
 
-        return view('pages.local.CreateRepair', compact('record', 'problem_items'));
+        return view('pages.local.CreateRepair', compact('record', 'problem_items','manager_list'));
     }
 }

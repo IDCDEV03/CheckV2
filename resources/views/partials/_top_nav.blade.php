@@ -62,11 +62,11 @@
              <li class="nav-author">
                 <div class="dropdown-custom">
                     <a href="javascript:;" class="nav-item-toggle">
-                        <img
-                            src="{{ asset('user.png') }}" alt="" class="rounded-circle">
+                        <img src="{{ asset('settings.png') }}" alt="" class="rounded-circle">
+                    
+
                         @if (Auth::check())
-                            <span class="nav-item__title">{{ Auth::user()->name }} {{ Auth::user()->lastname }}<i
-                                    class="las la-angle-down nav-item__arrow"></i></span>
+                            <label class="nav-item__title">{{ Auth::user()->name }} {{ Auth::user()->lastname }}<i class="las la-angle-down nav-item__arrow"></i></label>
                         @endif
                     </a>
                     <div class="dropdown-wrapper">
@@ -136,7 +136,8 @@
                 <img src="{{ asset('assets/img/svg/x.svg') }}" alt="x" class="svg feather-x">
             </a>
             <a href="#" class="btn-author-action">
-                <img src="{{ asset('assets/img/svg/more-vertical.svg') }}" alt="more-vertical" class="svg"></a>
+                <img src="{{ asset('assets/img/svg/more-vertical.svg') }}" alt="more-vertical" class="svg">
+           </a>
         </div>
     </div>
 </nav>
