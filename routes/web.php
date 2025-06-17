@@ -10,6 +10,7 @@ use App\Http\Controllers\User\RepairController;
 use App\Http\Controllers\User\VehiclesController;
 use App\Http\Controllers\Admin\ManageUserController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\User\ManageAccountController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -93,6 +94,15 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
 Route::prefix('agency')->middleware(['auth', 'role:agency'])->group(function () {
     Route::get('/index', [PageController::class, 'home'])->name('agency.index');
     Route::get('/main', [AgencyMainController::class, 'main_page'])->name('agency.main');
+
+    //สร้างuserหัวหน้า-เจ้าหน้าที่
+    Route::get('/managerlist', [ManageAccountController::class, 'ManagerList'])->name('agency.manager_list');
+    Route::get('/userlist', [ManageAccountController::class, 'UserList'])->name('agency.user_list');
+    Route::post('/check-username', [ManageAccountController::class, 'checkUsername'])->name('check.username');
+
+
+    Route::get('/create-account/{role}', [ManageAccountController::class, 'createAccount'])->name('agency.create_account');
+    Route::post('/insert_account', [ManageAccountController::class, 'InsertAccount'])->name('agency.insert_account');
 
     //ฟอร์ม
     Route::get('/form', [AgencyMainController::class, 'form_list'])->name('agency.form_list');

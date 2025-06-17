@@ -37,6 +37,22 @@
            
          </li>
 
+          <li>
+             <a href="{{route('agency.manager_list')}}" class="">
+                 <span class="nav-icon uil uil-users-alt"></span>
+                 <span class="menu-text">รายชื่อหัวหน้า</span>                
+             </a>           
+         </li>
+
+          <li>
+             <a href="{{route('agency.user_list')}}" class="">
+                 <span class="nav-icon uil uil-users-alt"></span>
+                 <span class="menu-text">รายชื่อเจ้าหน้าที่</span>                
+             </a>           
+         </li>
+
+
+
              <li>
                  <a href="{{ route('agency.main') }}" class="">
                      <span class="nav-icon uil uil-megaphone"></span>

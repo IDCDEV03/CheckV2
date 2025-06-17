@@ -24,7 +24,7 @@
                     <div class="card card-default mb-4 border border-primary">
                         <div class="card-header">
                             <p class="mb-0 fs-20 fw-bold">ประเภทผู้ใช้ หัวหน้า</p>
-                            <a href="#"
+                            <a href="{{ route('agency.create_account', ['role' => 'manager']) }}"
                                 class="btn btn-primary btn-sm">
                                 <i class="fas fa-user-plus me-1"></i> เพิ่มหัวหน้า
                             </a>
@@ -37,8 +37,7 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th>#</th>
-                                            <th>ชื่อ</th>
-                                            <th>อีเมล</th>
+                                            <th>ชื่อ</th>                                          
                                             <th>ลายเซ็น</th>
                                             <th>จัดการ</th>
                                         </tr>
@@ -48,8 +47,7 @@
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
                                                 <td>{{ $manager->prefix }} {{ $manager->name }} {{ $manager->lastname }}
-                                                </td>
-                                                <td>{{ $manager->email }}</td>
+                                                </td>                                               
                                                 <td>    @if ($manager->signature_image)
                                                           <span class="text-success"> <i class="fas fa-check"></i></span>
                                                     @else
@@ -94,7 +92,7 @@
                     <div class="card card-default mb-25 border border-info">
                         <div class="card-header">
                             <p class="fs-20 mb-0 fw-bold">ประเภทผู้ใช้ เจ้าหน้าที่</p>
-                            <a href="#"
+                            <a href="{{ route('agency.create_account', ['role' => 'user']) }}"
                                 class="btn btn-info btn-sm">
                                 <i class="fas fa-user-plus me-1"></i> เพิ่มเจ้าหน้าที่
                             </a>
@@ -107,8 +105,7 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th>#</th>
-                                            <th>ชื่อ</th>
-                                            <th>อีเมล</th>
+                                            <th>ชื่อ</th>                                           
                                             <th>ลายเซ็น</th>
                                             <th>จัดการ</th>
                                         </tr>
@@ -117,8 +114,7 @@
                                         @foreach ($users as $index => $user)
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
-                                                <td>{{ $user->prefix }} {{ $user->name }} {{ $user->lastname }}</td>
-                                                <td>{{ $user->email }}</td>
+                                                <td>{{ $user->prefix }} {{ $user->name }} {{ $user->lastname }}</td>                                               
                                                 <td>
                                                     @if ($user->signature_image)
                                                       <span class="text-success"> <i class="fas fa-check"></i></span> 
@@ -132,7 +128,7 @@
                                                         role="group">
                                                         <a href="#" class="btn  btn-xs btn-outline-warning">แก้ไข</a>
 
-                                                        <form action="{{ route('admin.member.destroy', $user->id) }}"
+                                                        <form action="#"
                                                             method="POST" class="d-inline delete-form">
                                                             @csrf
                                                             @method('DELETE')
