@@ -11,6 +11,8 @@ use App\Http\Controllers\User\VehiclesController;
 use App\Http\Controllers\Admin\ManageUserController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\User\ManageAccountController;
+use Database\Seeders\VehicleTypeSeeder;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -83,6 +85,9 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
     Route::POST('/check-store/step2/{record_id}/{category_id}', [UserMainController::class, 'chk_insert_step2'])->name('user.chk_insert_step2');
 
     Route::get('/check/result/{record_id}', [UserMainController::class, 'chk_result'])->name('user.chk_result');
+
+    //แก้ไขภาพ
+ Route::get('/images/edit/{record_id}/{id}', [VehiclesController::class, 'edit_images'])->name('user.edit_images');
 
     //แจ้งซ่อม
  Route::get('/create-repair/{record_id}', [RepairController::class, 'create_repair'])->name('user.create_repair');

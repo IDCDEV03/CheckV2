@@ -1,4 +1,4 @@
-@section('title', 'ระบบ E-Checker')
+@section('title', 'ระบบปฏิบัติการพนักงานขับรถราชการ')
 @section('description', 'ID Drives')
 @extends('layout.app')
 @section('content')
@@ -29,7 +29,7 @@
             width: 30%;
         }
     </style>
-
+ 
     <div class="container-fluid">
         <div class="social-dash-wrap">
 
@@ -58,12 +58,12 @@
 
                                 $fullname = $userdata->prefix . $userdata->name . ' ' . $userdata->lastname;
                             @endphp
-                            
+
                             @if (!empty($agent_name->logo_agency))
                                 <table class="table table-borderless">
                                     <tr>
                                         <td colspan="4" class="text-center">
-                                            <img src="{{ asset($agent_name->logo_agency) }}" alt="" width="150px">
+                                            <img src="{{ asset($agent_name->logo_agency) }}" alt="" width="100px">
                                         </td>
                                     </tr>
                                 </table>
@@ -127,12 +127,25 @@
                                             </tr>
                                             @if (isset($images[$r->item_id]))
                                                 <tr>
-                                                    <td colspan="3" class="text-center">
+                                                    <td colspan="2" class="text-center">
+                                                        
                                                         @foreach ($images[$r->item_id] as $img)
-                                                            <img src="{{ asset($img->image_path) }}" class="img-thumbnail"
-                                                                width="200px" alt="">
+                                                            <a href="{{ asset($img->image_path) }}"
+                                                                data-lightbox="image-group-{{ $r->item_id }}"
+                                                                data-title="ภาพการตรวจ">
+                                                                <img src="{{ asset($img->image_path) }}"
+                                                                    class="img-fluid img-thumbnail"
+                                                                    style="max-height: 180px;" alt="ภาพการตรวจ">
+                                                            </a>
+                                                            
+                                  
                                                         @endforeach
                                                     </td>
+                                                    <td><a href="{{route('user.edit_images',['record_id'=>request()->record_id,'id'=>$r->item_id])}}" class="btn btn-sm btn-outline-primary">
+                                                        <i class="fas fa-edit"></i> แก้ไข/ลบภาพ
+                                                    </a>
+                                                </td>
+                                                  
                                             @endif
                                             </tr>
                                         @endforeach
@@ -151,25 +164,10 @@
                 </div>
             </div>
         </div>
-
-        <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
-                    <div class="modal-body text-center">
-                        <img id="modalImage" src="" class="img-fluid" alt="Preview">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Script -->
-        <script>
-            function showImage(url) {
-                const modalImg = document.getElementById('modalImage');
-                modalImg.src = url;
-                const modal = new bootstrap.Modal(document.getElementById('imageModal'));
-                modal.show();
-            }
-        </script>
+      
 
     @endsection
+
+@push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+@endpush

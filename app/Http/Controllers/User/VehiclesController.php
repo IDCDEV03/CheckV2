@@ -25,6 +25,7 @@ class VehiclesController extends Controller
     $record = DB::table('chk_records')
       ->join('forms', 'forms.form_id', '=', 'chk_records.form_id')
       ->select('chk_records.created_at as date_check', 'chk_records.form_id', 'chk_records.record_id', 'forms.form_name', 'chk_records.veh_id')
+      ->orderBy('chk_records.created_at', 'DESC')
       ->where('chk_records.veh_id', $id)->get();
 
     return view('pages.local.VehiclesDetail', ['id' => $id], compact('vehicle', 'record'));
@@ -97,4 +98,34 @@ class VehiclesController extends Controller
   public function repair_notice(){
     return view('pages.local.RepairNoice');
   }
+
+
+  public function edit_images($record_id,$id)
+  {
+     $image = DB::table('check_result_images')   
+    ->where('check_result_images.record_id', $record_id)
+    ->where('check_result_images.item_id', $id)
+    ->select(
+        'check_result_images.image_path',  
+        'check_result_images.record_id',
+    )
+    ->get();
+
+    $chk_item = DB::table('check_items')
+    ->where('id',$id)
+    ->first();
+
+    $car_detail = DB::table('chk_records')
+      ->join('vehicles', 'chk_records.veh_id', '=', 'vehicles.veh_id')
+    ->where('chk_records.record_id', $record_id)
+    ->select(
+       'vehicles.plate',
+        'vehicles.province',
+        'chk_records.updated_at'
+    )
+    ->first();
+
+     return view('pages.user.imagesEdit',compact('image','car_detail','chk_item'));
+  }
+
 }
