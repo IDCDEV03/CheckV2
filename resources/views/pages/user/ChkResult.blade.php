@@ -29,7 +29,7 @@
             width: 30%;
         }
     </style>
- 
+
     <div class="container-fluid">
         <div class="social-dash-wrap">
 
@@ -128,7 +128,7 @@
                                             @if (isset($images[$r->item_id]))
                                                 <tr>
                                                     <td colspan="2" class="text-center">
-                                                        
+
                                                         @foreach ($images[$r->item_id] as $img)
                                                             <a href="{{ asset($img->image_path) }}"
                                                                 data-lightbox="image-group-{{ $r->item_id }}"
@@ -137,15 +137,13 @@
                                                                     class="img-fluid img-thumbnail"
                                                                     style="max-height: 180px;" alt="ภาพการตรวจ">
                                                             </a>
-                                                            
-                                  
                                                         @endforeach
                                                     </td>
-                                                    <td><a href="{{route('user.edit_images',['record_id'=>request()->record_id,'id'=>$r->item_id])}}" class="btn btn-sm btn-outline-primary">
-                                                        <i class="fas fa-edit"></i> แก้ไข/ลบภาพ
-                                                    </a>
-                                                </td>
-                                                  
+                                                    <td><a href="{{ route('user.edit_images', ['record_id' => request()->record_id, 'id' => $r->item_id]) }}"
+                                                            class="btn btn-sm btn-outline-primary">
+                                                            <i class="fas fa-edit"></i> แก้ไข/ลบภาพ
+                                                        </a>
+                                                    </td>
                                             @endif
                                             </tr>
                                         @endforeach
@@ -153,21 +151,29 @@
                                 </table>
                             @endforeach
 
+                            @php
+                                $total_count = $item_chk->sum('count');
+                            @endphp
+
+                            @if ($total_count == 0)
                             <div class="border-top my-3"></div>
-
-                            <a href="{{ route('user.create_repair', ['record_id' => $record->record_id]) }}"
-                                class="btn btn-block btn-secondary fs-20"><i class="far fa-file-alt"></i>
-                                สร้างบันทึกแจ้งข้อบกพร่อง</a>
-
+                                <p class="text-success text-center fw-bold">ไม่พบข้อพกพร่อง</p>
+                            @else
+                                <div class="border-top my-3"></div>
+                                <p class="text-danger text-center fw-bold">พบข้อบกพร่อง {{ $total_count }} รายการ</p>
+                                <a href="{{ route('user.create_repair', ['record_id' => $record->record_id]) }}"
+                                    class="btn btn-block btn-secondary fs-20"><i class="far fa-file-alt"></i>
+                                    สร้างบันทึกแจ้งข้อบกพร่อง</a>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-      
+
 
     @endsection
 
-@push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
-@endpush
+    @push('scripts')
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+    @endpush

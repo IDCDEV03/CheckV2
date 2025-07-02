@@ -54,7 +54,19 @@
                                                     @endif
                                                 </td>
                                                 <td>{{ $item->user_comment }}</td>
-                                                <td></td>
+                                                <td>
+                                                    @if (isset($images[$item->item_id]))
+                                                        @foreach ($images[$item->item_id] as $img)
+                                                            <a href="{{ asset($img->image_path) }}"
+                                                                data-lightbox="item-{{ $item->item_id }}">
+                                                                <img src="{{ asset($img->image_path) }}" alt="Image"
+                                                                    class="img-thumbnail mb-1" width="100px">
+                                                            </a>
+                                                        @endforeach
+                                                    @else
+                                                        <span class="text-muted">-</span>
+                                                    @endif
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -113,8 +125,9 @@
 
                                 <div class="border-top my-3"></div>
                                 <div class="d-flex gap-2">
-                                    <a href="#" class="btn btn-info fs-18"><i class="fas fa-search"></i> Preview เอกสาร</a>
-                                    <button type="submit" class="btn btn-success fs-18">บันทึกแจ้งซ่อม</button>
+                                    <a href="#" class="btn btn-info fs-18 disabled"><i class="fas fa-search"></i> Preview
+                                        เอกสาร</a>
+                                    <button type="submit" class="btn btn-success fs-18" disabled>บันทึกแจ้งซ่อม</button>
                                 </div>
 
                             </form>
@@ -130,5 +143,5 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
 @endpush

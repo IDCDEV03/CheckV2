@@ -265,6 +265,13 @@ class UserMainController extends Controller
             ->get()
             ->groupBy('item_id');
 
-        return view('pages.user.ChkResult', compact('agent_name', 'record', 'results', 'forms', 'categories', 'images'));
+            $item_chk = DB::table('check_records_result')
+            ->select('record_id', 'item_id', DB::raw('COUNT(result_value) as count'))
+            ->where('record_id', $record_id)
+            ->whereIn('result_value', [0, 2])
+            ->groupBy('record_id', 'item_id')
+            ->get();
+
+        return view('pages.user.ChkResult', compact('agent_name', 'record', 'results', 'forms', 'categories', 'images','item_chk'));
     }
 }

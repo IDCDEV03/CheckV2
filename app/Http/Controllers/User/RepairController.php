@@ -39,7 +39,7 @@ class RepairController extends Controller
             ->first();
 
         $problem_items = DB::table('check_records_result')
-            ->join('check_items', 'check_records_result.item_id', '=', 'check_items.id')
+            ->join('check_items', 'check_records_result.item_id', '=', 'check_items.id')            
             ->where('check_records_result.record_id', $record_id)
             ->whereIn('check_records_result.result_value', [0, 2])
             ->select(
@@ -56,7 +56,12 @@ class RepairController extends Controller
             ->orderBy('name','asc')
             ->get();
 
+              $images = DB::table('check_result_images')
+            ->where('record_id', $record_id)
+            ->get()
+            ->groupBy('item_id');
 
-        return view('pages.local.CreateRepair', compact('record', 'problem_items','manager_list'));
+
+        return view('pages.local.CreateRepair', compact('record', 'problem_items','manager_list','images'));
     }
 }
