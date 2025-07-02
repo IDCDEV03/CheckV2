@@ -88,4 +88,10 @@ class LoginController extends Controller
             'Pragma' => 'no-cache',
         ]);
     }
+
+    public function check_username(Request $request)
+    {
+         $exists = DB::table('users')->where('username', $request->username)->exists();
+    return response()->json(['exists' => $exists]);
+    }
 }

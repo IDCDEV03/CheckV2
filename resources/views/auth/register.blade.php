@@ -63,10 +63,11 @@
                     <input type="text" name="lastname" id="lastname" class="form-control" required>
                 </div>
 <div class="border-top my-3"></div>
-                <!-- อีเมล -->
+                <!-- username -->
                 <div class="mb-3">
                     <label for="email" class="form-label">Username</label>
                     <input type="text" name="username" id="username" class="form-control" required>
+                      <div id="username-feedback" class="text-danger mt-1 small"></div>
                 </div>
 
                 <div class="mb-3">
@@ -117,6 +118,50 @@
       direction: 'asc'
     }
   });
+</script>
+
+<script>
+    const usernameInput = document.getElementById('username');
+    const feedback = document.getElementById('username-feedback');
+    const form = document.querySelector('form');
+
+    let isUsernameAvailable = false;
+
+    usernameInput.addEventListener('blur', function () {
+        const username = this.value.trim();
+
+        if (username.length > 0) {
+            fetch("{{ route('username.check') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+                body: JSON.stringify({ username: username })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.exists) {
+                    feedback.textContent = 'Username นี้ถูกใช้ไปแล้ว กรุณาใช้ชื่ออื่น';
+                    isUsernameAvailable = false;
+                } else {
+                    feedback.textContent = '';
+                    isUsernameAvailable = true;
+                }
+            });
+        } else {
+            feedback.textContent = '';
+            isUsernameAvailable = false;
+        }
+    });
+
+    form.addEventListener('submit', function (e) {
+        if (!isUsernameAvailable) {
+            e.preventDefault();
+            feedback.textContent = 'กรุณาตรวจสอบชื่อผู้ใช้ก่อนลงทะเบียน';
+            usernameInput.focus();
+        }
+    });
 </script>
 
 </body>

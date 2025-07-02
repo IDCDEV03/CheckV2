@@ -34,7 +34,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     // CRUD หน่วยงาน
     Route::get('/agencies/create', [ManageUserController::class, 'createAgency'])->name('admin.agency.create');
     Route::post('agencies/insert', [ManageUserController::class, 'insert_agency'])->name('admin.agency.insert');
-    Route::get('/agency',[ManageUserController::class,'Agency_list'])->name('admin.agency_list');
+    Route::get('/agency', [ManageUserController::class, 'Agency_list'])->name('admin.agency_list');
 
     Route::get('/agencies/{id}/edit', [ManageUserController::class, 'EditAgency'])->name('admin.agency.edit');
     Route::put('/agencies/{id}', [ManageUserController::class, 'UpdateAgency'])->name('admin.agency.update');
@@ -57,13 +57,13 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/announce/{id}/edit', [AdminDashboardController::class, 'edit_post'])->name('admin.edit_post');
     Route::post('/announce-update/{id}', [AdminDashboardController::class, 'update_post'])->name('admin.update_post');
     Route::get('/announce-delete/{id}/file', [AdminDashboardController::class, 'delete_file'])->name('admin.delete_file');
-     Route::get('/announce-delete/{id}/post', [AdminDashboardController::class, 'delete_post'])->name('admin.delete_post');
+    Route::get('/announce-delete/{id}/post', [AdminDashboardController::class, 'delete_post'])->name('admin.delete_post');
 });
 
 Route::prefix('vehicles')->middleware(['auth', 'role:user,manager,admin,agency'])->group(function () {
-Route::get('/page/{id}', [VehiclesController::class, 'veh_detail'])->name('veh.detail');
-Route::get('/result/{rec}', [VehiclesController::class, 'Report_Result'])->name('veh.result');
-Route::get('/repair-notice', [VehiclesController::class, 'repair_notice'])->name('veh.notice');
+    Route::get('/page/{id}', [VehiclesController::class, 'veh_detail'])->name('veh.detail');
+    Route::get('/result/{rec}', [VehiclesController::class, 'Report_Result'])->name('veh.result');
+    Route::get('/repair-notice', [VehiclesController::class, 'repair_notice'])->name('veh.notice');
 });
 
 Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
@@ -79,23 +79,23 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
     //เริ่มตรวจ
     Route::get('/check/start/{id}', [UserMainController::class, 'start_check'])->name('user.chk_start');
 
- Route::POST('/chk/insert/step1/{id}', [UserMainController::class, 'insert_step1'])->name('user.insert1');
+    Route::POST('/chk/insert/step1/{id}', [UserMainController::class, 'insert_step1'])->name('user.insert1');
 
-     Route::get('/check/step2/{rec}/{cats}', [UserMainController::class, 'chk_step2'])->name('user.chk_step2');
+    Route::get('/check/step2/{rec}/{cats}', [UserMainController::class, 'chk_step2'])->name('user.chk_step2');
     Route::POST('/check-store/step2/{record_id}/{category_id}', [UserMainController::class, 'chk_insert_step2'])->name('user.chk_insert_step2');
 
     Route::get('/check/result/{record_id}', [UserMainController::class, 'chk_result'])->name('user.chk_result');
 
     //แก้ไขภาพ
- Route::get('/images/edit/{record_id}/{id}', [VehiclesController::class, 'edit_images'])->name('user.edit_images');
- Route::post('/images/update', [VehiclesController::class, 'update_image'])->name('update_image');
-Route::get('/image/delete/{id}', [VehiclesController::class, 'delete_image'])->name('delete_image');
+    Route::get('/images/edit/{record_id}/{id}', [VehiclesController::class, 'edit_images'])->name('user.edit_images');
+    Route::post('/images/update', [VehiclesController::class, 'update_image'])->name('update_image');
+    Route::get('/image/delete/{id}', [VehiclesController::class, 'delete_image'])->name('delete_image');
 
     //แจ้งซ่อม
- Route::get('/create-repair/{record_id}', [RepairController::class, 'create_repair'])->name('user.create_repair');
+    Route::get('/create-repair/{record_id}', [RepairController::class, 'create_repair'])->name('user.create_repair');
 
- //บันทึกข้อความ
- Route::get('/veh-doc', [DocumentController::class, 'doc_list'])->name('user.doc_list');
+    //บันทึกข้อความ
+    Route::get('/veh-doc', [DocumentController::class, 'doc_list'])->name('user.doc_list');
 });
 
 Route::prefix('agency')->middleware(['auth', 'role:agency'])->group(function () {
@@ -128,7 +128,6 @@ Route::prefix('agency')->middleware(['auth', 'role:agency'])->group(function () 
     Route::get('/item-edit/{id}', [AgencyMainController::class, 'item_edit'])->name('agency.item_edit');
     Route::post('/item-update', [AgencyMainController::class, 'item_update'])->name('agency.item_update');
     Route::get('/item-delete/{id}/image', [AgencyMainController::class, 'item_delete_image'])->name('agency.item_delete_image');
-
 });
 
 Route::middleware('guest')->group(function () {
@@ -136,6 +135,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [LoginController::class, 'login'])->name('login.attempt');
     Route::get('/register', [LoginController::class, 'showregisterForm'])->name('register');
     Route::post('/register', [LoginController::class, 'register_store'])->name('register.store');
+    Route::post('/check_username', [LoginController::class, 'check_username'])->name('username.check');
 });
 
 
