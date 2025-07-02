@@ -30,6 +30,7 @@
                                             <th>รายการบกพร่องจากการตรวจรถ</th>
                                             <th>สถานะ</th>
                                             <th>ความคิดเห็น</th>
+                                            <th>ภาพ</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -53,6 +54,7 @@
                                                     @endif
                                                 </td>
                                                 <td>{{ $item->user_comment }}</td>
+                                                <td></td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -126,3 +128,7 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+@endpush

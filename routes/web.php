@@ -88,6 +88,8 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
 
     //แก้ไขภาพ
  Route::get('/images/edit/{record_id}/{id}', [VehiclesController::class, 'edit_images'])->name('user.edit_images');
+ Route::post('/images/update', [VehiclesController::class, 'update_image'])->name('update_image');
+Route::get('/image/delete/{id}', [VehiclesController::class, 'delete_image'])->name('delete_image');
 
     //แจ้งซ่อม
  Route::get('/create-repair/{record_id}', [RepairController::class, 'create_repair'])->name('user.create_repair');

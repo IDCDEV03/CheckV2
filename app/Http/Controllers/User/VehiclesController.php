@@ -90,42 +90,82 @@ class VehiclesController extends Controller
       ->get()
       ->groupBy('item_id');
 
-    
+
 
     return view('pages.local.ReportResult', compact('agent_name', 'record', 'results', 'forms', 'categories', 'images'));
   }
 
-  public function repair_notice(){
+  public function repair_notice()
+  {
     return view('pages.local.RepairNoice');
   }
 
 
-  public function edit_images($record_id,$id)
+  public function edit_images($record_id, $id)
   {
-     $image = DB::table('check_result_images')   
-    ->where('check_result_images.record_id', $record_id)
-    ->where('check_result_images.item_id', $id)
-    ->select(
-        'check_result_images.image_path',  
+    $image = DB::table('check_result_images')
+      ->where('check_result_images.record_id', $record_id)
+      ->where('check_result_images.item_id', $id)
+      ->select(
+        'check_result_images.id',
+        'check_result_images.image_path',
         'check_result_images.record_id',
-    )
-    ->get();
+      )
+      ->get();
 
     $chk_item = DB::table('check_items')
-    ->where('id',$id)
-    ->first();
+      ->where('id', $id)
+      ->first();
 
     $car_detail = DB::table('chk_records')
       ->join('vehicles', 'chk_records.veh_id', '=', 'vehicles.veh_id')
-    ->where('chk_records.record_id', $record_id)
-    ->select(
-       'vehicles.plate',
+      ->where('chk_records.record_id', $record_id)
+      ->select(
+        'vehicles.plate',
         'vehicles.province',
         'chk_records.updated_at'
-    )
-    ->first();
+      )
+      ->first();
 
-     return view('pages.user.imagesEdit',compact('image','car_detail','chk_item'));
+    return view('pages.user.imagesEdit', compact('image', 'car_detail', 'chk_item'));
   }
 
+  public function update_image(Request $request)
+  {
+    $img = DB::table('check_result_images')->where('id', $request->image_id)->first();
+
+    if ($img && file_exists(public_path($img->image_path))) {
+      unlink(public_path($img->image_path));
+    }
+    $item_id = $img->item_id;
+
+    $upload_location = 'upload/';
+    $file = $request->file('new_image');
+    $extension = $file->getClientOriginalExtension();
+    $newName = $item_id . '_' . Carbon::now()->format('Ymd_His') . '.' . $extension;
+    $file->move($upload_location, $newName);
+    $fileName = $upload_location . $newName;
+
+
+    DB::table('check_result_images')->where('id', $request->image_id)->update([
+      'image_path' => $fileName,
+      'updated_at' => Carbon::now(),
+    ]);
+
+    return back()->with('success', 'เปลี่ยนภาพเรียบร้อยแล้ว');
+  }
+
+
+  public function delete_image($id)
+  {
+    $image = DB::table('check_result_images')->where('id', $id)->first();
+
+    if ($image && File::exists(public_path($image->image_path))) {
+      unlink(public_path($image->image_path));
+    }
+
+    DB::table('check_result_images')->where('id', $id)->delete();
+
+    return back()->with('success', 'ลบรูปภาพเรียบร้อยแล้ว');
+  }
 }
