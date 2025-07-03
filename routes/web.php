@@ -12,7 +12,9 @@ use App\Http\Controllers\Admin\ManageUserController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\User\ManageAccountController;
 use Database\Seeders\VehicleTypeSeeder;
-
+use Illuminate\Support\Facades\Auth;
+use App\Enums\Role;
+use App\Http\Controllers\RedirectController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,8 +26,7 @@ use Database\Seeders\VehicleTypeSeeder;
 |
 */
 
-
-Route::get('/', [LoginController::class, 'showLoginForm'])->name('home');
+Route::get('/', [RedirectController::class, 'handleRoot'])->name('root');
 Route::get('/comingsoon', [PageController::class, 'coming_soon'])->name('coming_soon');
 
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
@@ -131,7 +132,7 @@ Route::prefix('agency')->middleware(['auth', 'role:agency'])->group(function () 
 });
 
 Route::middleware('guest')->group(function () {
-    Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
+      Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login'])->name('login.attempt');
     Route::get('/register', [LoginController::class, 'showregisterForm'])->name('register');
     Route::post('/register', [LoginController::class, 'register_store'])->name('register.store');

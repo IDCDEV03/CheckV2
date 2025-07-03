@@ -62,9 +62,9 @@
                                             </div>
                                             <div class="admin-condition">
                                                 <div class="checkbox-theme-default custom-checkbox ">
-                                                    <input class="checkbox" type="checkbox" id="check-1">
+                                                    <input class="checkbox" type="checkbox" id="check-1" name="remember" id="remember" checked>
                                                     <label for="check-1">
-                                                        <span class="checkbox-text">Keep me logged in</span>
+                                                        <span class="checkbox-text">จดจำการเข้าสู่ระบบ</span>
                                                     </label>
                                                 </div>
                                                 <a href="#">forget password?</a>
