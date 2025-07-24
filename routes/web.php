@@ -15,6 +15,7 @@ use Database\Seeders\VehicleTypeSeeder;
 use Illuminate\Support\Facades\Auth;
 use App\Enums\Role;
 use App\Http\Controllers\RedirectController;
+use App\Http\Controllers\GuestController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -132,11 +133,23 @@ Route::prefix('agency')->middleware(['auth', 'role:agency'])->group(function () 
 });
 
 Route::middleware('guest')->group(function () {
-      Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login'])->name('login.attempt');
     Route::get('/register', [LoginController::class, 'showregisterForm'])->name('register');
     Route::post('/register', [LoginController::class, 'register_store'])->name('register.store');
     Route::post('/check_username', [LoginController::class, 'check_username'])->name('username.check');
+
+
+});
+
+Route::prefix('public')->middleware('guest')->group(function () {
+  Route::get('/start', [GuestController::class, 'guest_chk'])->name('guest.start');
+  Route::post('/insert1', [GuestController::class, 'chk_step1'])->name('guest.insert1');
+
+  Route::get('/step2/{rec}/{cats}', [GuestController::class, 'guest_chk_step2'])->name('guest.chk_step2');
+  Route::POST('/step2-store/{record_id}/{category_id}', [GuestController::class, 'insert_step2'])->name('guest.chk_insert_step2');
+
+  Route::get('/check/result/{record_id}', [GuestController::class, 'chk_result'])->name('guest.chk_result');
 });
 
 
