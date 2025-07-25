@@ -1,4 +1,4 @@
-@include('partials._GuestHeader')
+@include('partials._guestHeader')
 <body class="layout-light side-menu">
     <div class="mobile-search">
         <form action="/" class="search-form">
@@ -13,14 +13,14 @@
     <main class="main-content">
         <div class="sidebar-wrapper">
             <aside class="sidebar sidebar-collapse" id="sidebar">
-                @include('partials._GuestMenu')
+                @include('partials._guestMenu')
             </aside>
         </div>
         <div class="contents">
             @yield('content')
         </div>
         <footer class="footer-wrapper">
-            @include('partials._GuestFooter')
+            @include('partials._guestFooter')
         </footer>
     </main>
     <div id="overlayer">
