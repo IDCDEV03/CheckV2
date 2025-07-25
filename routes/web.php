@@ -147,7 +147,7 @@ Route::prefix('public')->group(function () {
   Route::post('/insert1', [GuestController::class, 'chk_step1'])->name('guest.insert1');
 
   Route::get('/step2/{rec}/{cats}', [GuestController::class, 'guest_chk_step2'])->name('guest.chk_step2');
-  Route::POST('/step2-store/{record_id}/{category_id}', [GuestController::class, 'insert_step2'])->name('guest.chk_insert_step2');
+  Route::post('/step2-store/{record_id}/{category_id}', [GuestController::class, 'insert_step2'])->name('guest.chk_insert_step2');
 
   Route::get('/check/result/{record_id}', [GuestController::class, 'chk_result'])->name('guest.chk_result');
 });
