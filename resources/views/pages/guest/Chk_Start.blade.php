@@ -76,3 +76,26 @@
       
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        function updateClock() {
+            const now = new Date();
+
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = now.getFullYear() + 543;
+
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+
+            const fullDateTime = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+
+            document.getElementById('live-clock').textContent = fullDateTime;
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+@endpush
