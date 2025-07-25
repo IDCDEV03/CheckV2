@@ -10,13 +10,9 @@ use Illuminate\Support\Facades\DB;
 
 class GuestController extends Controller
 {
-    public function guest_chk()
+     public function guest_chk()
     {
-        try {
-            return view('pages.guest.Chk_Start');
-        } catch (\Throwable $e) {
-            return response($e->getMessage(), 500);
-        }
+        return view('pages.guest.Chk_Start');
     }
 
     public function chk_step1(Request $request)
@@ -32,17 +28,18 @@ class GuestController extends Controller
             'updated_at' => Carbon::now(),
         ]);
 
-        $firstCategory = DB::table('check_categories')
+           $firstCategory = DB::table('check_categories')
             ->where('form_id', $request->form_id)
             ->orderBy('cates_no')
             ->first();
 
         return redirect()->route('guest.chk_step2', ['rec' => $record_id, 'cats' => $firstCategory->category_id]);
+
     }
 
-    public function guest_chk_step2($rec, $cats)
+    public function guest_chk_step2 ($rec, $cats)
     {
-        $forms = DB::table('check_categories')
+$forms = DB::table('check_categories')
             ->join('forms', 'check_categories.form_id', '=', 'forms.form_id')
             ->select('forms.form_name')
             ->where('check_categories.category_id', '=', $cats)
@@ -57,11 +54,11 @@ class GuestController extends Controller
         return view('pages.guest.Chk_Step2', compact('record', 'category', 'items', 'forms'));
     }
 
-    public function insert_step2(Request $request, $record_id, $category_id)
+    public function insert_step2(Request $request,$record_id, $category_id)
     {
 
-        foreach ($request->item_result as $item_id => $value) {
-            DB::table('public_record_results')->insert([
+         foreach ($request->item_result as $item_id => $value) {
+            DB::table('public_record_results')->insert([          
                 'record_id' => $record_id,
                 'item_id' => $item_id,
                 'result_value' => $value,
@@ -100,13 +97,14 @@ class GuestController extends Controller
             return redirect()->route('guest.chk_step2', ['rec' => $record_id, 'cats' => $next->category_id]);
         }
         return redirect()->route('guest.chk_result', ['record_id' => $record_id])->with('success', 'บันทึกสำเร็จ');
+
     }
 
-    public function chk_result($record_id)
+      public function chk_result($record_id)
     {
-        $record = DB::table('public_records')
+        $record = DB::table('public_records')       
             ->join('vehicle_types', 'public_records.car_type', '=', 'vehicle_types.id')
-            ->select('vehicle_types.vehicle_type as veh_type_name', 'public_records.created_at as date_check', 'public_records.form_id', 'public_records.record_id', 'public_records.license_plate')
+            ->select('vehicle_types.vehicle_type as veh_type_name', 'public_records.created_at as date_check', 'public_records.form_id', 'public_records.record_id','public_records.license_plate')
             ->where('public_records.record_id', $record_id)->first();
 
 
@@ -132,13 +130,13 @@ class GuestController extends Controller
             ->get()
             ->groupBy('item_id');
 
-        $item_chk = DB::table('public_record_results')
+            $item_chk = DB::table('public_record_results')
             ->select('record_id', 'item_id', DB::raw('COUNT(result_value) as count'))
             ->where('record_id', $record_id)
             ->whereIn('result_value', [0, 2])
             ->groupBy('record_id', 'item_id')
             ->get();
 
-        return view('pages.guest.Chk_Result', compact('record', 'results', 'forms', 'categories', 'images', 'item_chk'));
+        return view('pages.guest.Chk_Result', compact('record', 'results', 'forms', 'categories', 'images','item_chk'));
     }
 }

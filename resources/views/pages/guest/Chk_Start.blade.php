@@ -7,7 +7,7 @@
         <div class="my-4">
     <div class="row justify-content-center">
         <div class="col-12 col-sm-8 col-md-6 col-lg-4 text-center">
-            <img src="{{ asset('logo/20250611_101301_1.png') }}" alt="Company Logo" class="img-fluid" style="max-height: 80px;">
+            <img src="{{ asset('logo/logo-id.png') }}" alt="Company Logo" class="img-fluid" style="max-height: 80px;">
         </div>
     </div>
 </div>
