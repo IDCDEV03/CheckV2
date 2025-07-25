@@ -111,7 +111,7 @@
                                             </tr>
                                             @if (isset($images[$r->item_id]))
                                                 <tr>
-                                                    <td colspan="2" class="text-center">
+                                                    <td colspan="3" class="text-center">
 
                                                         @foreach ($images[$r->item_id] as $img)
                                                             <a href="{{ asset($img->image_path) }}"
@@ -123,11 +123,7 @@
                                                             </a>
                                                         @endforeach
                                                     </td>
-                                                    <td><a href="{{ route('user.edit_images', ['record_id' => request()->record_id, 'id' => $r->item_id]) }}"
-                                                            class="btn btn-sm btn-outline-primary">
-                                                            <i class="fas fa-edit"></i> แก้ไข/ลบภาพ
-                                                        </a>
-                                                    </td>
+                                                   
                                             @endif
                                             </tr>
                                         @endforeach
