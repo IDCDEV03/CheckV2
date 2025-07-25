@@ -41,12 +41,7 @@
                                                 </a>
                                             </td>
                                             <td>
-                                                <div class="btn-group dm-button-group btn-group-normal my-2" role="group">
-                                                   
-                                                    <a href="#" class="btn btn-primary btn-sm btn-squared btn-transparent-primary ">แก้ไขชื่อหมวดหมู่</a>
-                                                     <a href="#" class="btn btn-info btn-sm btn-squared btn-transparent-info ">เพิ่มข้อตรวจ
-                                                    </a>
-                                                </div>
+                                              
                                             </td>
                                         </tr>
                                     @endforeach
