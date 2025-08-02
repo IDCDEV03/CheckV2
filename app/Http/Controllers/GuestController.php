@@ -15,6 +15,11 @@ class GuestController extends Controller
         return view('pages.guest.Chk_Start');
     }
 
+      public function evoc_eng_chk()
+    {
+        return view('pages.guest.Chk_Evoc_Eng_Start');
+    }
+
     public function chk_step1(Request $request)
     {
         $record_id = 'PUB-' . Str::upper(Str::random(10));

@@ -8,9 +8,8 @@
         <div class="col-md-6">
             <div class="footer-menu text-end">
                 <ul>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Team</a></li>
-                    <li><a href="#">Contact</a></li>
+                   <li><a href="mailto:idc@iddrives.co.th"><i class="fas fa-envelope"></i> contact: idc@iddrives.co.th</a></li>
+                   
                 </ul>
             </div>
         </div>
