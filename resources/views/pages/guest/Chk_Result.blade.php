@@ -100,11 +100,11 @@
                                                     @if ($r->result_value == '1')
                                                         ปกติ / Normal
                                                     @elseif($r->result_value == '0')
-                                                        <span class="text-danger">ไม่สามารถใช้งานได้ / Abnormal but functional</span>
+                                                        <span class="text-danger">ไม่สามารถใช้งานได้ / Not functional</span>
                                                     @elseif($r->result_value == '2')
-                                                        <span class="text-secondary"> ไม่ปกติ  แต่ยังสามารถใช้งานได้ / Not functional</span>
+                                                        <span class="text-secondary"> ไม่ปกติ  แต่ยังสามารถใช้งานได้ / Abnormal but functional</span>
                                                          @elseif($r->result_value == '3')
-                                                        <span> ไม่เกี่ยวข้อง/ Not applicable</span>
+                                                        <span> ไม่เกี่ยวข้อง / Not applicable</span>
                                                     @endif
                                                 </td>
                                                 <td>{{ $r->user_comment }}</td>
