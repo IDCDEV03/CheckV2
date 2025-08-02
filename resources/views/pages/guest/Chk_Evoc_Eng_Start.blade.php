@@ -38,25 +38,25 @@
                                 <div class="form-group row">
                                     <div class="col-sm-3 d-flex aling-items-center">
                                         <label for="inputName"
-                                            class="col-form-label color-dark fs-18 fw-bold align-center">ทะเบียนรถ</label>
+                                            class="col-form-label color-dark fs-18 fw-bold align-center">License plate</label>
                                     </div>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control ih-medium ip-light radius-xs b-light px-15"
-                                          name="plate"  placeholder="ตัวอย่าง : 2กข 248 ขอนแก่น" autofocus>
+                                          name="plate"  placeholder="Exemple : กค3432 กรุงเทพมหานคร" autofocus>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <div class="col-sm-3 d-flex aling-items-center">
                                         <label for="inputName"
-                                            class="col-form-label color-dark fs-18 fw-bold align-center">แบบฟอร์ม</label>
+                                            class="col-form-label color-dark fs-18 fw-bold align-center">Form:</label>
                                     </div>
 
                                     <div class="col-sm-8">
                                         <div class="radio-theme-default custom-radio ">
                                             <input class="radio" type="radio" name="form_id" value="3RZ8VM5M" id="form_id" checked>
                                             <label for="form_id">
-                                                <span class="radio-text  fs-16">ตรวจสภาพรถจักรยานยนต์ก่อนการใช้งาน</span>
+                                                <span class="radio-text  fs-16">Ambulance Check Form Before Use</span>
                                             </label>
                                         </div>
                                     </div>
@@ -65,7 +65,7 @@
                                 
                                 <div class="border-top my-3"></div>
 
-                                <button type="submit" class="btn btn-secondary btn-block fs-20">เริ่มการตรวจ &nbsp;<i
+                                <button type="submit" class="btn btn-secondary btn-block fs-20">เริ่มการตรวจ / Start Check &nbsp;<i
                                         class="fas fa-arrow-right"></i> </button>
                             </form>
 
