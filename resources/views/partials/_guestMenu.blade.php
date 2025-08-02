@@ -11,14 +11,14 @@
 
    
         
-            <li>
+           <!-- <li>
              <a href="{{route('guest.start')}}" class="">
                  <span class="nav-icon uil uil-file-check-alt"></span>
                  <span class="menu-text">ตรวจรถ</span>
                 
              </a>
            
-         </li>
+         </li>-->
 
           
 
