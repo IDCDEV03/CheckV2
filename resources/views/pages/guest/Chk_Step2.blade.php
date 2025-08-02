@@ -64,7 +64,7 @@
 
                                 <div class="border-top my-3"></div>
 
-                                <button type="submit" class="btn btn-block btn-success fs-18">บันทึกและไปต่อ / Save and continue<i
+                                <button type="submit" class="btn btn-block btn-success fs-18">บันทึกและไปต่อ / Save and continue <i
                                         class="fas fa-arrow-right"></i></button>
                             </form>
 

@@ -23,12 +23,13 @@ class GuestController extends Controller
     public function chk_step1(Request $request)
     {
         $record_id = 'PUB-' . Str::upper(Str::random(10));
+        
 
         DB::table('public_records')->insert([
             'record_id' => $record_id,
             'form_id' => $request->form_id,
             'license_plate' => $request->plate,
-            'car_type' => '3',
+            'car_type' => $request->car_type,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);

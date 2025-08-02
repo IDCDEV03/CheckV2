@@ -1,4 +1,4 @@
-@section('title', 'ระบบ E-Checker')
+@section('title', 'E-Checker System')
 @section('description', 'ID Drives')
 @extends('layout.guest_app')
 @section('content')
@@ -43,7 +43,7 @@
 
                     <div class=" alert alert-success " role="alert">
                         <div class="alert-content">
-                            <span class="fs-20 fw-bold">สรุปผลการตรวจ</span>
+                            <span class="fs-20 fw-bold">สรุปผลการตรวจ/Inspection Summary</span>
                         </div>
                     </div>
 
@@ -62,15 +62,15 @@
                           
                             <table class="table table-bordered">
                                 <tr>
-                                    <td class="fw-bold">ทะเบียนรถ</td>
+                                    <td class="fw-bold">ทะเบียนรถ/License plate</td>
                                     <td>{{ $record->license_plate }} </td>
-                                    <td class="fw-bold">แบบฟอร์มตรวจ</td>
+                                    <td class="fw-bold">แบบฟอร์มตรวจ/Form</td>
                                     <td>{{ $forms->form_name }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="fw-bold">ประเภทรถ</td>
+                                    <td class="fw-bold">ประเภทรถ/Vehicle Type</td>
                                     <td>{{ $record->veh_type_name }}</td>
-                                    <td class="fw-bold">วันที่/เวลาที่ตรวจในระบบ</td>
+                                    <td class="fw-bold">วันที่/เวลาที่ตรวจในระบบ /DateTime</td>
                                     <td>{{ thai_datetime($record->date_check) }}</td>
                                 </tr>
                             
@@ -87,9 +87,9 @@
                                 <table class="table table-bordered fixed-table mt-2">
                                     <thead>
                                         <tr>
-                                            <th>รายการ</th>
-                                            <th>ผลตรวจ</th>
-                                            <th>ความคิดเห็น</th>
+                                            <th>รายการ/CheckList</th>
+                                            <th>ผลตรวจ/Result</th>
+                                            <th>ความคิดเห็น/Comment</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -98,13 +98,13 @@
                                                 <td class="text-left">{{ $r->item_name }}</td>
                                                 <td>
                                                     @if ($r->result_value == '1')
-                                                        ปกติ
+                                                        ปกติ/Normal
                                                     @elseif($r->result_value == '0')
-                                                        <span class="text-danger">ไม่สามารถใช้งานได้</span>
+                                                        <span class="text-danger">ไม่สามารถใช้งานได้/Abnormal but functional</span>
                                                     @elseif($r->result_value == '2')
-                                                        <span class="text-secondary"> ไม่ปกติ แต่ยังสามารถใช้งานได้ </span>
+                                                        <span class="text-secondary"> ไม่ปกติ/ แต่ยังสามารถใช้งานได้ /Not functional</span>
                                                          @elseif($r->result_value == '3')
-                                                        <span> ไม่เกี่ยวข้อง</span>
+                                                        <span> ไม่เกี่ยวข้อง/Not applicable</span>
                                                     @endif
                                                 </td>
                                                 <td>{{ $r->user_comment }}</td>
@@ -137,10 +137,10 @@
 
                             @if ($total_count == 0)
                             <div class="border-top my-3"></div>
-                                <p class="text-success text-center fw-bold">ไม่พบข้อพกพร่อง</p>
+                                <p class="text-success text-center fw-bold">ไม่พบข้อพกพร่อง/No defects found</p>
                             @else
                                 <div class="border-top my-3"></div>
-                                <p class="text-danger text-center fw-bold">พบข้อบกพร่อง {{ $total_count }} รายการ</p>
+                                <p class="text-danger text-center fw-bold">Found {{ $total_count }} issues</p>
                                
                             @endif
                         </div>

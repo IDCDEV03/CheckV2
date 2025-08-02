@@ -34,7 +34,7 @@
 
                             <form action="{{route('guest.insert1')}}" method="POST">
                                 @csrf
-
+<input type="hidden" name="car_type" value="6">
                                 <div class="form-group row">
                                     <div class="col-sm-3 d-flex aling-items-center">
                                         <label for="inputName"
