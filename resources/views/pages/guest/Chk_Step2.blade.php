@@ -20,7 +20,7 @@
                             @if (session('error'))
                                 <div class="alert alert-danger">{{ session('error') }}</div>
                             @endif
-                            <p class="fs-20 fw-bold">หมวดหมู่ที่ {{ $category->cates_no }} : {{ $category->chk_cats_name }}</p>
+                            <p class="fs-20 fw-bold">หมวดหมู่ที่ / Category No. {{ $category->cates_no }} : {{ $category->chk_cats_name }}</p>
           <form method="POST" action="{{ route('guest.chk_insert_step2', [$record->record_id, $category->category_id]) }}" enctype="multipart/form-data">
         @csrf
 
@@ -41,20 +41,20 @@
                                         
                                         <select name="item_result[{{ $item->id }}]" class="form-select mt-2" required>
                                             @if ($item->item_type == '1')
-                                                <option value="1" selected>✅ ผ่าน</option>
-                                                <option value="2">⚠️ ไม่ผ่าน แต่ยังสามารถใช้งานได้</option>
-                                                <option value="0">❌ ห้ามใช้งาน</option>
-                                                <option value="3">⛔ ไม่เกี่ยวข้อง</option>
+                                                <option value="1" selected>✅ ผ่าน/Pass</option>
+                                                <option value="2">⚠️ ไม่ผ่าน แต่ยังสามารถใช้งานได้/Abnormal but functional</option>
+                                                <option value="0">❌ ห้ามใช้งาน/Not to be used</option>
+                                                <option value="3">⛔ ไม่เกี่ยวข้อง/Not applicable</option>
                                             @elseif ($item->item_type == '2')
-                                                <option value="1" selected>✅ ปกติ</option>
-                                                <option value="2">⚠️ ไม่ปกติ แต่ยังสามารถใช้งานได้</option>
-                                                <option value="0">❌ ไม่สามารถใช้งานได้</option>
-                                                <option value="3">⛔ ไม่เกี่ยวข้อง</option>
+                                                <option value="1" selected>✅ ปกติ / Normal</option>
+                                                <option value="2">⚠️ ไม่ปกติ แต่ยังสามารถใช้งานได้ /Abnormal but functional</option>
+                                                <option value="0">❌ ไม่สามารถใช้งานได้/Not functional</option>
+                                                <option value="3">⛔ ไม่เกี่ยวข้อง/Not applicable</option>
                                             @endif
                                         </select>
-                                        <textarea name="user_comment[{{ $item->id }}]" class="form-control mt-2" placeholder="ความคิดเห็นเพิ่มเติม (ถ้ามี)"></textarea>
+                                        <textarea name="user_comment[{{ $item->id }}]" class="form-control mt-2" placeholder="ความคิดเห็นเพิ่มเติม (ถ้ามี)/ Comment (if any)"></textarea>
 
-                                         <label class="mt-2">อัปโหลดภาพ (ไม่เกิน 5 ภาพ)</label>
+                                         <label class="mt-2">อัปโหลดภาพ (ไม่เกิน 5 ภาพ)/Upload images (maximum 5 images)</label>
         <input type="file" name="item_images[{{ $item->id }}][]" class="form-control image-input-multi" multiple accept="image/*">
         <div class="preview-multi d-flex flex-wrap gap-2 mt-2"></div>
                                     </div>
@@ -64,7 +64,7 @@
 
                                 <div class="border-top my-3"></div>
 
-                                <button type="submit" class="btn btn-block btn-success fs-18">บันทึกและไปต่อ <i
+                                <button type="submit" class="btn btn-block btn-success fs-18">บันทึกและไปต่อ / Save and continue<i
                                         class="fas fa-arrow-right"></i></button>
                             </form>
 
