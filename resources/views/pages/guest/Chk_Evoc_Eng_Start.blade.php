@@ -16,7 +16,7 @@
                 <div class="col-md-12">
                     <div class=" alert alert-primary " role="alert">
                         <div class="alert-content">
-                            <span class="fs-20 fw-bold">ระบบตรวจเช็ครถประจำวันก่อนการใช้งาน</span>
+                            <span class="fs-20 fw-bold">ระบบตรวจเช็ครถประจำวันก่อนการใช้งาน / Pre-Drive Inspection System</span>
                         </div>
                     </div>
 
