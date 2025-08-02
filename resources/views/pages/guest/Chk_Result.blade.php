@@ -87,9 +87,9 @@
                                 <table class="table table-bordered fixed-table mt-2">
                                     <thead>
                                         <tr>
-                                            <th>รายการ/CheckList</th>
-                                            <th>ผลตรวจ/Result</th>
-                                            <th>ความคิดเห็น/Comment</th>
+                                            <th>รายการ / CheckList</th>
+                                            <th>ผลตรวจ / Result</th>
+                                            <th>ความคิดเห็น / Comment</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -98,13 +98,13 @@
                                                 <td class="text-left">{{ $r->item_name }}</td>
                                                 <td>
                                                     @if ($r->result_value == '1')
-                                                        ปกติ/Normal
+                                                        ปกติ / Normal
                                                     @elseif($r->result_value == '0')
-                                                        <span class="text-danger">ไม่สามารถใช้งานได้/Abnormal but functional</span>
+                                                        <span class="text-danger">ไม่สามารถใช้งานได้ / Abnormal but functional</span>
                                                     @elseif($r->result_value == '2')
-                                                        <span class="text-secondary"> ไม่ปกติ/ แต่ยังสามารถใช้งานได้ /Not functional</span>
+                                                        <span class="text-secondary"> ไม่ปกติ  แต่ยังสามารถใช้งานได้ / Not functional</span>
                                                          @elseif($r->result_value == '3')
-                                                        <span> ไม่เกี่ยวข้อง/Not applicable</span>
+                                                        <span> ไม่เกี่ยวข้อง/ Not applicable</span>
                                                     @endif
                                                 </td>
                                                 <td>{{ $r->user_comment }}</td>
@@ -140,7 +140,7 @@
                                 <p class="text-success text-center fw-bold">ไม่พบข้อพกพร่อง/No defects found</p>
                             @else
                                 <div class="border-top my-3"></div>
-                                <p class="text-danger text-center fw-bold">Found {{ $total_count }} issues</p>
+                                <p class="text-danger text-center fw-bold">พบข้อบกพร่อง/Found {{ $total_count }} รายการ/issues</p>
                                
                             @endif
                         </div>
