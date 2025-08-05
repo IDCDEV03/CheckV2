@@ -42,7 +42,7 @@
                                     </div>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control ih-medium ip-light radius-xs b-light px-15"
-                                          name="plate"  placeholder="ตัวอย่าง : 2กข 248 ขอนแก่น" autofocus>
+                                          name="plate"  placeholder="ตัวอย่าง : 2กข 248 ขอนแก่น" required autofocus>
                                     </div>
                                 </div>
 
