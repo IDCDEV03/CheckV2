@@ -145,7 +145,7 @@ Route::middleware('guest')->group(function () {
 Route::prefix('public')->group(function () {
   Route::get('/start', [GuestController::class, 'guest_chk'])->name('guest.start');
 
-  Route::get('/evoc-eng', [GuestController::class, 'evoc_eng_chk'])->name('guest.evoc_en_start');
+  Route::get('/eng', [GuestController::class, 'evoc_eng_chk'])->name('guest.evoc_en_start');
 
   Route::post('/insert1', [GuestController::class, 'chk_step1'])->name('guest.insert1');
 
