@@ -21,6 +21,7 @@ class LoginController extends Controller
     {
         $agencies = DB::table('users')
             ->where('role', 'agency')
+            ->where('user_status','1')
             ->orderBy('name', 'ASC')
             ->get();
         return view('auth.register', compact('agencies'));
