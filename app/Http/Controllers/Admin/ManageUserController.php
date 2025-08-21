@@ -28,33 +28,34 @@ class ManageUserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:200',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:4',
-            'logo' => 'nullable|image|max:10240', // 10MB
+            'username' => 'required|unique:users,username',
+            'password' => 'required|min:4',            
         ]);
 
         $upload_location = 'logo/';
 
         $fileName = null;
 
-        if ($request->hasFile('logo')) {
-
-            $file = $request->file('logo');
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
             $extension = $file->getClientOriginalExtension();
             $newName = Carbon::now()->format('Ymd_His') . '_' . auth()->id() . '.' . $extension;
             $file->move($upload_location, $newName);
             $fileName = $upload_location . $newName;
         }
 
-        $data = [
+        $data = [        
+            'username' => $request->username,
+            'prefix' => $request->prefix,
             'name' => $request->name,
+            'lastname' => $request->lastname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'user_phone' => $request->phone,
             'logo_agency' => $fileName,
             'role' => 'agency',
-            'created_at' =>  Carbon::now(),
-            'updated_at' =>  Carbon::now(),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ];
 
         DB::table('users')->insert($data);

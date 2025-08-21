@@ -19,9 +19,8 @@
                     <div class="card card-default mb-25">
                         <div class="card-body">
 
-                            <form action="#" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                <input type="hidden" name="role" value="agency">
+                            <form action="{{route('admin.agency.insert')}}" method="POST" enctype="multipart/form-data">
+                                @csrf                        
 
                                 <div class="row">
                                     <div class="col-md-4">
@@ -50,37 +49,38 @@
                                         <div class="form-group">
                                             <label for="a3" class="il-gray fw-bold align-center mb-10">นามสกุล</label>
                                             <input type="text" name="lastname"
-                                                class="form-control ih-medium ip-light radius-xs b-light px-15" required>
-                                        </div>
-                                    </div>
-
-                                       <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="il-gray fw-bold align-center mb-10">อีเมล<span
-                                                    class="text-danger">*</span></label>
-                                            <input type="text"
-                                                class="form-control ih-medium ip-light radius-xs b-light px-15" name="email"
-                                                placeholder="สำหรับเข้าสู่ระบบ" required>
+                                                class="form-control ih-medium ip-light radius-xs b-light px-15" >
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="il-gray fw-bold align-center mb-10">อีเมล<span
+                                            <label class="il-gray fw-bold align-center mb-10">Username<span
                                                     class="text-danger">*</span></label>
                                             <input type="text"
-                                                class="form-control ih-medium ip-light radius-xs b-light px-15" name="email"
-                                                placeholder="สำหรับเข้าสู่ระบบ" required>
+                                                class="form-control ih-medium ip-light radius-xs b-light px-15"
+                                                name="username" id="username" placeholder="สำหรับใช้เข้าสู่ระบบ" required>
+                                                
+                                                 <div id="username-feedback" class="text-danger small mt-1"></div>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="il-gray fw-bold align-center mb-10">รหัสผ่าน<span
+                                            <label class="il-gray fw-bold align-center mb-10">Password<span
                                                     class="text-danger">*</span></label>
                                             <input type="text"
-                                                class="form-control ih-medium ip-light radius-xs b-light px-15" name="password"
-                                                placeholder="สำหรับเข้าสู่ระบบ" required>
+                                                class="form-control ih-medium ip-light radius-xs b-light px-15"
+                                                name="password" placeholder="สำหรับใช้เข้าสู่ระบบ" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="il-gray fw-bold align-center mb-10">อีเมล (ถ้ามี) </label>
+                                            <input type="email"
+                                                class="form-control ih-medium ip-light radius-xs b-light px-15"
+                                                name="email">
                                         </div>
                                     </div>
 
@@ -89,18 +89,19 @@
                                             <label class="il-gray fw-bold align-center mb-10">เบอร์โทรศัพท์ (ถ้ามี)</label>
                                             <input type="text"
                                                 class="form-control ih-medium ip-light radius-xs b-light px-15"
-                                                name="phone">
+                                                name="phone" maxlength="20">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="il-gray fw-bold align-center mb-10">รูปภาพโปรไฟล์ (ถ้ามี) </label>
+                                            <label class="il-gray fw-bold align-center mb-10">Logo (ถ้ามี) </label>
 
                                             <input type="file" name="avatar" accept="image/*" class="form-control"
                                                 id="avatar-input">
                                             <div class="mt-2">
-                                                <img id="avatar-preview" src="#" class="img-thumbnail d-none" style="max-height: 120px;">
+                                                <img id="avatar-preview" src="#" class="img-thumbnail d-none"
+                                                    style="max-height: 120px;">
                                             </div>
                                         </div>
                                     </div>
@@ -112,7 +113,8 @@
                                             <input type="file" name="signature" accept="image/*" class="form-control"
                                                 id="signature-input">
                                             <div class="mt-2">
-                                                <img id="signature-preview" src="#" class="img-thumbnail d-none" style="max-height: 120px;">
+                                                <img id="signature-preview" src="#" class="img-thumbnail d-none"
+                                                    style="max-height: 120px;">
                                             </div>
                                         </div>
                                     </div>
