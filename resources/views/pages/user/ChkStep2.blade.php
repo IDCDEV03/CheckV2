@@ -45,7 +45,7 @@
                                         </select>
                                         <textarea name="user_comment[{{ $item->id }}]" class="form-control mt-2" placeholder="ความคิดเห็นเพิ่มเติม (ถ้ามี)"></textarea>
 
-                                         <label class="mt-2">อัปโหลดภาพ (ไม่เกิน 5 ภาพ)</label>
+                                         <label class="mt-2">อัปโหลดภาพ (ไม่เกิน 3 ภาพ)</label>
         <input type="file" name="item_images[{{ $item->id }}][]" class="form-control image-input-multi" multiple accept="image/*">
         <div class="preview-multi d-flex flex-wrap gap-2 mt-2"></div>
                                     </div>
@@ -75,8 +75,8 @@ document.querySelectorAll('.image-input-multi').forEach(input => {
         previewContainer.innerHTML = '';
 
         const files = this.files;
-        if (files.length > 5) {
-            alert('ไม่สามารถอัปโหลดได้เกิน 5 รูป');
+        if (files.length > 3) {
+            alert('ไม่สามารถอัปโหลดได้เกิน 3 รูป');
             this.value = '';
             return;
         }
