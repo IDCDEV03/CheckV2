@@ -132,10 +132,15 @@
              </li>
 
                <li>
-                 <a href="{{ route('logout') }}" class="">
-                     <span class="nav-icon uil uil-sign-out-alt"></span>
-                     <span class="menu-text">ออกจากระบบ</span>                   
-                 </a>
+                 <a href="#" class="nav-author__signout"
+                                onclick="event.preventDefault(); document.getElementById('logout').submit();">
+                               <img src="{{ asset('assets/img/svg/log-out.svg') }}" alt="log-out" class="svg"> ออกจากระบบ 
+                            </a>
+
+                            <form id="logout" action="{{ route('logout') }}" method="POST"
+                                style="display: none;">
+                                @csrf
+                            </form>
              </li>
         @elseif ($role === Role::Manager)
              <li>
