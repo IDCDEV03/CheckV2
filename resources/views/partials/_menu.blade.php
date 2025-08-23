@@ -74,6 +74,17 @@
 
                  </ul>
              </li>
+             
+              <li>
+                 <a href="#" class="nav-author__signout"
+                     onclick="event.preventDefault(); document.getElementById('logout').submit();">
+                     <span class="nav-icon uil uil-sign-out-alt"></span> ออกจากระบบ
+                 </a>
+
+                 <form id="logout" action="{{ route('logout') }}" method="POST" style="display: none;">
+                     @csrf
+                 </form>
+             </li>
          @elseif ($role === Role::User)
              <li>
                  <a href="{{ route('local.home') }}" class="">
