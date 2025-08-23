@@ -42,14 +42,14 @@
                                         @csrf
                                         <div class="edit-profile__body">
                                             <div class="form-group mb-20">
-                                                <label for="username">ชื่อผู้ใช้</label>
+                                                <label for="username">Username</label>
                                               <input type="text" name="username" id="username" class="form-control" placeholder="Username" required>
                                                 @error('username')
                                                     <div class="text-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                             <div class="form-group mb-15">
-                                                <label for="password-field">รหัสผ่าน</label>
+                                                <label for="password-field">Password</label>
                                                 <div class="position-relative">
                                                     <input id="password-field" type="password" class="form-control"
                                                         name="password" placeholder="Password">
