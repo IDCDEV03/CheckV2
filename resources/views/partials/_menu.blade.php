@@ -130,6 +130,13 @@
                      <span class="menu-text">บัญชีผู้ใช้</span>                   
                  </a>
              </li>
+
+               <li>
+                 <a href="{{ route('logout') }}" class="">
+                     <span class="nav-icon uil uil-sign-out-alt"></span>
+                     <span class="menu-text">ออกจากระบบ</span>                   
+                 </a>
+             </li>
         @elseif ($role === Role::Manager)
              <li>
                  <a href="#" class="">
