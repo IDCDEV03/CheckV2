@@ -84,7 +84,7 @@
                                     <p class="mb-0">
                                         ยังไม่มี Account?
                                         <a href="{{ route('register') }}" class="color-primary">
-                                            ลงทะเบียน
+                                            ลงทะเบียนใหม่
                                         </a>
                                     </p>
                                 </div>
