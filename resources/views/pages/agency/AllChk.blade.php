@@ -24,9 +24,9 @@
                                     <tr>
                                         <th>#</th>
                                         <th>ผู้ตรวจ</th>
-                                        <th>ตรวจเมื่อ</th>
                                         <th>ทะเบียนรถ</th>
                                         <th>ประเภทรถ</th>
+                                        <th>ตรวจเมื่อ</th>
                                        
                                     </tr>
                                 </thead>
@@ -35,11 +35,10 @@
                                  
                                   <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{$data->name}}</td>
-                                    <td>{{ thai_datetime($data->date_check) }}</td>
+                                    <td>{{$data->prefix}} {{$data->name}} {{$data->lastname}}</td>                                   
                                     <td><a href="{{route('agency.chk_result',[$data->record_id])}}">{{$data->plate}} {{$data->province}}</a></td>
                                     <td> {{$data->veh_type_name}} </td>
-                                  
+                                   <td>{{ thai_datetime($data->date_check) }}</td>
                                   </tr>
                                      @endforeach
                                 </tbody>
