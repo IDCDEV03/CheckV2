@@ -12,7 +12,13 @@ class GuestController extends Controller
 {
      public function guest_chk()
     {
-        return view('pages.guest.Chk_Start');
+        $list_form = DB::table('forms')
+        ->join('form_public_log','forms.form_id','form_public_log.form_id')
+        ->where('forms.form_open','=','public')
+        ->where('form_public_log.show_status','=','1')
+        ->get();
+
+        return view('pages.guest.Chk_Start',compact('list_form'));
     }
 
       public function evoc_eng_chk()
@@ -20,16 +26,34 @@ class GuestController extends Controller
         return view('pages.guest.Chk_Evoc_Eng_Start');
     }
 
+    public function page_step1($form)
+    {
+        $form_name = DB::table('forms')
+        ->where('forms.form_id','=',$form)
+        ->first();
+
+        return view('pages.guest.Chk_Step1',['form' => $form],compact('form_name'));
+    }
+
     public function chk_step1(Request $request)
     {
         $record_id = 'PUB-' . Str::upper(Str::random(10));
         
+        $form = $request->form_id;
+
+        if($form == '3RZ8VM5M')
+        {
+            $car_type = '3';
+        }elseif ($form == 'HUSKDIEZ')
+        {
+            $car_type = '6';
+        }
 
         DB::table('public_records')->insert([
             'record_id' => $record_id,
             'form_id' => $request->form_id,
             'license_plate' => $request->plate,
-            'car_type' => $request->car_type,
+            'car_type' => $car_type,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);

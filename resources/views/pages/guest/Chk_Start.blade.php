@@ -3,77 +3,58 @@
 @extends('layout.guest_app')
 @section('content')
     <div class="container-fluid">
-       
+
         <div class="my-4">
-    <div class="row justify-content-center">
-        <div class="col-12 col-sm-8 col-md-6 col-lg-4 text-center">
-            <img src="{{ asset('logo/logo-id.png') }}" alt="Company Logo" class="img-fluid" style="max-height: 80px;">
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-8 col-md-6 col-lg-4 text-center">
+                    <img src="{{ asset('logo/logo-id.png') }}" alt="Company Logo" class="img-fluid" style="max-height: 80px;">
+                </div>
+            </div>
         </div>
-    </div>
-</div>
 
-            <div class="row mt-4">
-                <div class="col-md-12">
-                    <div class=" alert alert-primary " role="alert">
-                        <div class="alert-content">
-                            <span class="fs-20 fw-bold">ระบบตรวจเช็ครถประจำวันก่อนการใช้งาน</span>
-                        </div>
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class=" alert alert-primary " role="alert">
+                    <div class="alert-content">
+                        <span class="fs-20 fw-bold">ระบบตรวจเช็ครถประจำวันก่อนการใช้งาน</span>
                     </div>
+                </div>
 
-                    <div class="card mb-25">
-                        <div class="card-header d-flex justify-content-end align-items-center">
+                <div class="card mb-25">
+                    <div class="card-header d-flex justify-content-end align-items-center">
 
-                            <small class="text-muted" id="live-clock">
+                        <small class="text-muted" id="live-clock">
 
-                        </div>
-                        <div class="card-body">
-
-                            @if (session('error'))
-                                <div class="alert alert-danger fs-20 fw-bold">{{ session('error') }}</div>
-                            @endif
-
-                            <form action="{{route('guest.insert1')}}" method="POST">
-                                @csrf
-<input type="hidden" name="car_type" value="3">
-                                <div class="form-group row">
-                                    <div class="col-sm-3 d-flex aling-items-center">
-                                        <label for="inputName"
-                                            class="col-form-label color-dark fs-18 fw-bold align-center">ทะเบียนรถ</label>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control ih-medium ip-light radius-xs b-light px-15"
-                                          name="plate"  placeholder="ตัวอย่าง : 2กข 248 ขอนแก่น" required autofocus>
-                                    </div>
+                    </div>
+                    <div class="card-body">
+ <div class="col-12">
+                        <div class="row">
+                            <!-- รายการบริษัทฯ -->
+                            @foreach ($list_form as $data)
+                                <div class="col-sm-4 mb-4">
+                                    <a href="{{route('guest.page_step1',[$data->form_id])}}" class="text-decoration-none">
+                                        <div class="card shadow-sm h-100"
+                                            style="border: 2px solid 	{{$data->main_color}}; background-color: {{$data->bg_color}};">
+                                            <div class="card-body text-center">
+                                                 <div class="mb-3">
+                                    <img src="{{ asset($data->form_icon) }}" alt="" width="120px">
                                 </div>
-
-                                <div class="form-group row">
-                                    <div class="col-sm-3 d-flex aling-items-center">
-                                        <label for="inputName"
-                                            class="col-form-label color-dark fs-18 fw-bold align-center">แบบฟอร์ม</label>
-                                    </div>
-
-                                    <div class="col-sm-8">
-                                        <div class="radio-theme-default custom-radio ">
-                                            <input class="radio" type="radio" name="form_id" value="3RZ8VM5M" id="form_id" checked>
-                                            <label for="form_id">
-                                                <span class="radio-text  fs-16">ตรวจสภาพรถจักรยานยนต์ก่อนการใช้งาน</span>
-                                            </label>
+                                                <span class="fs-18 fw-bold card-title">{{ $data->form_name }}</span>
+                                              
+                                            </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 </div>
-
-                                
-                                <div class="border-top my-3"></div>
-
-                                <button type="submit" class="btn btn-secondary btn-block fs-20">เริ่มการตรวจ &nbsp;<i
-                                        class="fas fa-arrow-right"></i> </button>
-                            </form>
-
+                            @endforeach
                         </div>
+ </div>
+
+
                     </div>
                 </div>
             </div>
-      
+        </div>
+
     </div>
 @endsection
 
