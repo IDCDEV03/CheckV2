@@ -250,4 +250,73 @@ class AgencyMainController extends Controller
 
         return redirect()->route('agency.cates_detail', ['cates_id' => $item->category_id])->with('success', 'อัปเดตข้อมูลสำเร็จ');
     }
+
+    public function AllChk()
+    {
+        $user_id = Auth::user()->id;
+        $record = DB::table('chk_records')
+            ->join('vehicles', 'chk_records.veh_id', '=', 'vehicles.veh_id')
+            ->join('vehicle_types', 'vehicles.veh_type', '=', 'vehicle_types.id')
+            ->join('users','chk_records.user_id','=','users.id')
+            ->select(
+                'vehicles.*',
+                'vehicle_types.vehicle_type as veh_type_name',
+                'chk_records.created_at as date_check',
+                'chk_records.form_id',
+                'chk_records.record_id',
+                'users.prefix',
+                'users.name',
+                'users.lastname',
+                'chk_records.agency_id as chk_agent'
+            )
+            ->where('chk_records.agency_id', '=', $user_id)
+            ->orderBy('chk_records.created_at', 'DESC')
+            ->get();
+
+        return view('pages.agency.AllChk', compact('record'));
+    }
+    
+      public function chk_result($record_id)
+    {
+        $record = DB::table('chk_records')
+            ->join('vehicles', 'chk_records.veh_id', '=', 'vehicles.veh_id')
+            ->join('vehicle_types', 'vehicles.veh_type', '=', 'vehicle_types.id')
+            ->select('vehicles.*', 'vehicle_types.vehicle_type as veh_type_name', 'chk_records.created_at as date_check', 'chk_records.form_id', 'chk_records.record_id', 'chk_records.user_id as chk_user', 'chk_records.agency_id as chk_agent')
+            ->where('chk_records.record_id', $record_id)->first();
+
+        $agent_name = DB::table('users')
+            ->where('id', $record->chk_agent)
+            ->first();
+
+        $forms = DB::table('forms')
+            ->select('forms.form_name')
+            ->where('form_id', '=', $record->form_id)
+            ->first();
+
+        $categories = DB::table('check_categories')
+            ->where('form_id', $record->form_id)
+            ->orderBy('cates_no')
+            ->get();
+
+        $results = DB::table('check_records_result')
+            ->join('check_items', 'check_records_result.item_id', '=', 'check_items.id')
+            ->where('record_id', $record_id)
+            ->select('check_items.category_id', 'check_items.item_name', 'check_records_result.item_id', 'result_value', 'user_comment')
+            ->get()
+            ->groupBy('category_id');
+
+        $images = DB::table('check_result_images')
+            ->where('record_id', $record_id)
+            ->get()
+            ->groupBy('item_id');
+
+            $item_chk = DB::table('check_records_result')
+            ->select('record_id', 'item_id', DB::raw('COUNT(result_value) as count'))
+            ->where('record_id', $record_id)
+            ->whereIn('result_value', [0, 2])
+            ->groupBy('record_id', 'item_id')
+            ->get();
+
+        return view('pages.agency.Chk_Result', compact('agent_name', 'record', 'results', 'forms', 'categories', 'images','item_chk'));
+    }
 }

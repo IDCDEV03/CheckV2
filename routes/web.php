@@ -104,6 +104,9 @@ Route::prefix('agency')->middleware(['auth', 'role:agency'])->group(function () 
     Route::get('/index', [PageController::class, 'home'])->name('agency.index');
     Route::get('/main', [AgencyMainController::class, 'main_page'])->name('agency.main');
 
+     Route::get('/check/all', [AgencyMainController::class, 'AllChk'])->name('agency.AllChk');
+ Route::get('/chk-result/{record_id}', [AgencyMainController::class, 'chk_result'])->name('agency.chk_result');
+
     //สร้างuserหัวหน้า-เจ้าหน้าที่
     Route::get('/managerlist', [ManageAccountController::class, 'ManagerList'])->name('agency.manager_list');
     Route::get('/userlist', [ManageAccountController::class, 'UserList'])->name('agency.user_list');
