@@ -74,6 +74,14 @@
 
                  </ul>
              </li>
+
+              <li>
+                 <a href="{{ route('agency.AllChk') }}" class="">
+                     <span class="nav-icon uil uil-file-copy-alt"></span>
+                     <span class="menu-text">รายการตรวจรถ</span>
+                     <span class="toggle-icon"></span>
+                 </a>
+             </li>
              
               <li>
                  <a href="#" class="nav-author__signout"
@@ -108,7 +116,7 @@
                      <span class="menu-text">รายการตรวจรถ</span>
                      <span class="toggle-icon"></span>
                  </a>
-
+             </li>
              <li>
                  <a href="{{ route('coming_soon') }}" class="">
                      <span class="nav-icon uil-file-edit-alt"></span>
