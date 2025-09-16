@@ -54,7 +54,7 @@
                                         </select>
                                         <textarea name="user_comment[{{ $item->id }}]" class="form-control mt-2" placeholder="ความคิดเห็นเพิ่มเติม (ถ้ามี)/ Comment (if any)"></textarea>
 
-                                         <label class="mt-2">อัปโหลดภาพ (ไม่เกิน 5 ภาพ)/Upload images (maximum 5 images)</label>
+                                         <label class="mt-2">อัปโหลดภาพ (ไม่เกิน 3 ภาพ)/Upload images (maximum 5 images)</label>
         <input type="file" name="item_images[{{ $item->id }}][]" class="form-control image-input-multi" multiple accept="image/*">
         <div class="preview-multi d-flex flex-wrap gap-2 mt-2"></div>
                                     </div>
