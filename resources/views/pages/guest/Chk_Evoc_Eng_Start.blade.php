@@ -66,6 +66,13 @@
                                             <span class="radio-text  fs-16">Daily Pre-Operation Truck Inspection Form</span>
                                         </label>
                                     </div>
+
+                                      <div class="radio-theme-default custom-radio mt-3">
+                                        <input class="radio" type="radio" name="form_id" value="RY525B4C" id="form_3">
+                                        <label for="form_3">
+                             s               <span class="radio-text  fs-16">Vehicle inspection prior to use, B-Wagon (BE-WAGON)</span>
+                                        </label>
+                                    </div>
                                 </div>
 
                                

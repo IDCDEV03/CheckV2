@@ -54,6 +54,9 @@ class GuestController extends Controller
         elseif ($form == 'AQFXXHGP')
         {
             $car_type = '5';
+        }elseif ($form == 'RY525B4C')
+        {
+            $car_type = '1';
         }
 
         DB::table('public_records')->insert([
