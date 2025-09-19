@@ -34,7 +34,7 @@
 
                         <form action="{{ route('guest.insert1') }}" method="POST">
                             @csrf
-                         
+                            <input type="hidden" name="car_type">
                             <div class="form-group row">
                                 <div class="col-sm-3 d-flex aling-items-center">
                                     <label for="inputName"
@@ -49,33 +49,24 @@
                             <div class="form-group row">
                                 <div class="col-sm-3 d-flex aling-items-center">
                                     <label for="inputName"
-                                        class="col-form-label color-dark fs-18 fw-bold align-center">Form:</label>
+                                        class="col-form-label color-dark fs-18 fw-bold align-center">Select a Form:</label>
                                 </div>
 
                                 <div class="col-sm-8">
-                                    <div class="radio-theme-default custom-radio ">
-                                        <input class="radio" type="radio" name="form_id" value="JU4Z78JD" id="form_id">
-                                        <label for="form_id">
-                                            <span class="radio-text  fs-16">Ambulance Check Form Before Use</span>
-                                        </label>
-                                    </div>
 
-                                     <div class="radio-theme-default custom-radio mt-3">
-                                        <input class="radio" type="radio" name="form_id" value="AQFXXHGP" id="form_2">
-                                        <label for="form_2">
-                                            <span class="radio-text  fs-16">Daily Pre-Operation Truck Inspection Form</span>
-                                        </label>
-                                    </div>
+                                    @foreach ($list_form as $data)
+                                        <div class="radio-theme-default custom-radio mt-2">
+                                            <input class="radio" type="radio" name="form_id" value="{{$data->form_id}}"
+                                                id="form_{{$data->id}}">
+                                            <label for="form_{{$data->id}}">
+                                                <span class="radio-text  fs-16">{{ $data->form_name }}</span>
+                                            </label>
+                                        </div>
+                                    @endforeach
 
-                                      <div class="radio-theme-default custom-radio mt-3">
-                                        <input class="radio" type="radio" name="form_id" value="RY525B4C" id="form_3">
-                                        <label for="form_3">
-                                            <span class="radio-text  fs-16">Vehicle inspection prior to use, B-Wagon (BE-WAGON)</span>
-                                        </label>
-                                    </div>
                                 </div>
 
-                               
+
                             </div>
 
 

@@ -23,7 +23,13 @@ class GuestController extends Controller
 
       public function evoc_eng_chk()
     {
-        return view('pages.guest.Chk_Evoc_Eng_Start');
+        $list_form = DB::table('forms')
+        ->where('form_lang','EN')
+        ->where('form_status','1')
+        ->where('form_open','public')
+        ->get();
+
+        return view('pages.guest.Chk_Evoc_Eng_Start',compact('list_form'));
     }
 
     public function page_step1($form)
@@ -55,6 +61,9 @@ class GuestController extends Controller
         {
             $car_type = '5';
         }elseif ($form == 'RY525B4C')
+        {
+            $car_type = '1';
+        }else
         {
             $car_type = '1';
         }
