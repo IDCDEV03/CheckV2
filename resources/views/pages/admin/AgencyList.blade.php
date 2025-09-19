@@ -26,7 +26,7 @@
                     <tr>
                         <th>#</th>
                         <th>ชื่อหน่วยงาน</th>
-                        <th>Email</th>
+                        <th>สถานะ</th>
                         <th>Logo</th>
                         <th>วันที่สร้าง</th>
                         <th>จัดการ</th>
@@ -37,7 +37,13 @@
                         <tr>
                             <td>{{ $index + 1 }}</td>
                             <td><a href="{{route('admin.agency.show',$agency->id)}}"> {{ $agency->name }}</a></td>
-                            <td>{{ $agency->email }}</td>
+                            <td>
+                                @if ($agency->user_status == '0')
+                                    <label class="badge badge-round badge-warning">ปิด</label>
+                                @elseif ($agency->user_status == '1')
+                                   <label class="badge badge-round badge-success">ปกติ</label>
+                                @endif
+                            </td>
                             <td>
                                 @if($agency->logo_agency)
                                     <img src="{{ asset($agency->logo_agency) }}" alt="โลโก้"

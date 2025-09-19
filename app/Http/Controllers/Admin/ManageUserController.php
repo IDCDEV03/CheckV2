@@ -90,16 +90,9 @@ class ManageUserController extends Controller
 
         $agency = DB::table('users')->where('id', $id)->where('role', 'agency')->first();
 
-        $request->validate([
-            'name' => 'required|string|max:200',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'password' => 'nullable|string|min:4',
-            'logo' => 'nullable|image|max:10048',
-        ]);
-
         $data = [
             'name' => $request->name,
-            'email' => $request->email,
+            'username' => $request->username,
             'user_phone' => $request->phone,
             'updated_at' => Carbon::now(),
         ];

@@ -33,14 +33,11 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="email" class="form-label">อีเมล (สำหรับใช้ Login เข้าสู่ระบบ) <span
-                                            class="text-danger">*</span></label>
-                                    <input type="email" name="email" id="email"
-                                        class="form-control @error('email') is-invalid @enderror"
-                                        value="{{ old('email', $agency->email) }}" required>
-                                    @error('email')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <label for="email" class="form-label">Username (ถ้าไม่เปลี่ยนให้เว้นไว้) </label>
+                                    <input type="email" name="username" id="username"
+                                        class="form-control"
+                                        value="{{ old('username', $agency->username) }}" readonly>
+                                   
                                 </div>
 
                                 <div class="mb-3">
