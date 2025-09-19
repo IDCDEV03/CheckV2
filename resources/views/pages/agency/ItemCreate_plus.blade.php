@@ -103,7 +103,7 @@
                                 <div class="border-top my-3"></div>
 
                                 <div class="dm-button-list d-flex flex-wrap">
-                                    <button type="submit" class="btn btn-default btn-success">บันทึกข้อมูล</button>
+                                    <button type="submit" class="btn btn-default btn-success" disabled>บันทึกข้อมูล</button>
                                     <button type="button" class="btn btn-default btn-warning"
                                         onclick="sessionStorage.clear(); localStorage.clear(); window.history.back();">
                                        ย้อนกลับ
