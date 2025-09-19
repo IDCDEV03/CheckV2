@@ -27,7 +27,9 @@ use App\Http\Controllers\GuestController;
 |
 */
 
-Route::get('/', [RedirectController::class, 'handleRoot'])->name('root');
+Route::middleware('auth')->group(function () {
+    Route::get('/', [RedirectController::class, 'handleRoot'])->name('root');
+});
 Route::get('/comingsoon', [PageController::class, 'coming_soon'])->name('coming_soon');
 
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
@@ -104,8 +106,8 @@ Route::prefix('agency')->middleware(['auth', 'role:agency'])->group(function () 
     Route::get('/index', [PageController::class, 'home'])->name('agency.index');
     Route::get('/main', [AgencyMainController::class, 'main_page'])->name('agency.main');
 
-     Route::get('/check/all', [AgencyMainController::class, 'AllChk'])->name('agency.AllChk');
- Route::get('/chk-result/{record_id}', [AgencyMainController::class, 'chk_result'])->name('agency.chk_result');
+    Route::get('/check/all', [AgencyMainController::class, 'AllChk'])->name('agency.AllChk');
+    Route::get('/chk-result/{record_id}', [AgencyMainController::class, 'chk_result'])->name('agency.chk_result');
 
     //สร้างuserหัวหน้า-เจ้าหน้าที่
     Route::get('/managerlist', [ManageAccountController::class, 'ManagerList'])->name('agency.manager_list');
@@ -126,6 +128,11 @@ Route::prefix('agency')->middleware(['auth', 'role:agency'])->group(function () 
     Route::get('/chk-cates-create/{id}', [AgencyMainController::class, 'create_cates'])->name('agency.create_cates');
     Route::post('/insert_cates/{id}', [AgencyMainController::class, 'insert_cates'])->name('agency.insert_cates');
     Route::get('/categories/{cates_id}', [AgencyMainController::class, 'cates_detail'])->name('agency.cates_detail');
+    //แก้ไขหมวดหมู่
+    Route::post('/categories/{id}/update', [AgencyMainController::class, 'cates_update'])->name('agency.cates_update');
+    //ลบหมวดหมู่
+    Route::post('/categories/{id}/delete', [AgencyMainController::class, 'cates_delete'])->name('agency.cates_delete');
+
 
     //ข้อตรวจ
     Route::get('/item-new/{id}', [AgencyMainController::class, 'item_create'])->name('agency.item_create');
@@ -133,6 +140,11 @@ Route::prefix('agency')->middleware(['auth', 'role:agency'])->group(function () 
     Route::get('/item-edit/{id}', [AgencyMainController::class, 'item_edit'])->name('agency.item_edit');
     Route::post('/item-update', [AgencyMainController::class, 'item_update'])->name('agency.item_update');
     Route::get('/item-delete/{id}/image', [AgencyMainController::class, 'item_delete_image'])->name('agency.item_delete_image');
+    //ลบข้อตรวจ
+    Route::post('/item-delete/{cates}/{id}', [AgencyMainController::class, 'item_delete'])->name('agency.item_delete');
+    //เพิ่มข้อตรวจต่อจากเดิม
+ Route::get('/item-plus/{id}', [AgencyMainController::class, 'item_create_plus'])->name('agency.item_create_plus');
+
 });
 
 Route::middleware('guest')->group(function () {
@@ -141,23 +153,21 @@ Route::middleware('guest')->group(function () {
     Route::get('/register', [LoginController::class, 'showregisterForm'])->name('register');
     Route::post('/register', [LoginController::class, 'register_store'])->name('register.store');
     Route::post('/check_username', [LoginController::class, 'check_username'])->name('username.check');
-
-
 });
 
 Route::prefix('public')->group(function () {
-  Route::get('/start', [GuestController::class, 'guest_chk'])->name('guest.start');
+    Route::get('/start', [GuestController::class, 'guest_chk'])->name('guest.start');
 
-  Route::get('/eng', [GuestController::class, 'evoc_eng_chk'])->name('guest.evoc_en_start');
+    Route::get('/eng', [GuestController::class, 'evoc_eng_chk'])->name('guest.evoc_en_start');
 
-   Route::get('/step1/{form}', [GuestController::class, 'page_step1'])->name('guest.page_step1');
+    Route::get('/step1/{form}', [GuestController::class, 'page_step1'])->name('guest.page_step1');
 
-  Route::post('/insert1', [GuestController::class, 'chk_step1'])->name('guest.insert1');
+    Route::post('/insert1', [GuestController::class, 'chk_step1'])->name('guest.insert1');
 
-  Route::get('/step2/{rec}/{cats}', [GuestController::class, 'guest_chk_step2'])->name('guest.chk_step2');
-  Route::post('/step2-store/{record_id}/{category_id}', [GuestController::class, 'insert_step2'])->name('guest.chk_insert_step2');
+    Route::get('/step2/{rec}/{cats}', [GuestController::class, 'guest_chk_step2'])->name('guest.chk_step2');
+    Route::post('/step2-store/{record_id}/{category_id}', [GuestController::class, 'insert_step2'])->name('guest.chk_insert_step2');
 
-  Route::get('/check/result/{record_id}', [GuestController::class, 'chk_result'])->name('guest.chk_result');
+    Route::get('/check/result/{record_id}', [GuestController::class, 'chk_result'])->name('guest.chk_result');
 });
 
 

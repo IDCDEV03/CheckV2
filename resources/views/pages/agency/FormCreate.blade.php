@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb-main">
-                        <h4 class="text-capitalize breadcrumb-title">สร้างฟอร์มใหม่</h4>
+                        <label class="text-capitalize fs-24 fw-bold breadcrumb-title">สร้างฟอร์มใหม่</label>
 
                     </div>
                 </div>
@@ -23,7 +23,7 @@
                                     </div>
                                 </div>
                             @endif
-                            <form action="{{route('agency.insert_form')}}" method="POST">
+                            <form action="{{ route('agency.insert_form') }}" method="POST">
                                 @csrf
                                 <div class="form-group row mb-25">
                                     <div class="col-sm-3 d-flex aling-items-center">
@@ -44,10 +44,27 @@
                                             id="form_name" name="form_name" required>
                                     </div>
                                 </div>
+
+
+                                <div class="form-group row mb-25">
+                                    <div class="col-sm-3 d-flex aling-items-center">
+                                        <label class="col-form-label  color-dark align-center">ภาษา<span
+                                                class="text-danger">*</span></label>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <select name="form_lang" class="form-control ih-medium ip-gray radius-xs" required>
+                                            <option value="" selected disabled>-- กรุณาเลือกภาษา --</option>
+                                            <option value="TH">ภาษาไทย</option>
+                                            <option value="EN">ภาษาอังกฤษ</option>
+                                            <option value="CN">ภาษาจีน</option>
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <div class="form-group row mb-25">
                                     <div class="col-sm-3 d-flex aling-items-center">
                                         <label class="col-form-label  color-dark align-center">ประเภทฟอร์ม<span
-                                        class="text-danger">*</span></label>
+                                                class="text-danger">*</span></label>
                                     </div>
                                     <div class="col-sm-9">
                                         <select name="form_category" class="form-control ih-medium ip-gray radius-xs">

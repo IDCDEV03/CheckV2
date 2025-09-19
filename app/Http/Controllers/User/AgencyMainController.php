@@ -59,24 +59,29 @@ class AgencyMainController extends Controller
     {
         $form_id = Str::upper(Str::random(8));
 
-        if ($request->form_category != "") {
-            DB::table('forms')
-                ->insert([
-                    'user_id'       => Auth::user()->id,
-                    'form_id'       => $form_id,
-                    'form_code'     => $request->input('form_code'),
-                    'form_name'     => $request->form_name,
-                    'form_category' => $request->form_category,
-                    'form_status'   => '1',
-                    'form_open'     => 'public',
-                    'created_at'    =>  Carbon::now(),
-                    'updated_at'    =>  Carbon::now()
-                ]);
-
-            return redirect()->route('agency.create_cates', ['id' => $form_id])->with('success', 'บันทึกข้อมูลสำเร็จ');
-        } else {
+        if ($request->form_category == "") {
             return redirect()->back()->with('error', 'กรุณาเลือกประเภทฟอร์ม');
         }
+
+        if ($request->form_lang == "") {
+            return redirect()->back()->with('error', 'กรุณาเลือกภาษา');
+        }
+
+        DB::table('forms')
+            ->insert([
+                'user_id'       => Auth::user()->id,
+                'form_id'       => $form_id,
+                'form_code'     => $request->input('form_code'),
+                'form_name'     => $request->form_name,
+                'form_category' => $request->form_category,
+                'form_status'   => '1',
+                'form_lang'     => $request->form_lang,
+                'form_open'     => 'public',
+                'created_at'    =>  Carbon::now(),
+                'updated_at'    =>  Carbon::now()
+            ]);
+
+        return redirect()->route('agency.create_cates', ['id' => $form_id])->with('success', 'บันทึกข้อมูลสำเร็จ');
     }
 
     public function cates_list($form_id)
@@ -137,6 +142,41 @@ class AgencyMainController extends Controller
         return redirect()->route('agency.cates_list', ['form_id' => $id])->with('success', 'บันทึกหมวดหมู่เรียบร้อยแล้ว');
     }
 
+    public function cates_update(Request $request, $id)
+    {
+        $request->validate([
+            'category_name' => 'required|string|max:255',
+        ]);
+
+        $form_id = DB::table('check_categories')
+            ->select('check_categories.form_id')
+            ->where('id', $id)
+            ->first();
+
+        DB::table('check_categories')
+            ->where('id', $id)
+            ->update([
+                'chk_cats_name' => $request->category_name,
+                'updated_at' => now(),
+            ]);
+
+        return redirect()->route('agency.cates_list', ['form_id' => $form_id->form_id])->with('success', 'แก้ไขหมวดหมู่เรียบร้อยแล้ว');
+    }
+
+    //ลบหมวดหมู่
+    public function cates_delete(Request $request, $id)
+    {
+        $form_id = $request->form_id;
+        // ลบ check_items ที่อ้างอิงหมวดหมู่
+        DB::table('check_items')->where('category_id', $id)->delete();
+
+        // ลบหมวดหมู่เอง
+        DB::table('check_categories')->where('category_id', $id)->delete();
+
+        return redirect()->route('agency.cates_list', ['form_id' => $form_id])->with('success', 'ลบหมวดหมู่และข้อตรวจที่เกี่ยวข้องเรียบร้อยแล้ว');
+    }
+
+
     public function item_create($id)
     {
         $cates_data = DB::table('check_categories')
@@ -146,6 +186,30 @@ class AgencyMainController extends Controller
             ->first();
 
         return view('pages.agency.itemCreate', ['id' => $id], compact('cates_data'));
+    }
+
+    public function item_create_plus($id)
+    {
+        $cates_data = DB::table('check_categories')
+            ->join('forms', 'check_categories.form_id', '=', 'forms.form_id')
+            ->select('forms.form_name', 'check_categories.category_id', 'check_categories.chk_cats_name')
+            ->where('check_categories.category_id', '=', $id)
+            ->first();
+
+        $item_data = DB::table('check_items')
+            ->select('item_no','item_name')
+            ->where('category_id', $id)
+            ->get();
+
+        $lastOrder = DB::table('check_items')
+            ->where('category_id', $id)
+            ->max('item_no');
+
+        $lastOrder = $lastOrder ?? 0;
+
+        $category = DB::table('check_categories')->where('id', $id)->first();
+
+        return view('pages.agency.ItemCreate_plus', ['id' => $id], compact('cates_data', 'lastOrder','item_data'));
     }
 
     public function item_insert(Request $request)
@@ -251,13 +315,22 @@ class AgencyMainController extends Controller
         return redirect()->route('agency.cates_detail', ['cates_id' => $item->category_id])->with('success', 'อัปเดตข้อมูลสำเร็จ');
     }
 
+    public function item_delete($cates, $id)
+    {
+        // ลบข้อตรวจ
+        DB::table('check_items')->where('item_id', $id)->delete();
+
+        return redirect()->route('agency.cates_detail', ['cates_id' => $cates])->with('success', 'ลบข้อตรวจสำเร็จ');
+    }
+
+
     public function AllChk()
     {
         $user_id = Auth::user()->id;
         $record = DB::table('chk_records')
             ->join('vehicles', 'chk_records.veh_id', '=', 'vehicles.veh_id')
             ->join('vehicle_types', 'vehicles.veh_type', '=', 'vehicle_types.id')
-            ->join('users','chk_records.user_id','=','users.id')
+            ->join('users', 'chk_records.user_id', '=', 'users.id')
             ->select(
                 'vehicles.*',
                 'vehicle_types.vehicle_type as veh_type_name',
@@ -275,8 +348,8 @@ class AgencyMainController extends Controller
 
         return view('pages.agency.AllChk', compact('record'));
     }
-    
-      public function chk_result($record_id)
+
+    public function chk_result($record_id)
     {
         $record = DB::table('chk_records')
             ->join('vehicles', 'chk_records.veh_id', '=', 'vehicles.veh_id')
@@ -310,13 +383,13 @@ class AgencyMainController extends Controller
             ->get()
             ->groupBy('item_id');
 
-            $item_chk = DB::table('check_records_result')
+        $item_chk = DB::table('check_records_result')
             ->select('record_id', 'item_id', DB::raw('COUNT(result_value) as count'))
             ->where('record_id', $record_id)
             ->whereIn('result_value', [0, 2])
             ->groupBy('record_id', 'item_id')
             ->get();
 
-        return view('pages.agency.Chk_Result', compact('agent_name', 'record', 'results', 'forms', 'categories', 'images','item_chk'));
+        return view('pages.agency.Chk_Result', compact('agent_name', 'record', 'results', 'forms', 'categories', 'images', 'item_chk'));
     }
 }

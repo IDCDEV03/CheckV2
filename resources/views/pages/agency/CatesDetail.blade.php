@@ -38,11 +38,8 @@
                                     <i class="fas fa-long-arrow-alt-left"></i> กลับไปรายการหมวดหมู่
                                 </a>
 
-                                <a href="#" class="mx-2 btn btn-warning btn-default btn-squared btn-shadow-warning ">
-                                    <i class="fas fa-edit"></i> แก้ไขชื่อหมวดหมู่
-                                </a>
                                 @if (isset($item_data_count))
-                                    <a href="#" class="mx-2 btn btn-info btn-default btn-squared btn-shadow-info ">
+                                    <a href="{{route('agency.item_create_plus', ['id' => request()->cates_id])}}" class="mx-2 btn btn-info btn-default btn-squared btn-shadow-info ">
                                         <i class="fas fa-redo-alt"></i> เพิ่มข้อตรวจ
                                     </a>
                                 @else
@@ -57,7 +54,7 @@
                     </div>
 
 
-                    <div class="card">
+                    <div class="card mb-30">
                         <div class="card-body">
                             <div class="table4 p-25 mb-30">
                                 <div class="table-responsive">
@@ -98,10 +95,20 @@
                                                             role="group">
                                                             <a href="{{ route('agency.item_edit', ['id' => $data->item_id]) }}"
                                                                 class="btn btn-xs btn-default 
-   btn-squared color-primary btn-outline-primary">แก้ไข</a>
-                                                            <a href="#"
-                                                                class="btn btn-xs btn-default 
-   btn-squared color-primary btn-outline-danger">ลบ</a>
+                                                        btn-squared color-primary btn-outline-primary">แก้ไข</a>
+
+            <form
+                action="{{ route('agency.item_delete', ['cates' => $data->category_id, 'id' => $data->item_id]) }}"
+                method="POST" class="d-inline"
+                onsubmit="return confirm('ต้องการลบข้อตรวจ ใช่หรือไม่?');">
+                @csrf
+                <button type="submit"
+                    class="btn btn-xs btn-default 
+                btn-squared color-primary btn-outline-danger">
+                                                                    ลบข้อตรวจ
+                                                                </button>
+                                                            </form>
+
                                                         </div>
 
                                                     </td>

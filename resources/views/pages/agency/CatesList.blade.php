@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb-main">
-                        <h4 class="text-capitalize breadcrumb-title">รายการหมวดหมู่</h4>
+                        <label class="fs-22 fw-bold text-capitalize breadcrumb-title">รายการหมวดหมู่</ส>
 
                     </div>
                 </div>
@@ -20,7 +20,7 @@
                         </div>
                     </div>
 
-                    <div class="card">
+                    <div class="card mb-30">
                         <div class="card-body">
 
                             <table class="table table-bordered" id="forms-table">
@@ -36,16 +36,30 @@
                                         <tr>
                                             <td>{{ $item->cates_no }}</td>
                                             <td>
-                                                <a href="{{route('agency.cates_detail',['cates_id'=>$item->category_id])}}">
-                                                {{ $item->chk_cats_name }}
+                                                <a
+                                                    href="{{ route('agency.cates_detail', ['cates_id' => $item->category_id]) }}">
+                                                    {{ $item->chk_cats_name }}
                                                 </a>
                                             </td>
                                             <td>
                                                 <div class="btn-group dm-button-group btn-group-normal my-2" role="group">
-                                                   
-                                                    <a href="#" class="btn btn-primary btn-sm btn-squared btn-transparent-primary ">แก้ไขชื่อหมวดหมู่</a>
-                                                     <a href="#" class="btn btn-info btn-sm btn-squared btn-transparent-info ">เพิ่มข้อตรวจ
-                                                    </a>
+                                                    <button
+                                                        class="btn btn-primary btn-sm btn-squared btn-transparent-primary"
+                                                        data-bs-toggle="modal" data-bs-target="#editModal"
+                                                        data-id="{{ $item->id }}"
+                                                        data-name="{{ $item->chk_cats_name }}">
+                                                        แก้ไขชื่อหมวดหมู่
+                                                    </button>
+
+                                                    <form action="{{ route('agency.cates_delete', $item->category_id) }}"
+                                                        method="POST" class="d-inline"
+                                                        onsubmit="return confirm('หากลบหมวดหมู่ข้อตรวจในหมวดหมู่นี้จะถูกลบไปด้วย ต้องการลบใช่หรือไม่?');">
+                                                        @csrf
+                                                        <input type="hidden" name="form_id" value="{{$item->form_id}}">
+                                                        <button type="submit" class="btn btn-danger btn-sm btn-squared btn-transparent-danger">
+                                                            ลบหมวดหมู่
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             </td>
                                         </tr>
@@ -61,9 +75,47 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal ฟอร์มแก้ไข -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST" id="editForm">
+                    @csrf
+                    <div class="modal-header">
+                        <label class="modal-title" id="editModalLabel">แก้ไขชื่อหมวดหมู่</label>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="ปิด"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="category_name" class="form-label">ชื่อหมวดหมู่</label>
+                            <input type="text" class="form-control" id="category_name" name="category_name" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">บันทึก</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @push('scripts')
+    <script>
+        var editModal = document.getElementById('editModal');
+        editModal.addEventListener('show.bs.modal', function(event) {
+            var button = event.relatedTarget;
+            var id = button.getAttribute('data-id');
+            var name = button.getAttribute('data-name');
+            var inputName = editModal.querySelector('#category_name');
+            inputName.value = name;
+            var form = document.getElementById('editForm');
+            form.action = '/agency/categories/' + id + '/update';
+        });
+    </script>
+
     <!-- DataTables  -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -74,7 +126,7 @@
         $(document).ready(function() {
             $('#forms-table').DataTable({
                 responsive: true,
-                pageLength: 10,
+                pageLength: 25,
                 language: {
                     search: "ค้นหา:",
                     lengthMenu: "แสดง _MENU_ รายการ",
