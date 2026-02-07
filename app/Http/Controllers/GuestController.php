@@ -63,6 +63,9 @@ class GuestController extends Controller
         }elseif ($form == 'RY525B4C')
         {
             $car_type = '1';
+        }elseif ($form == '0SP13GEL')
+        {
+            $car_type = '5';
         }else
         {
             $car_type = '1';
