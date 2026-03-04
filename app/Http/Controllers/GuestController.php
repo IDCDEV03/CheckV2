@@ -29,7 +29,7 @@ class GuestController extends Controller
 
        public function chk_minibus()
     {
-         return view('pages.guest.Chk_Minibus');
+         return view('pages.guest.Chk_MiniBus');
     }
 
       public function evoc_eng_chk()
