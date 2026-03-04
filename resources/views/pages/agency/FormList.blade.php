@@ -3,7 +3,7 @@
 @extends('layout.app')
 @section('content')
     <div class="container-fluid">
-        <div class="social-dash-wrap">
+       
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb-main">
@@ -14,7 +14,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card">
+                    <div class="card mt-10 mb-10">
                         <div class="card-body">
 
                             <table class="table table-bordered" id="forms-table">
@@ -48,7 +48,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        
     </div>
 @endsection
 
