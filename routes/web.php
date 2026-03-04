@@ -156,8 +156,12 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::prefix('public')->group(function () {
-    Route::get('/start', [GuestController::class, 'guest_chk'])->name('guest.start');
 
+Route::get('/bridge/hub', [GuestController::class, 'bridge_hub'])->name('guest.bridge_hub');
+
+    Route::get('/start', [GuestController::class, 'guest_chk'])->name('guest.start');
+    Route::get('/ev', [GuestController::class, 'guest_chk_ev'])->name('guest.chk_ev');
+    Route::get('/minibus', [GuestController::class, 'chk_minibus'])->name('guest.chk_minibus');
     Route::get('/eng', [GuestController::class, 'evoc_eng_chk'])->name('guest.evoc_en_start');
 
     Route::get('/step1/{form}', [GuestController::class, 'page_step1'])->name('guest.page_step1');

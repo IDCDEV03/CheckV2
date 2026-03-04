@@ -98,13 +98,15 @@
                                                 <td class="text-left">{{ $r->item_name }}</td>
                                                 <td>
                                                     @if ($r->result_value == '1')
-                                                        ปกติ / Normal
+                                                        ผ่าน / Pass
                                                     @elseif($r->result_value == '0')
                                                         <span class="text-danger">ไม่สามารถใช้งานได้ / Not functional</span>
                                                     @elseif($r->result_value == '2')
-                                                        <span class="text-secondary"> ไม่ปกติ  แต่ยังสามารถใช้งานได้ / Abnormal but functional</span>
+                                                        <span class="text-secondary"> ไม่ผ่าน  แต่ยังสามารถใช้งานได้ / Abnormal but functional</span>
                                                          @elseif($r->result_value == '3')
                                                         <span> ไม่เกี่ยวข้อง / Not applicable</span>
+                                                        @else
+                                                        <span>{{$r->result_value}}</span>
                                                     @endif
                                                 </td>
                                                 <td>{{ $r->user_comment }}</td>

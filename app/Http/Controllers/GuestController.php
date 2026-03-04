@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class GuestController extends Controller
 {
@@ -21,6 +22,16 @@ class GuestController extends Controller
         return view('pages.guest.Chk_Start',compact('list_form'));
     }
 
+    public function guest_chk_ev()
+    {
+         return view('pages.guest.Chk_EV');
+    }
+
+       public function chk_minibus()
+    {
+         return view('pages.guest.Chk_Minibus');
+    }
+
       public function evoc_eng_chk()
     {
         $list_form = DB::table('forms')
@@ -31,6 +42,66 @@ class GuestController extends Controller
 
         return view('pages.guest.Chk_Evoc_Eng_Start',compact('list_form'));
     }
+
+    public function bridge_hub(Request $request)
+{
+    $uid = (string) $request->input('uid');        // user_id จากระบบ 1
+    $username = (string) $request->input('username');
+    $name = (string) $request->input('name');
+    $time = (int) $request->input('time');
+    $sig = (string) $request->input('sig');
+    $form = (string) $request->input('form');      // ส่ง form มาด้วยจะดีมาก
+
+    // 1) กันลิงก์เก่า (5 นาที)
+    if ($time <= 0 || abs(time() - $time) > 300) {
+        abort(403, 'Link expired');
+    }
+
+    // 2) ตรวจลายเซ็น (HMAC)
+    $secret = config('app.bridge_secret');
+    $payload = $uid.'|'.$username.'|'.$name.'|'.$form.'|'.$time;
+    $check = hash_hmac('sha256', $payload, $secret);
+
+    if (!hash_equals($check, $sig)) {
+        abort(403, 'Invalid signature');
+    }
+
+    // 3) upsert user_data
+    $userDataId = DB::table('user_data')->where([
+        'source' => 'hubtraining',
+        'external_user_id' => $uid
+    ])->value('id');
+
+    if ($userDataId) {
+        DB::table('user_data')->where('id', $userDataId)->update([
+            'username' => $username ?: null,
+            'full_name' => $name ?: null,
+            'last_seen_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+    } else {
+        $userDataId = DB::table('user_data')->insertGetId([
+            'source' => 'elearning',
+            'external_user_id' => $uid,
+            'username' => $username ?: null,
+            'full_name' => $name ?: null,
+            'last_seen_at' => Carbon::now(),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+    }
+
+    // 4) เก็บ session เพื่อใช้ตอน insert public_records
+    session([
+        'user_data_id' => $userDataId,
+        'inspector_name' => $name,
+        'inspector_username' => $username,
+        'inspector_uid' => $uid,
+    ]);
+
+    // 5) เด้งไป step1 ของฟอร์มนั้น
+    return redirect()->route('guest.page_step1', ['form' => $form]);
+}
 
     public function page_step1($form)
     {
@@ -66,6 +137,13 @@ class GuestController extends Controller
         }elseif ($form == '0SP13GEL')
         {
             $car_type = '5';
+        }elseif ($form == 'JGIAY8QO')
+        {
+            $car_type = '8';
+        }
+        elseif ($form == '2NL44PF5')
+        {
+            $car_type = '9';
         }else
         {
             $car_type = '1';

@@ -32,14 +32,14 @@
                             <!-- รายการบริษัทฯ -->
                            
                                 <div class="col-sm-4 mb-4">
-                                    <a href="{{route('guest.page_step1',['2NL44PF5'])}}" class="text-decoration-none">
+                                    <a href="{{route('guest.page_step1',['JGIAY8QO'])}}" class="text-decoration-none">
                                         <div class="card shadow-sm h-100"
-                                            style="border: 2px solid 	#16A085; background-color: #D1F2EB;">
+                                            style="border: 2px solid 	#F1C40F; background-color: #FFF9D6;">
                                             <div class="card-body text-center">
                                                  <div class="mb-3">
-                                    <img src="{{ asset('car_ev.png') }}" alt="" width="120px">
+                                    <img src="{{ asset('minibus.png') }}" alt="" width="120px">
                                 </div>
-                                     <span class="fs-18 fw-bold card-title">แบบตรวจเช็ครถยนต์ไฟฟ้า</span>
+                                     <span class="fs-18 fw-bold card-title">แบบตรวจเช็ครถ Mini Bus ก่อนขับขี่</span>
                                               
                                             </div>
                                         </div>
