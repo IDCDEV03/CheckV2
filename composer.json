@@ -29,7 +29,8 @@
         },
         "files": [
             "app/Helpers/functions.php",
-            "app/Helpers/thaidate.php"
+            "app/Helpers/thaidate.php",
+            "app/Helpers/role_helper.php"
         ]
     },
     "autoload-dev": {
