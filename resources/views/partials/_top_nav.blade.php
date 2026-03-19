@@ -1,21 +1,21 @@
- @php
+@php
     use App\Enums\Role;
     use Illuminate\Support\Facades\Auth;
     use Illuminate\Support\Facades\DB;
 
-    $role = Auth::user()->role;
+    $user = Auth::user();
+    $role = $user->role; // Enum role จริง
+    $activeRole = active_role(); // role ที่กำลังใช้งานจริง
     $agencyLogo = null;
 
-    $user = Auth::user();
-
-   if ($user->role === Role::Agency->value) {
+    if ($role === Role::Agency) {
         $agencyLogo = $user->logo_agency;
-    }
-    elseif ($user->agency_id) {
+    } elseif ($user->agency_id) {
         $agency = DB::table('users')->where('id', $user->agency_id)->first();
         $agencyLogo = $agency?->logo_agency;
     }
- @endphp
+@endphp
+
 <nav class="navbar navbar-light">
     <div class="navbar-left">
         <div class="logo-area">
@@ -41,14 +41,20 @@
                    <li>
                         <a href="#">
                             <span class="nav-icon uil uil-circle"></span>
-                            <span class="menu-text">0000</span>
+                            <span class="menu-text">
+                                {{ strtoupper($activeRole ?? $role->value) }}
+                            </span>
                         </a>
                         </li>
                        
                         <li class="has-subMenu">
                             <a href="#">Dashboard</a>
                             <ul class="subMenu">
-                                <li><a href="#">11</a></li>
+                               @if ($activeRole === 'agency')
+                                <li><a href="{{ route('agency.index') }}">หน้าหลักหน่วยงาน</a></li>
+                            @elseif ($activeRole === 'user')
+                                <li><a href="{{ route('local.home') }}">หน้าหลักผู้ใช้งาน</a></li>
+                            @endif
 
                             </ul>
                         </li>                        
@@ -57,7 +63,40 @@
         </div>
     </div>
     <div class="navbar-right">
-        <ul class="navbar-right__menu">           
+        <ul class="navbar-right__menu">   
+            
+              {{-- badge แสดงโหมดปัจจุบัน --}}
+            <li class="nav-notification">
+                @if ($activeRole === 'agency')
+                    <span class="dm-tag tag-info tag-transparented fs-18">กำลังใช้งาน (Role): หน่วยงาน</span>
+                @elseif ($activeRole === 'user')
+                   <span class="dm-tag tag-secondary tag-transparented fs-18">กำลังใช้งาน (Role): เจ้าหน้าที่</span>
+                @endif
+            </li>
+
+              {{-- ปุ่มสลับ role บน top nav --}}
+            @if ($role === Role::Agency && $user->can_switch)
+                <li class="nav-notification">
+                    @if ($activeRole === 'agency')
+                        <form action="{{ route('role.switch.user') }}" method="POST" class="mb-0">
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-default btn-squared color-primary btn-outline-primary">
+                                 <span class="nav-icon uil uil-exchange"></span>
+                                เข้าสู่โหมดเจ้าหน้าที่
+                            </button>
+                        </form>
+                    @elseif ($activeRole === 'user')
+                        <form action="{{ route('role.switch.agency') }}" method="POST" class="mb-0">
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-default btn-squared color-primary btn-outline-dark">
+                                 <span class="nav-icon uil uil-exchange"></span>
+                                กลับสู่โหมดหน่วยงาน
+                            </button>
+                        </form>
+                    @endif
+                </li>
+            @endif
+
            
              <li class="nav-author">
                 <div class="dropdown-custom">
@@ -65,28 +104,34 @@
                         <img src="{{ asset('settings.png') }}" alt="" class="rounded-circle">
                     
 
+                    
                         @if (Auth::check())
-                            <label class="nav-item__title">{{ Auth::user()->name }} {{ Auth::user()->lastname }}<i class="las la-angle-down nav-item__arrow"></i></label>
+                            <label class="nav-item__title">
+                                {{ $user->name }} {{ $user->lastname }}
+                                <i class="las la-angle-down nav-item__arrow"></i>
+                            </label>
                         @endif
                     </a>
                     <div class="dropdown-wrapper">
                         <div class="nav-author__info">                          
                             <div>
-                                @if (Auth::check())
-                                    <span class="fs-14 fw-bold text-capitalize">{{ Auth::user()->name }} {{ Auth::user()->lastname }}</span>
-                                @endif
+                                 <span class="fs-14 fw-bold text-capitalize">
+                                    {{ $user->name }} {{ $user->lastname }}
+                                </span>
 
-                                @if ($role === Role::User)
-                                   <br> <span>เจ้าหน้าที่</span>
-                                @elseif($role === Role::Agency)
-                                   <br> <span>หน่วยงาน</span>
+                                @if ($activeRole === 'user')
+                                    <br><span>เจ้าหน้าที่</span>
+                                @elseif ($activeRole === 'agency')
+                                    <br><span>หน่วยงาน</span>
+                                @elseif ($role === Role::Manager)
+                                    <br><span>Manager</span>
                                 @endif
                                 
                             </div>
                         </div>
                         <div class="nav-author__options">
 
-                            @if ($role === Role::User)
+                           @if ($activeRole === 'user')
                                 <ul>
                                 <li>
                                     <a href="{{route('user.profile')}}">
@@ -101,15 +146,15 @@
                                
                                 
                             </ul>
-                            @elseif ($role === Role::Agency)
+                              @elseif ($activeRole === 'agency')
                                 <ul>
                                 <li>
-                                    <a href="">
+                                    <a href="#">
                                         <img src="{{ asset('assets/img/svg/user.svg') }}" alt="user"
                                             class="svg"> Profile</a>
                                 </li>
                                 <li>
-                                    <a href="">
+                                    <a href="#">
                                         <img src="{{ asset('assets/img/svg/settings.svg') }}" alt="settings"
                                             class="svg"> Settings</a>
                                 </li>

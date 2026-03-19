@@ -29,7 +29,7 @@
                             <div class="card border-0">
                                 <div class="card-header">
                                     <div class="edit-profile__title">
-                                        <label class="fs-20">ลงทะเบียนระบบ Check Vehicles</label>
+                                        <label class="fs-20">ลงทะเบียนระบบปฏิบัติการพนักงานขับรถราชการ</label>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -48,7 +48,6 @@
                                                     <option value="นางสาว">นางสาว</option>
                                                     <option value="นาง">นาง</option>
                                                 </select>
-
                                             </div>
 
                                        <div class="mb-3">

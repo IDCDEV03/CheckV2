@@ -2,37 +2,50 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Enums\Role;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class RedirectController extends Controller
 {
-
-    public function handleRoot()
+    public function handleRoot(): RedirectResponse
     {
         $user = Auth::user();
 
-        if (!$user || !$user->role) {
-           return redirect()->route('login');
+        if (! $user || ! $user->role) {
+            return redirect()->route('login');
         }
 
-         switch ($user->role) {
-            case Role::Admin:
-                return redirect()->route('admin.dashboard');
+        $baseRole = $user->role instanceof Role
+            ? $user->role
+            : Role::from($user->role);
 
-            case Role::Manager:
-                return redirect()->route('manager.dashboard');
+        $activeRole = active_role() ?? $baseRole->value;
 
-            case Role::Agency:
-                return redirect()->route('agency.index');
-
-            case Role::User:
-                return redirect()->route('local.home');
-
-            default:
-                return redirect('/home');
+        // กัน active role แปลก ๆ
+        $allowedRoles = ['admin', 'manager', 'agency', 'user'];
+        if (! in_array($activeRole, $allowedRoles, true)) {
+            $activeRole = $baseRole->value;
         }
+
+        // กันเคส switch ไม่ถูกสิทธิ์
+        if (
+            $activeRole !== $baseRole->value &&
+            ! (
+                $baseRole === Role::Agency &&
+                $activeRole === Role::User->value &&
+                (bool) $user->can_switch === true
+            )
+        ) {
+            $activeRole = $baseRole->value;
+        }
+
+        return match ($activeRole) {
+            'admin' => redirect()->route('admin.dashboard'),
+            'manager' => redirect()->route('manager.dashboard'),
+            'agency' => redirect()->route('agency.index'),
+            'user' => redirect()->route('local.home'),
+            default => redirect()->route('login'),
+        };
     }
 }

@@ -2,10 +2,9 @@
 @section('description', $description)
 @extends($layout)
 @section('content')
-    @php
-        use App\Enums\Role;
-        $role = Auth::user()->role;
-    @endphp
+@php
+    $activeRole = active_role();
+@endphp
     <div class="container-fluid">
         <div class="social-dash-wrap">
             <div class="row">
@@ -19,7 +18,7 @@
             <div class="row">
                 <div class="col-md-12">
 
-                    @if ($role === Role::User)
+                  @if ($activeRole === 'user')
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="card p-4 h-100">

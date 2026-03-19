@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Enums\Role;
+use App\Models\UserRole;
 
 class User extends Authenticatable
 {
@@ -24,6 +26,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'can_switch',
     ];
   
 
@@ -45,5 +48,28 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'role' => Role::class,
+        'can_switch'  => 'boolean',
     ];
+
+     public function userRoles(): HasMany
+    {
+        return $this->hasMany(UserRole::class, 'user_id');
+    }
+
+    public function hasRoleInTable(string $roleName): bool
+    {
+        return $this->userRoles()
+            ->where('role_name', $roleName)
+            ->exists();
+    }
+
+    public function canSwitchToUserView(): bool
+    {
+        return $this->role === Role::Agency
+            && $this->can_switch === true
+            && $this->hasRoleInTable('agency')
+            && $this->hasRoleInTable('user');
+    }
+
+    
 }

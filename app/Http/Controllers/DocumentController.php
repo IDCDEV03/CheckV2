@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\File;
 
 class DocumentController extends Controller
 {
-     public function __construct()
-    {
-        $this->middleware(['auth', 'role:user']);
-    }
 
     public function doc_list()
     {

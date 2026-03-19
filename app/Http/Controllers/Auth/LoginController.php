@@ -21,7 +21,7 @@ class LoginController extends Controller
     {
         $agencies = DB::table('users')
             ->where('role', 'agency')
-            ->where('user_status','1')
+            ->where('user_status', '1')
             ->orderBy('name', 'ASC')
             ->get();
         return view('auth.register', compact('agencies'));
@@ -54,14 +54,19 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-       $credentials = $request->validate([
-        'username' => ['required', 'string'],
-        'password' => ['required'],
-    ]);
+        $credentials = $request->validate([
+            'username' => ['required', 'string'],
+            'password' => ['required'],
+        ]);
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
             $user = Auth::user();
+
+            session([
+                'base_role'   => $user->role->value,
+                'active_role' => $user->role->value,
+            ]);
 
             return match ($user->role) {
                 Role::Admin => redirect()->route('admin.dashboard'),
@@ -76,9 +81,14 @@ class LoginController extends Controller
             'username' => 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง',
         ])->onlyInput('username');
     }
-    
+
     public function logout(Request $request)
     {
+        session()->forget([
+            'base_role',
+            'active_role',
+        ]);
+
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
@@ -91,7 +101,7 @@ class LoginController extends Controller
 
     public function check_username(Request $request)
     {
-         $exists = DB::table('users')->where('username', $request->username)->exists();
-    return response()->json(['exists' => $exists]);
+        $exists = DB::table('users')->where('username', $request->username)->exists();
+        return response()->json(['exists' => $exists]);
     }
 }

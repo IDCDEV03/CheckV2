@@ -3,47 +3,55 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Str;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use App\Enums\Role;
 
 class PageController extends Controller
 {
     public function home()
     {
-        if (!in_array(auth()->user()->role, [Role::User, Role::Manager, Role::Agency, Role::Admin])) {
+        $user = Auth::user();
+
+        if (! $user) {
             abort(403);
         }
 
-        $user = Auth::user();
-        $role = $user->role;
+        $baseRole = $user->role;
+        $activeRole = active_role();
 
-        $layout = match ($role) {
-            Role::Admin => 'layout.LayoutAdmin',
-            Role::Manager => 'layout.manager',
-            Role::Agency => 'layout.app',
-            Role::User => 'layout.app',
+        // อนุญาตเฉพาะ role ที่ระบบรองรับ
+        if (! in_array($activeRole, ['admin', 'manager', 'agency', 'user'], true)) {
+            abort(403);
+        }
+
+        // กันเคส switch แบบไม่ถูกสิทธิ์
+        if ($activeRole === 'user' && $baseRole === Role::Agency && ! $user->can_switch) {
+            abort(403);
+        }
+
+        $layout = match ($activeRole) {
+            'admin'   => 'layout.LayoutAdmin',
+            'manager' => 'layout.manager',
+            'agency'  => 'layout.app',
+            'user'    => 'layout.app',
         };
 
-        $title = match ($role) {
-            Role::Admin => 'ผู้ดูแลระบบ',
-            Role::Manager => 'แดชบอร์ดผู้จัดการ',
-            Role::Agency => 'หน้าหลักหน่วยงาน',
-            Role::User => 'แดชบอร์ดผู้ใช้งานทั่วไป',
+        $title = match ($activeRole) {
+            'admin'   => 'ผู้ดูแลระบบ',
+            'manager' => 'แดชบอร์ดผู้จัดการ',
+            'agency'  => 'หน้าหลักหน่วยงาน',
+            'user'    => 'แดชบอร์ดผู้ใช้งานทั่วไป',
         };
 
-        $description = match ($role) {
-            Role::Admin => 'ผู้ดูแลระบบ',
-            Role::Manager => 'แดชบอร์ดผู้จัดการ',
-            Role::Agency => 'สำหรับหน่วยงาน',
-            Role::User => 'แดชบอร์ดผู้ใช้งานทั่วไป',
+        $description = match ($activeRole) {
+            'admin'   => 'ผู้ดูแลระบบ',
+            'manager' => 'แดชบอร์ดผู้จัดการ',
+            'agency'  => 'สำหรับหน่วยงาน',
+            'user'    => 'แดชบอร์ดผู้ใช้งานทั่วไป',
         };
 
-        if ($role === Role::User) {
+        if ($activeRole === 'user') {
             $vehicles = DB::table('vehicles')
                 ->join('vehicle_types', 'vehicles.veh_type', '=', 'vehicle_types.id')
                 ->select('vehicles.*', 'vehicle_types.vehicle_type as veh_type_name')
@@ -51,10 +59,13 @@ class PageController extends Controller
                 ->orderBy('vehicles.updated_at', 'DESC')
                 ->get();
 
-            return view('pages.user.MainPage', compact('vehicles'));
-        } elseif ($role === Role::Agency) {
+            return view('pages.user.MainPage', compact('vehicles', 'layout', 'title', 'description'));
+        }
+
+        if ($activeRole === 'agency') {
             $id = Auth::id();
-            $agency = DB::table('users')->where('id', Auth::id())->first();
+
+            $agency = DB::table('users')->where('id', $id)->first();
 
             $managers = DB::table('users')
                 ->where('agency_id', $id)
@@ -65,11 +76,13 @@ class PageController extends Controller
                 ->where('agency_id', $id)
                 ->where('role', 'user')
                 ->get();
-            return view('pages.agency.index', compact('agency', 'managers', 'users'));
-        } else {
-            return view('pages.local.home', compact('layout', 'title', 'description'));
+
+            return view('pages.agency.index', compact('agency', 'managers', 'users', 'layout', 'title', 'description'));
         }
+
+        return view('pages.local.home', compact('layout', 'title', 'description'));
     }
+
     public function coming_soon()
     {
         return view('pages.local.ComingSoon');

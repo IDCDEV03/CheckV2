@@ -14,11 +14,7 @@ use Illuminate\Support\Facades\File;
 
 class UserMainController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['auth', 'role:user']);
-    }
-
+ 
     public function profile()
     {
         $user = Auth::user();

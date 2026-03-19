@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Enums\Role;
 use App\Http\Controllers\RedirectController;
 use App\Http\Controllers\GuestController;
+use App\Http\Controllers\RoleSwitchController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -64,13 +65,13 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/announce-delete/{id}/post', [AdminDashboardController::class, 'delete_post'])->name('admin.delete_post');
 });
 
-Route::prefix('vehicles')->middleware(['auth', 'role:user,manager,admin,agency'])->group(function () {
+Route::prefix('vehicles')->middleware(['auth', 'active.role:user,manager,admin,agency'])->group(function () {
     Route::get('/page/{id}', [VehiclesController::class, 'veh_detail'])->name('veh.detail');
     Route::get('/result/{rec}', [VehiclesController::class, 'Report_Result'])->name('veh.result');
     Route::get('/repair-notice', [VehiclesController::class, 'repair_notice'])->name('veh.notice');
 });
 
-Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
+Route::prefix('user')->middleware(['auth', 'active.role:user'])->group(function () {
     Route::get('/home', [PageController::class, 'home'])->name('local.home');
     Route::get('/announce', [UserMainController::class, 'announce'])->name('user.announce');
     Route::get('/check/all', [UserMainController::class, 'chk_list'])->name('user.chk_list');
@@ -102,7 +103,7 @@ Route::prefix('user')->middleware(['auth', 'role:user'])->group(function () {
     Route::get('/veh-doc', [DocumentController::class, 'doc_list'])->name('user.doc_list');
 });
 
-Route::prefix('agency')->middleware(['auth', 'role:agency'])->group(function () {
+Route::prefix('agency')->middleware(['auth', 'active.role:agency'])->group(function () {
     Route::get('/index', [PageController::class, 'home'])->name('agency.index');
     Route::get('/main', [AgencyMainController::class, 'main_page'])->name('agency.main');
 
@@ -143,8 +144,10 @@ Route::prefix('agency')->middleware(['auth', 'role:agency'])->group(function () 
     //ลบข้อตรวจ
     Route::post('/item-delete/{cates}/{id}', [AgencyMainController::class, 'item_delete'])->name('agency.item_delete');
     //เพิ่มข้อตรวจต่อจากเดิม
- Route::get('/item-plus/{id}', [AgencyMainController::class, 'item_create_plus'])->name('agency.item_create_plus');
+    Route::get('/item-plus/{id}', [AgencyMainController::class, 'item_create_plus'])->name('agency.item_create_plus');
 
+    //สลับ_role
+   
 });
 
 Route::middleware('guest')->group(function () {
@@ -157,7 +160,7 @@ Route::middleware('guest')->group(function () {
 
 Route::prefix('public')->group(function () {
 
-Route::get('/bridge/hub', [GuestController::class, 'bridge_hub'])->name('guest.bridge_hub');
+    Route::get('/bridge/hub', [GuestController::class, 'bridge_hub'])->name('guest.bridge_hub');
 
     Route::get('/start', [GuestController::class, 'guest_chk'])->name('guest.start');
     Route::get('/ev', [GuestController::class, 'guest_chk_ev'])->name('guest.chk_ev');
@@ -174,6 +177,13 @@ Route::get('/bridge/hub', [GuestController::class, 'bridge_hub'])->name('guest.b
     Route::get('/check/result/{record_id}', [GuestController::class, 'chk_result'])->name('guest.chk_result');
 });
 
+ Route::post('/role/switch-to-user', [RoleSwitchController::class, 'switchToUser'])
+        ->name('role.switch.user')
+        ->middleware(['auth', 'active.role:agency']);
+
+    Route::post('/role/switch-back-agency', [RoleSwitchController::class, 'switchBackAgency'])
+       ->name('role.switch.agency')
+    ->middleware(['auth', 'active.role:user']);
 
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
